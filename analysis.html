@@ -7514,7 +7514,8 @@ a.anchor-link {
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h1 id="Denver-Traffic-Safety-Analysis:-Neighborhood-Accident-Hotspots">Denver Traffic Safety Analysis: Neighborhood Accident Hotspots<a class="anchor-link" href="#Denver-Traffic-Safety-Analysis:-Neighborhood-Accident-Hotspots">¶</a></h1><hr/>
 <p><strong>Where are Denver's most dangerous neighborhoods - and what's driving the risk?</strong></p>
 <h2 id="Executive-Summary">Executive Summary<a class="anchor-link" href="#Executive-Summary">¶</a></h2><p>This analysis examines 12 years of traffic accident data (2013–2024) from the City and County of Denver to identify which neighborhoods face the greatest road safety challenges. Using 266,895 accident records across 78 neighborhoods, we uncover patterns in accident volume, severity, and fatalities.</p>
@@ -7532,13 +7533,35 @@ a.anchor-link {
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs jp-mod-noInput" id="cell-id=8ad86c14-acad-4ec9-8e7a-3ef187534135">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=8ad86c14-acad-4ec9-8e7a-3ef187534135">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">plotly.express</span> <span class="k">as</span> <span class="nn">px</span>
+<span class="kn">import</span> <span class="nn">plotly.graph_objects</span> <span class="k">as</span> <span class="nn">go</span>
+<span class="kn">import</span> <span class="nn">plotly.io</span> <span class="k">as</span> <span class="nn">pio</span>
+<span class="n">pio</span><span class="o">.</span><span class="n">renderers</span><span class="o">.</span><span class="n">default</span> <span class="o">=</span> <span class="s1">'iframe'</span>
+
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">'display.max_columns'</span><span class="p">,</span> <span class="mi">60</span><span class="p">)</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">'display.float_format'</span><span class="p">,</span> <span class="s1">'</span><span class="si">{:.2f}</span><span class="s1">'</span><span class="o">.</span><span class="n">format</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=bbbb15a9-2af9-41be-8205-a1ce3b792565">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h2 id="About-This-Dataset">About This Dataset<a class="anchor-link" href="#About-This-Dataset">¶</a></h2><hr/>
 <p>This analysis uses traffic accident data from the Denver Police Department, covering all reported crashes within the City and County of Denver from 2013 through early 2026.</p>
 <p><strong>What is included:</strong></p>
@@ -7560,12 +7583,52 @@ a.anchor-link {
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noInput" id="cell-id=03e77b65-4760-4e42-b84f-25ce72103815">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=03e77b65-4760-4e42-b84f-25ce72103815">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">'denver_accidents.csv'</span><span class="p">,</span> <span class="n">low_memory</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># Parse dates</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">'first_occurrence_date'</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'first_occurrence_date'</span><span class="p">])</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">'year'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'first_occurrence_date'</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">'month'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'first_occurrence_date'</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">month</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">'hour'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'first_occurrence_date'</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">hour</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">'day_of_week'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'first_occurrence_date'</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">day_name</span><span class="p">()</span>
+
+<span class="c1"># Clean neighborhood - drop rows with no neighborhood</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s1">'neighborhood_id'</span><span class="p">])</span>
+
+<span class="c1"># Create severity flags</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">'FATALITIES'</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'FATALITIES'</span><span class="p">],</span> <span class="n">errors</span><span class="o">=</span><span class="s1">'coerce'</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">'SERIOUSLY_INJURED'</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'SERIOUSLY_INJURED'</span><span class="p">],</span> <span class="n">errors</span><span class="o">=</span><span class="s1">'coerce'</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">'is_fatal'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'FATALITIES'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">'is_serious'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'SERIOUSLY_INJURED'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">'is_severe'</span><span class="p">]</span> <span class="o">=</span> <span class="p">((</span><span class="n">df</span><span class="p">[</span><span class="s1">'FATALITIES'</span><span class="p">]</span> <span class="o">+</span> <span class="n">df</span><span class="p">[</span><span class="s1">'SERIOUSLY_INJURED'</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+<span class="c1"># Focus on complete years for trend analysis</span>
+<span class="n">df_full_years</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">'year'</span><span class="p">]</span><span class="o">.</span><span class="n">between</span><span class="p">(</span><span class="mi">2013</span><span class="p">,</span> <span class="mi">2024</span><span class="p">)]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Total records: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Date range: </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">'first_occurrence_date'</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">.</span><span class="n">date</span><span class="p">()</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">'first_occurrence_date'</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">date</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Neighborhoods: </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">'neighborhood_id'</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Fatal accidents: </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">'is_fatal'</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Serious injury accidents: </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">'is_serious'</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
 <div class="jp-Cell-outputWrapper">
 <div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>Total records: 266,895
 Date range: 2013-01-01 to 2026-02-12
@@ -7582,7 +7645,8 @@ Serious injury accidents: 5,703
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <hr/>
 <div class="alert alert-block alert-info">
 ### Question 1: Which Neighborhoods Have the Most Accidents?
@@ -7594,12 +7658,37 @@ Understanding accident volume tells us where crashes are concentrated across Den
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noInput" id="cell-id=827e6979-6045-445b-a99b-a0eba9107c11">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=827e6979-6045-445b-a99b-a0eba9107c11">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># See what neighborhood values look like</span>
+<span class="c1">#print(df['neighborhood_id'].value_counts().head(20))</span>
+<span class="c1">#print(f"\nUnique neighborhoods: {df['neighborhood_id'].nunique()}")</span>
+
+<span class="c1"># Check date range</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Date range:"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'first_occurrence_date'</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'first_occurrence_date'</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+
+<span class="c1"># Check fatalities and injuries columns</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Fatalities: </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">'FATALITIES'</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Seriously injured: </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">'SERIOUSLY_INJURED'</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
 <div class="jp-Cell-outputWrapper">
 <div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>
 Date range:
@@ -7610,12 +7699,45 @@ Date range:
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noInput" id="cell-id=f8d20c26-25bc-49c7-bbf9-3e8e55730215">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=f8d20c26-25bc-49c7-bbf9-3e8e55730215">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [23]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">neighborhood_counts</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">df_full_years</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'neighborhood_id'</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">agg</span><span class="p">(</span>
+        <span class="n">total_accidents</span><span class="o">=</span><span class="p">(</span><span class="s1">'incident_id'</span><span class="p">,</span> <span class="s1">'count'</span><span class="p">),</span>
+        <span class="n">total_fatalities</span><span class="o">=</span><span class="p">(</span><span class="s1">'FATALITIES'</span><span class="p">,</span> <span class="s1">'sum'</span><span class="p">),</span>
+        <span class="n">total_serious</span><span class="o">=</span><span class="p">(</span><span class="s1">'SERIOUSLY_INJURED'</span><span class="p">,</span> <span class="s1">'sum'</span><span class="p">),</span>
+        <span class="n">severe_accidents</span><span class="o">=</span><span class="p">(</span><span class="s1">'is_severe'</span><span class="p">,</span> <span class="s1">'sum'</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="p">)</span>
+
+<span class="n">neighborhood_counts</span><span class="p">[</span><span class="s1">'severity_rate'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">neighborhood_counts</span><span class="p">[</span><span class="s1">'severe_accidents'</span><span class="p">]</span> <span class="o">/</span> <span class="n">neighborhood_counts</span><span class="p">[</span><span class="s1">'total_accidents'</span><span class="p">]</span> <span class="o">*</span> <span class="mi">100</span>
+<span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Neighborhoods in analysis: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">neighborhood_counts</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Top 10 by total accidents:"</span><span class="p">)</span>
+<span class="n">neighborhood_counts</span><span class="o">.</span><span class="n">nlargest</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="s1">'total_accidents'</span><span class="p">)[</span>
+    <span class="p">[</span><span class="s1">'neighborhood_id'</span><span class="p">,</span> <span class="s1">'total_accidents'</span><span class="p">,</span> <span class="s1">'total_fatalities'</span><span class="p">,</span> <span class="s1">'severity_rate'</span><span class="p">]</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
 <div class="jp-Cell-outputWrapper">
 <div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>Neighborhoods in analysis: 78
 
@@ -7624,6 +7746,7 @@ Top 10 by total accidents:
 </div>
 </div>
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[23]:</div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
 <div>
 <style scoped="">
@@ -7727,12 +7850,46 @@ Top 10 by total accidents:
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noInput" id="cell-id=151cb9e5-3ee1-4683-9f8b-6723b324c09c">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=151cb9e5-3ee1-4683-9f8b-6723b324c09c">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [18]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">top20</span> <span class="o">=</span> <span class="n">neighborhood_counts</span><span class="o">.</span><span class="n">nlargest</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="s1">'total_accidents'</span><span class="p">)</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span>
+    <span class="n">top20</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">'total_accidents'</span><span class="p">),</span>
+    <span class="n">x</span><span class="o">=</span><span class="s1">'total_accidents'</span><span class="p">,</span>
+    <span class="n">y</span><span class="o">=</span><span class="s1">'neighborhood_id'</span><span class="p">,</span>
+    <span class="n">orientation</span><span class="o">=</span><span class="s1">'h'</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s1">'Top 20 Denver Neighborhoods by Total Accidents (2013–2024)'</span><span class="p">,</span>
+    <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s1">'total_accidents'</span><span class="p">:</span> <span class="s1">'Total Accidents'</span><span class="p">,</span> <span class="s1">'neighborhood_id'</span><span class="p">:</span> <span class="s1">''</span><span class="p">},</span>
+    <span class="n">color</span><span class="o">=</span><span class="s1">'total_accidents'</span><span class="p">,</span>
+    <span class="n">color_continuous_scale</span><span class="o">=</span><span class="s1">'Reds'</span><span class="p">,</span>
+    <span class="n">text</span><span class="o">=</span><span class="s1">'total_accidents'</span>
+<span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">update_traces</span><span class="p">(</span><span class="n">textposition</span><span class="o">=</span><span class="s1">'outside'</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span>
+    <span class="n">plot_bgcolor</span><span class="o">=</span><span class="s1">'#f8f9fa'</span><span class="p">,</span>
+    <span class="n">height</span><span class="o">=</span><span class="mi">600</span><span class="p">,</span>
+    <span class="n">coloraxis_showscale</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">margin</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">l</span><span class="o">=</span><span class="mi">150</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
 <div class="jp-Cell-outputWrapper">
 <div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
 <iframe allowfullscreen="" frameborder="0" height="620" scrolling="no" src="iframe_figures/figure_18.html" width="100%"></iframe>
 </div>
@@ -7744,7 +7901,8 @@ Top 10 by total accidents:
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h3 id="%F0%9F%92%A1-Finding-%231:-Central-Park-Dominates-%E2%80%94-But-Why?">💡 Finding #1: Central Park Dominates — But Why?<a class="anchor-link" href="#%F0%9F%92%A1-Finding-%231:-Central-Park-Dominates-%E2%80%94-But-Why?">¶</a></h3><p><strong>Central Park leads all Denver neighborhoods with 14,233 accidents</strong> — nearly 2,600 more than second-place Baker. This is striking because Central Park is a relatively new neighborhood, built on the former Stapleton airport site starting in the early 2000s.</p>
 <p><strong>Why so many accidents?</strong></p>
 <ul>
@@ -7761,7 +7919,8 @@ Top 10 by total accidents:
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <hr/>
 <h2 id="Question-2:-Which-Neighborhoods-Are-Genuinely-Dangerous?">Question 2: Which Neighborhoods Are Genuinely Dangerous?<a class="anchor-link" href="#Question-2:-Which-Neighborhoods-Are-Genuinely-Dangerous?">¶</a></h2><p>High accident volume doesn't always mean high danger. A neighborhood with thousands of low-speed fender benders may actually be safer than one with fewer but more severe crashes.</p>
 <p>To separate <strong>busy</strong> from <strong>dangerous</strong>, we calculate a severity rate — the percentage of accidents that result in a fatality or serious injury — and plot it against total volume.</p>
@@ -7775,12 +7934,68 @@ Top 10 by total accidents:
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noInput" id="cell-id=9007f42b-027d-46ed-89d5-d0ab71e83c13">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=9007f42b-027d-46ed-89d5-d0ab71e83c13">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [24]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">significant</span> <span class="o">=</span> <span class="n">neighborhood_counts</span><span class="p">[</span><span class="n">neighborhood_counts</span><span class="p">[</span><span class="s1">'total_accidents'</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">500</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+<span class="n">vol_median</span> <span class="o">=</span> <span class="n">significant</span><span class="p">[</span><span class="s1">'total_accidents'</span><span class="p">]</span><span class="o">.</span><span class="n">median</span><span class="p">()</span>
+<span class="n">sev_median</span> <span class="o">=</span> <span class="n">significant</span><span class="p">[</span><span class="s1">'severity_rate'</span><span class="p">]</span><span class="o">.</span><span class="n">median</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">label_quadrant</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s1">'total_accidents'</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">vol_median</span> <span class="ow">and</span> <span class="n">row</span><span class="p">[</span><span class="s1">'severity_rate'</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">sev_median</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">'High Volume, High Severity'</span>
+    <span class="k">elif</span> <span class="n">row</span><span class="p">[</span><span class="s1">'total_accidents'</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">vol_median</span> <span class="ow">and</span> <span class="n">row</span><span class="p">[</span><span class="s1">'severity_rate'</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">sev_median</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">'High Volume, Lower Severity'</span>
+    <span class="k">elif</span> <span class="n">row</span><span class="p">[</span><span class="s1">'total_accidents'</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">vol_median</span> <span class="ow">and</span> <span class="n">row</span><span class="p">[</span><span class="s1">'severity_rate'</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">sev_median</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">'Lower Volume, High Severity'</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">'Lower Volume, Lower Severity'</span>
+
+<span class="n">significant</span><span class="p">[</span><span class="s1">'quadrant'</span><span class="p">]</span> <span class="o">=</span> <span class="n">significant</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">label_quadrant</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
+    <span class="n">significant</span><span class="p">,</span>
+    <span class="n">x</span><span class="o">=</span><span class="s1">'total_accidents'</span><span class="p">,</span>
+    <span class="n">y</span><span class="o">=</span><span class="s1">'severity_rate'</span><span class="p">,</span>
+    <span class="n">text</span><span class="o">=</span><span class="s1">'neighborhood_id'</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="s1">'quadrant'</span><span class="p">,</span>
+    <span class="n">color_discrete_map</span><span class="o">=</span><span class="p">{</span>
+        <span class="s1">'High Volume, High Severity'</span><span class="p">:</span> <span class="s1">'#f44336'</span><span class="p">,</span>
+        <span class="s1">'High Volume, Lower Severity'</span><span class="p">:</span> <span class="s1">'#ff9800'</span><span class="p">,</span>
+        <span class="s1">'Lower Volume, High Severity'</span><span class="p">:</span> <span class="s1">'#9c27b0'</span><span class="p">,</span>
+        <span class="s1">'Lower Volume, Lower Severity'</span><span class="p">:</span> <span class="s1">'#4caf50'</span>
+    <span class="p">},</span>
+    <span class="n">title</span><span class="o">=</span><span class="s1">'Accident Volume vs. Severity Rate by Neighborhood&lt;br&gt;&lt;sup&gt;Which neighborhoods are busy vs. genuinely dangerous?&lt;/sup&gt;'</span><span class="p">,</span>
+    <span class="n">labels</span><span class="o">=</span><span class="p">{</span>
+        <span class="s1">'total_accidents'</span><span class="p">:</span> <span class="s1">'Total Accidents (2013–2024)'</span><span class="p">,</span>
+        <span class="s1">'severity_rate'</span><span class="p">:</span> <span class="s1">'Severe Accident Rate (%)'</span>
+    <span class="p">},</span>
+    <span class="n">size</span><span class="o">=</span><span class="s1">'severe_accidents'</span><span class="p">,</span>
+    <span class="n">size_max</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span>
+    <span class="n">hover_data</span><span class="o">=</span><span class="p">{</span><span class="s1">'total_fatalities'</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">'total_serious'</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
+<span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">update_traces</span><span class="p">(</span><span class="n">textposition</span><span class="o">=</span><span class="s1">'top center'</span><span class="p">,</span> <span class="n">textfont_size</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">add_hline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">sev_median</span><span class="p">,</span> <span class="n">line_dash</span><span class="o">=</span><span class="s1">'dash'</span><span class="p">,</span> <span class="n">line_color</span><span class="o">=</span><span class="s1">'gray'</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">add_vline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">vol_median</span><span class="p">,</span> <span class="n">line_dash</span><span class="o">=</span><span class="s1">'dash'</span><span class="p">,</span> <span class="n">line_color</span><span class="o">=</span><span class="s1">'gray'</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">plot_bgcolor</span><span class="o">=</span><span class="s1">'#f8f9fa'</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">600</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
 <div class="jp-Cell-outputWrapper">
 <div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
 <iframe allowfullscreen="" frameborder="0" height="620" scrolling="no" src="iframe_figures/figure_24.html" width="100%"></iframe>
 </div>
@@ -7792,7 +8007,8 @@ Top 10 by total accidents:
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h3 id="%F0%9F%92%A1-Finding-%232:-Volume-and-Danger-Tell-Very-Different-Stories">💡 Finding #2: Volume and Danger Tell Very Different Stories<a class="anchor-link" href="#%F0%9F%92%A1-Finding-%232:-Volume-and-Danger-Tell-Very-Different-Stories">¶</a></h3><p>The scatter plot reveals two distinct types of dangerous neighborhoods:</p>
 <p><strong>The obvious danger zones (red — top right):</strong></p>
 <ul>
@@ -7818,18 +8034,65 @@ Top 10 by total accidents:
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <hr/>
 <h2 id="Question-3:-Where-Are-People-Being-Killed?">Question 3: Where Are People Being Killed?<a class="anchor-link" href="#Question-3:-Where-Are-People-Being-Killed?">¶</a></h2><p>Severity rate captures the proportion of serious crashes, but fatalities tell the starkest story about road danger. A single fatal crash represents a life lost — understanding where fatalities concentrate helps prioritize the most urgent interventions.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noInput" id="cell-id=1b897058-8952-424b-80b8-52b8b917ae9b">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=1b897058-8952-424b-80b8-52b8b917ae9b">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [17]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">map_df</span> <span class="o">=</span> <span class="n">df_full_years</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s1">'geo_lat'</span><span class="p">,</span> <span class="s1">'geo_lon'</span><span class="p">])</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">map_df</span> <span class="o">=</span> <span class="n">map_df</span><span class="p">[</span>
+    <span class="n">map_df</span><span class="p">[</span><span class="s1">'geo_lat'</span><span class="p">]</span><span class="o">.</span><span class="n">between</span><span class="p">(</span><span class="mf">39.6</span><span class="p">,</span> <span class="mf">39.95</span><span class="p">)</span> <span class="o">&amp;</span>
+    <span class="n">map_df</span><span class="p">[</span><span class="s1">'geo_lon'</span><span class="p">]</span><span class="o">.</span><span class="n">between</span><span class="p">(</span><span class="o">-</span><span class="mf">105.1</span><span class="p">,</span> <span class="o">-</span><span class="mf">104.6</span><span class="p">)</span>
+<span class="p">]</span>
+
+<span class="n">severe</span> <span class="o">=</span> <span class="n">map_df</span><span class="p">[</span><span class="n">map_df</span><span class="p">[</span><span class="s1">'is_severe'</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">normal</span> <span class="o">=</span> <span class="n">map_df</span><span class="p">[</span><span class="n">map_df</span><span class="p">[</span><span class="s1">'is_severe'</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">map_sample</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">severe</span><span class="p">,</span> <span class="n">normal</span><span class="p">])</span>
+
+<span class="n">map_sample</span><span class="p">[</span><span class="s1">'severity_label'</span><span class="p">]</span> <span class="o">=</span> <span class="n">map_sample</span><span class="p">[</span><span class="s1">'is_severe'</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span>
+    <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="s1">'Standard'</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span> <span class="s1">'Fatal / Serious Injury'</span><span class="p">}</span>
+<span class="p">)</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">scatter_mapbox</span><span class="p">(</span>
+    <span class="n">map_sample</span><span class="p">,</span>
+    <span class="n">lat</span><span class="o">=</span><span class="s1">'geo_lat'</span><span class="p">,</span>
+    <span class="n">lon</span><span class="o">=</span><span class="s1">'geo_lon'</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="s1">'severity_label'</span><span class="p">,</span>
+    <span class="n">color_discrete_map</span><span class="o">=</span><span class="p">{</span>
+        <span class="s1">'Standard'</span><span class="p">:</span> <span class="s1">'rgba(255,165,0,0.3)'</span><span class="p">,</span>
+        <span class="s1">'Fatal / Serious Injury'</span><span class="p">:</span> <span class="s1">'red'</span>
+    <span class="p">},</span>
+    <span class="n">zoom</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span>
+    <span class="n">center</span><span class="o">=</span><span class="p">{</span><span class="s1">'lat'</span><span class="p">:</span> <span class="mf">39.7392</span><span class="p">,</span> <span class="s1">'lon'</span><span class="p">:</span> <span class="o">-</span><span class="mf">104.9903</span><span class="p">},</span>
+    <span class="n">mapbox_style</span><span class="o">=</span><span class="s1">'carto-positron'</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s1">'Denver Traffic Accidents — Geographic Distribution'</span><span class="p">,</span>
+    <span class="n">hover_data</span><span class="o">=</span><span class="p">{</span><span class="s1">'neighborhood_id'</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">'year'</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">'FATALITIES'</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
+    <span class="n">height</span><span class="o">=</span><span class="mi">600</span>
+<span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">update_traces</span><span class="p">(</span><span class="n">marker</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">margin</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">l</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
 <div class="jp-Cell-outputWrapper">
 <div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
 <pre>C:\Users\spam\AppData\Local\Temp\ipykernel_31208\1609096676.py:15: DeprecationWarning:
 
@@ -7839,6 +8102,7 @@ Top 10 by total accidents:
 </div>
 </div>
 <div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
 <iframe allowfullscreen="" frameborder="0" height="620" scrolling="no" src="iframe_figures/figure_17.html" width="100%"></iframe>
 </div>
@@ -7850,7 +8114,8 @@ Top 10 by total accidents:
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h3 id="%F0%9F%92%A1-Finding-%233:-The-Fatality-Map-Looks-Different-From-the-Volume-Map">💡 Finding #3: The Fatality Map Looks Different From the Volume Map<a class="anchor-link" href="#%F0%9F%92%A1-Finding-%233:-The-Fatality-Map-Looks-Different-From-the-Volume-Map">¶</a></h3><p>Comparing the fatalities chart to the volume chart reveals some striking differences:</p>
 <p><strong>Central Park's dominance is even more pronounced:</strong></p>
 <ul>
@@ -7875,18 +8140,60 @@ West Colfax, Lincoln Park, and Five Points all appear in the top 15 fatality nei
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <hr/>
 <h2 id="Question-4:-How-Have-Accident-Patterns-Changed-Over-Time?">Question 4: How Have Accident Patterns Changed Over Time?<a class="anchor-link" href="#Question-4:-How-Have-Accident-Patterns-Changed-Over-Time?">¶</a></h2><p>Looking at accident trends across 12 years reveals how external forces — population growth, urban development, and major disruptions like COVID-19 — shape road safety outcomes. We focus on the top 6 neighborhoods by volume to see how patterns diverge over time.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noInput" id="cell-id=697640a8-1e60-46b9-8029-dc524b56a132">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=697640a8-1e60-46b9-8029-dc524b56a132">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [28]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">top6</span> <span class="o">=</span> <span class="n">neighborhood_counts</span><span class="o">.</span><span class="n">nlargest</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="s1">'total_accidents'</span><span class="p">)[</span><span class="s1">'neighborhood_id'</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+<span class="n">yearly</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">df_full_years</span><span class="p">[</span><span class="n">df_full_years</span><span class="p">[</span><span class="s1">'neighborhood_id'</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">top6</span><span class="p">)]</span>
+    <span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">'year'</span><span class="p">,</span> <span class="s1">'neighborhood_id'</span><span class="p">])</span>
+    <span class="o">.</span><span class="n">size</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'accidents'</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">px</span><span class="o">.</span><span class="n">line</span><span class="p">(</span>
+    <span class="n">yearly</span><span class="p">,</span>
+    <span class="n">x</span><span class="o">=</span><span class="s1">'year'</span><span class="p">,</span>
+    <span class="n">y</span><span class="o">=</span><span class="s1">'accidents'</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="s1">'neighborhood_id'</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s1">'Annual Accident Trends: Top 6 Neighborhoods (2013–2024)'</span><span class="p">,</span>
+    <span class="n">labels</span><span class="o">=</span><span class="p">{</span><span class="s1">'accidents'</span><span class="p">:</span> <span class="s1">'Total Accidents'</span><span class="p">,</span> <span class="s1">'year'</span><span class="p">:</span> <span class="s1">'Year'</span><span class="p">,</span> <span class="s1">'neighborhood_id'</span><span class="p">:</span> <span class="s1">'Neighborhood'</span><span class="p">},</span>
+    <span class="n">markers</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">add_vrect</span><span class="p">(</span>
+    <span class="n">x0</span><span class="o">=</span><span class="mf">2019.5</span><span class="p">,</span> <span class="n">x1</span><span class="o">=</span><span class="mf">2020.5</span><span class="p">,</span>
+    <span class="n">fillcolor</span><span class="o">=</span><span class="s1">'lightblue'</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
+    <span class="n">annotation_text</span><span class="o">=</span><span class="s1">'COVID-19'</span><span class="p">,</span>
+    <span class="n">annotation_position</span><span class="o">=</span><span class="s1">'top left'</span>
+<span class="p">)</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">plot_bgcolor</span><span class="o">=</span><span class="s1">'#f8f9fa'</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
 <div class="jp-Cell-outputWrapper">
 <div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output" data-mime-type="text/html" tabindex="0">
 <iframe allowfullscreen="" frameborder="0" height="520" scrolling="no" src="iframe_figures/figure_28.html" width="100%"></iframe>
 </div>
@@ -7898,7 +8205,8 @@ West Colfax, Lincoln Park, and Five Points all appear in the top 15 fatality nei
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h3 id="%F0%9F%92%A1-Finding-%234:-COVID-Changed-Denver's-Roads-%E2%80%94-Permanently">💡 Finding #4: COVID Changed Denver's Roads — Permanently<a class="anchor-link" href="#%F0%9F%92%A1-Finding-%234:-COVID-Changed-Denver's-Roads-%E2%80%94-Permanently">¶</a></h3><p>The 2020 drop is dramatic and visible across every neighborhood, but the more interesting story is what happened <em>after</em>:</p>
 <p><strong>The COVID effect:</strong></p>
 <ul>
@@ -7930,7 +8238,8 @@ West Colfax, Lincoln Park, and Five Points all appear in the top 15 fatality nei
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <hr/>
 <h2 id="Conclusions-&amp;-Recommendations">Conclusions &amp; Recommendations<a class="anchor-link" href="#Conclusions-&amp;-Recommendations">¶</a></h2><p>This analysis of 12 years of Denver traffic data reveals that road danger is more complex than simple accident counts suggest. The most important findings point toward specific, actionable interventions.</p>
 <h3 id="Key-Takeaways">Key Takeaways<a class="anchor-link" href="#Key-Takeaways">¶</a></h3><p><strong>1. Central Park needs urgent attention</strong>
@@ -7961,7 +8270,8 @@ The map makes clear that accidents follow arterials, not neighborhoods. Denver's
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 </div>
 </div>
 </div>
