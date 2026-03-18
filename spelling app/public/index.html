@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Spell Check!</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;900&family=Fredoka+One&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg: #FFF9F0;
+    --card: #FFFFFF;
+    --yellow: #FFD93D;
+    --orange: #FF6B35;
+    --green: #06D6A0;
+    --blue: #118AB2;
+    --pink: #EF476F;
+    --purple: #7B2FBE;
+    --text: #1a1a2e;
+    --muted: #6b7280;
+    --radius: 16px;
+    --shadow: 0 4px 20px rgba(0,0,0,0.08);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+  h1, h2, .game-title { font-family: 'Fredoka One', cursive; }
+
+  /* ── Layout ── */
+  .app { max-width: 680px; margin: 0 auto; padding: 24px 16px 60px; }
+  .header { text-align: center; margin-bottom: 32px; }
+  .header h1 { font-size: 2.8rem; color: var(--orange); letter-spacing: 1px; }
+  .header p { color: var(--muted); font-size: 1rem; margin-top: 6px; }
+
+  /* ── Screens ── */
+  .screen { display: none; }
+  .screen.active { display: block; }
+
+  /* ── Upload ── */
+  .upload-zone {
+    border: 3px dashed var(--yellow);
+    border-radius: var(--radius);
+    background: #fffdf5;
+    padding: 48px 24px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    position: relative;
+  }
+  .upload-zone:hover, .upload-zone.drag { border-color: var(--orange); background: #fff8ee; }
+  .upload-zone input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+  .upload-icon { font-size: 3rem; margin-bottom: 12px; }
+  .upload-zone h2 { font-size: 1.4rem; color: var(--text); margin-bottom: 6px; }
+  .upload-zone p { color: var(--muted); font-size: 0.9rem; }
+  .preview-img { max-width: 100%; border-radius: 12px; margin-top: 16px; display: none; }
+
+  /* ── Button ── */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    padding: 14px 28px; border-radius: 50px; border: none; cursor: pointer;
+    font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 1rem;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.15); }
+  .btn:active { transform: translateY(0); }
+  .btn-primary { background: var(--orange); color: white; }
+  .btn-green { background: var(--green); color: white; }
+  .btn-blue { background: var(--blue); color: white; }
+  .btn-ghost { background: transparent; border: 2px solid var(--muted); color: var(--muted); }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+  .btn-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 24px; }
+
+  /* ── Loading ── */
+  .loading-card {
+    background: var(--card); border-radius: var(--radius); padding: 48px 24px;
+    text-align: center; box-shadow: var(--shadow);
+  }
+  .spinner {
+    width: 56px; height: 56px; border: 5px solid #f3f3f3;
+    border-top-color: var(--orange); border-radius: 50%;
+    animation: spin 0.8s linear infinite; margin: 0 auto 20px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loading-card h2 { color: var(--text); margin-bottom: 8px; }
+  .loading-card p { color: var(--muted); }
+
+  /* ── Word List ── */
+  .results-header { text-align: center; margin-bottom: 24px; }
+  .results-header h2 { font-size: 1.8rem; color: var(--purple); }
+  .results-header p { color: var(--muted); margin-top: 4px; }
+  .word-card {
+    background: var(--card); border-radius: var(--radius); padding: 16px 20px;
+    margin-bottom: 12px; box-shadow: var(--shadow);
+    display: flex; align-items: center; gap: 16px;
+    animation: slideIn 0.3s ease both;
+  }
+  @keyframes slideIn { from { opacity:0; transform: translateY(12px); } to { opacity:1; transform: translateY(0); } }
+  .word-badge {
+    min-width: 44px; height: 44px; border-radius: 50%; display: flex;
+    align-items: center; justify-content: center; font-size: 1.2rem; font-weight: 700;
+  }
+  .word-info { flex: 1; }
+  .word-wrong { font-size: 1rem; color: var(--pink); font-weight: 700; text-decoration: line-through; }
+  .word-correct { font-size: 1.2rem; color: var(--text); font-weight: 700; }
+  .word-context { font-size: 0.82rem; color: var(--muted); margin-top: 3px; font-style: italic; }
+  .no-errors {
+    background: var(--card); border-radius: var(--radius); padding: 48px 24px;
+    text-align: center; box-shadow: var(--shadow);
+  }
+  .no-errors .big-emoji { font-size: 4rem; margin-bottom: 12px; }
+  .no-errors h2 { color: var(--green); }
+
+  /* ── Game modes ── */
+  .mode-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 24px 0; }
+  .mode-card {
+    background: var(--card); border-radius: var(--radius); padding: 20px 16px;
+    text-align: center; cursor: pointer; border: 3px solid transparent;
+    transition: border-color 0.2s, transform 0.15s; box-shadow: var(--shadow);
+  }
+  .mode-card:hover { transform: translateY(-3px); }
+  .mode-card.selected { border-color: var(--orange); }
+  .mode-card .mode-icon { font-size: 2rem; margin-bottom: 8px; }
+  .mode-card h3 { font-size: 1rem; font-weight: 700; color: var(--text); }
+  .mode-card p { font-size: 0.8rem; color: var(--muted); margin-top: 4px; }
+
+  /* ── Game ── */
+  .game-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 24px; flex-wrap: wrap; gap: 12px;
+  }
+  .game-title { font-size: 1.4rem; color: var(--purple); }
+  .progress-bar-wrap { background: #e5e7eb; border-radius: 50px; height: 10px; flex: 1; min-width: 100px; }
+  .progress-bar { height: 10px; border-radius: 50px; background: var(--green); transition: width 0.4s; }
+  .score-badge {
+    background: var(--yellow); color: var(--text); border-radius: 50px;
+    padding: 4px 14px; font-weight: 700; font-size: 0.9rem;
+  }
+  .game-card {
+    background: var(--card); border-radius: var(--radius); padding: 32px 24px;
+    box-shadow: var(--shadow); text-align: center;
+  }
+  .game-word { font-size: 1.1rem; color: var(--muted); margin-bottom: 8px; }
+  .game-prompt { font-size: 1.6rem; font-weight: 700; color: var(--text); margin-bottom: 24px; line-height: 1.4; }
+  .game-prompt .blank {
+    display: inline-block; min-width: 120px; border-bottom: 3px solid var(--orange);
+    color: var(--orange); padding: 0 8px;
+  }
+
+  /* Type it */
+  .type-input {
+    font-family: 'Nunito', sans-serif; font-size: 1.4rem; font-weight: 700;
+    padding: 12px 20px; border: 3px solid #e5e7eb; border-radius: 50px;
+    text-align: center; outline: none; width: 100%; max-width: 300px;
+    transition: border-color 0.2s;
+  }
+  .type-input:focus { border-color: var(--blue); }
+  .type-input.correct { border-color: var(--green); background: #f0fdf8; }
+  .type-input.wrong { border-color: var(--pink); background: #fff5f7; }
+
+  /* Multiple choice */
+  .choices { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 0 auto; max-width: 420px; }
+  .choice-btn {
+    padding: 14px 10px; border-radius: 12px; border: 2.5px solid #e5e7eb;
+    background: var(--card); cursor: pointer; font-family: 'Nunito', sans-serif;
+    font-size: 1rem; font-weight: 700; color: var(--text);
+    transition: border-color 0.15s, background 0.15s; text-align: center;
+  }
+  .choice-btn:hover { border-color: var(--blue); background: #f0f7ff; }
+  .choice-btn.correct { border-color: var(--green); background: #f0fdf8; color: var(--green); }
+  .choice-btn.wrong { border-color: var(--pink); background: #fff5f7; color: var(--pink); }
+
+  /* Unscramble */
+  .letter-tiles { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin: 16px 0; }
+  .letter-tile {
+    width: 48px; height: 56px; border-radius: 10px; border: 2.5px solid #e5e7eb;
+    background: var(--card); cursor: pointer; font-family: 'Fredoka One', cursive;
+    font-size: 1.4rem; color: var(--text); display: flex; align-items: center;
+    justify-content: center; transition: transform 0.1s, border-color 0.1s;
+    user-select: none;
+  }
+  .letter-tile:hover { transform: translateY(-3px); border-color: var(--blue); }
+  .letter-tile.used { opacity: 0.3; pointer-events: none; }
+  .letter-tile.selected { border-color: var(--orange); background: #fff8ee; }
+  .answer-row {
+    display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;
+    min-height: 64px; padding: 8px; border-radius: 12px;
+    border: 2.5px dashed #e5e7eb; margin: 12px 0;
+  }
+  .answer-tile {
+    width: 48px; height: 56px; border-radius: 10px; background: var(--yellow);
+    font-family: 'Fredoka One', cursive; font-size: 1.4rem; color: var(--text);
+    display: flex; align-items: center; justify-content: center; cursor: pointer;
+  }
+
+  /* Fill sentence */
+  .sentence-display {
+    font-size: 1.3rem; line-height: 1.8; color: var(--text);
+    background: #f9fafb; border-radius: 12px; padding: 20px; margin-bottom: 20px;
+  }
+
+  /* Feedback */
+  .feedback {
+    margin-top: 16px; padding: 12px 20px; border-radius: 50px;
+    font-weight: 700; font-size: 1rem; display: none;
+  }
+  .feedback.show { display: block; }
+  .feedback.correct { background: #dcfce7; color: #166534; }
+  .feedback.wrong { background: #fee2e2; color: #991b1b; }
+
+  /* Results */
+  .results-summary {
+    background: var(--card); border-radius: var(--radius); padding: 40px 24px;
+    text-align: center; box-shadow: var(--shadow);
+  }
+  .results-summary .big-score {
+    font-family: 'Fredoka One', cursive; font-size: 4rem; color: var(--orange);
+    line-height: 1;
+  }
+  .results-summary h2 { font-size: 1.6rem; margin: 8px 0 4px; }
+  .results-summary p { color: var(--muted); }
+  .star-row { font-size: 2.5rem; margin: 16px 0; letter-spacing: 4px; }
+
+  /* API config banner */
+  .config-banner {
+    background: #fff8ee; border: 2px solid var(--yellow); border-radius: 12px;
+    padding: 14px 20px; margin-bottom: 24px; font-size: 0.88rem; color: #92400e;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .config-banner a { color: var(--orange); font-weight: 700; }
+
+  @media (max-width: 480px) {
+    .header h1 { font-size: 2.2rem; }
+    .mode-grid { grid-template-columns: 1fr 1fr; }
+    .choices { grid-template-columns: 1fr 1fr; }
+    .letter-tile, .answer-tile { width: 40px; height: 48px; font-size: 1.2rem; }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="header">
+    <h1>✏️ Spell Check!</h1>
+    <p>Take a photo of your homework — let's practice those tricky words</p>
+  </div>
+
+  <!-- ── Screen: Upload ── -->
+  <div id="screen-upload" class="screen active">
+    <div id="upload-zone" class="upload-zone">
+      <input type="file" id="file-input" accept="image/*" capture="environment"/>
+      <div class="upload-icon">📸</div>
+      <h2>Drop a photo here</h2>
+      <p>or tap to take a picture / choose from your camera roll</p>
+      <img id="preview-img" class="preview-img" alt="preview"/>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" id="scan-btn" disabled>🔍 Find Misspellings</button>
+    </div>
+  </div>
+
+  <!-- ── Screen: Loading ── -->
+  <div id="screen-loading" class="screen">
+    <div class="loading-card">
+      <div class="spinner"></div>
+      <h2>Reading your homework...</h2>
+      <p>Checking every word for spelling mistakes</p>
+    </div>
+  </div>
+
+  <!-- ── Screen: No errors ── -->
+  <div id="screen-noerrors" class="screen">
+    <div class="no-errors">
+      <div class="big-emoji">🌟</div>
+      <h2>Perfect spelling!</h2>
+      <p style="color:var(--muted);margin-top:8px;">No misspelled words found. Amazing work!</p>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-ghost" onclick="goToUpload()">Try another</button>
+    </div>
+  </div>
+
+  <!-- ── Screen: Word list ── -->
+  <div id="screen-words" class="screen">
+    <div class="results-header">
+      <h2>Found <span id="word-count">0</span> misspelled words</h2>
+      <p>Let's practice them!</p>
+    </div>
+    <div id="word-list"></div>
+    <div class="btn-row">
+      <button class="btn btn-ghost" onclick="goToUpload()">New photo</button>
+      <button class="btn btn-primary" onclick="showModeSelect()">Practice now →</button>
+    </div>
+  </div>
+
+  <!-- ── Screen: Mode select ── -->
+  <div id="screen-modes" class="screen">
+    <div class="results-header">
+      <h2>Pick a game</h2>
+      <p>How do you want to practice?</p>
+    </div>
+    <div class="mode-grid">
+      <div class="mode-card" onclick="selectMode('type')">
+        <div class="mode-icon">⌨️</div>
+        <h3>Type It</h3>
+        <p>Spell the word correctly</p>
+      </div>
+      <div class="mode-card" onclick="selectMode('choice')">
+        <div class="mode-icon">🔤</div>
+        <h3>Pick It</h3>
+        <p>Choose the right spelling</p>
+      </div>
+      <div class="mode-card" onclick="selectMode('scramble')">
+        <div class="mode-icon">🔀</div>
+        <h3>Unscramble</h3>
+        <p>Put the letters in order</p>
+      </div>
+      <div class="mode-card" onclick="selectMode('sentence')">
+        <div class="mode-icon">📝</div>
+        <h3>Fill It In</h3>
+        <p>Complete the sentence</p>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-ghost" onclick="showScreen('screen-words')">Back</button>
+      <button class="btn btn-primary" id="start-game-btn" disabled onclick="startGame()">Let's go! →</button>
+    </div>
+  </div>
+
+  <!-- ── Screen: Game ── -->
+  <div id="screen-game" class="screen">
+    <div class="game-header">
+      <span class="game-title" id="game-title">Type It</span>
+      <div class="progress-bar-wrap"><div class="progress-bar" id="progress-bar" style="width:0%"></div></div>
+      <span class="score-badge">⭐ <span id="score-display">0</span></span>
+    </div>
+    <div class="game-card" id="game-card">
+      <!-- populated by JS -->
+    </div>
+    <div class="btn-row" id="game-btn-row" style="display:none">
+      <button class="btn btn-green" id="next-btn" onclick="nextQuestion()">Next →</button>
+    </div>
+  </div>
+
+  <!-- ── Screen: Final results ── -->
+  <div id="screen-results" class="screen">
+    <div class="results-summary">
+      <div class="big-score" id="final-score">0/0</div>
+      <div class="star-row" id="star-row">⭐⭐⭐</div>
+      <h2 id="results-msg">Great job!</h2>
+      <p id="results-sub" style="color:var(--muted);margin-top:6px;"></p>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-ghost" onclick="showModeSelect()">Play again</button>
+      <button class="btn btn-primary" onclick="goToUpload()">New photo</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const API_URL = '/api/analyze';
+
+let words = [];
+let currentMode = null;
+let currentIdx = 0;
+let score = 0;
+let answered = false;
+
+// ── Helpers ──
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function goToUpload() {
+  document.getElementById('file-input').value = '';
+  document.getElementById('preview-img').style.display = 'none';
+  document.getElementById('scan-btn').disabled = true;
+  showScreen('screen-upload');
+}
+
+// ── Upload ──
+const fileInput = document.getElementById('file-input');
+const previewImg = document.getElementById('preview-img');
+const scanBtn = document.getElementById('scan-btn');
+const uploadZone = document.getElementById('upload-zone');
+
+fileInput.addEventListener('change', () => {
+  const file = fileInput.files[0];
+  if (!file) return;
+  const url = URL.createObjectURL(file);
+  previewImg.src = url;
+  previewImg.style.display = 'block';
+  scanBtn.disabled = false;
+});
+
+uploadZone.addEventListener('dragover', e => { e.preventDefault(); uploadZone.classList.add('drag'); });
+uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('drag'));
+uploadZone.addEventListener('drop', e => {
+  e.preventDefault(); uploadZone.classList.remove('drag');
+  const file = e.dataTransfer.files[0];
+  if (file && file.type.startsWith('image/')) {
+    fileInput.files = e.dataTransfer.files;
+    fileInput.dispatchEvent(new Event('change'));
+  }
+});
+
+scanBtn.addEventListener('click', async () => {
+  const file = fileInput.files[0];
+  if (!file) return;
+  showScreen('screen-loading');
+
+  try {
+    const base64 = await fileToBase64(file);
+    const mediaType = file.type || 'image/jpeg';
+
+    const res = await fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ imageBase64: base64, mediaType }),
+    });
+
+    if (!res.ok) throw new Error(await res.text());
+    const data = await res.json();
+    words = data.words || [];
+
+    if (words.length === 0) {
+      showScreen('screen-noerrors');
+    } else {
+      renderWordList();
+      showScreen('screen-words');
+    }
+  } catch (err) {
+    alert('Something went wrong: ' + err.message);
+    showScreen('screen-upload');
+  }
+});
+
+function fileToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result.split(',')[1]);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+// ── Word List ──
+const colors = ['#FFD93D','#06D6A0','#118AB2','#EF476F','#7B2FBE','#FF6B35'];
+const emojis = ['📚','✏️','🎯','🌟','🔤','📖'];
+
+function renderWordList() {
+  const list = document.getElementById('word-list');
+  document.getElementById('word-count').textContent = words.length;
+  list.innerHTML = words.map((w, i) => `
+    <div class="word-card" style="animation-delay:${i*0.07}s">
+      <div class="word-badge" style="background:${colors[i%colors.length]}20;font-size:1.3rem">${emojis[i%emojis.length]}</div>
+      <div class="word-info">
+        <div class="word-wrong">${w.wrong}</div>
+        <div class="word-correct">${w.correct}</div>
+        ${w.context ? `<div class="word-context">"${w.context}"</div>` : ''}
+      </div>
+    </div>
+  `).join('');
+}
+
+// ── Mode select ──
+function showModeSelect() {
+  currentMode = null;
+  document.querySelectorAll('.mode-card').forEach(c => c.classList.remove('selected'));
+  document.getElementById('start-game-btn').disabled = true;
+  showScreen('screen-modes');
+}
+
+function selectMode(mode) {
+  currentMode = mode;
+  document.querySelectorAll('.mode-card').forEach(c => c.classList.remove('selected'));
+  event.currentTarget.classList.add('selected');
+  document.getElementById('start-game-btn').disabled = false;
+}
+
+// ── Game ──
+const modeTitles = { type:'⌨️ Type It', choice:'🔤 Pick It', scramble:'🔀 Unscramble', sentence:'📝 Fill It In' };
+
+function startGame() {
+  currentIdx = 0; score = 0; answered = false;
+  document.getElementById('game-title').textContent = modeTitles[currentMode];
+  document.getElementById('score-display').textContent = '0';
+  showScreen('screen-game');
+  renderQuestion();
+}
+
+function renderQuestion() {
+  answered = false;
+  const w = words[currentIdx];
+  const pct = Math.round((currentIdx / words.length) * 100);
+  document.getElementById('progress-bar').style.width = pct + '%';
+  document.getElementById('game-btn-row').style.display = 'none';
+
+  const card = document.getElementById('game-card');
+  if (currentMode === 'type') renderType(card, w);
+  else if (currentMode === 'choice') renderChoice(card, w);
+  else if (currentMode === 'scramble') renderScramble(card, w);
+  else if (currentMode === 'sentence') renderSentence(card, w);
+}
+
+function showFeedback(correct, correctWord) {
+  answered = true;
+  document.getElementById('game-btn-row').style.display = 'flex';
+  const fb = document.getElementById('feedback-msg');
+  if (fb) {
+    fb.className = 'feedback show ' + (correct ? 'correct' : 'wrong');
+    fb.textContent = correct ? '🎉 Correct!' : `The correct spelling is: ${correctWord}`;
+  }
+  if (correct) {
+    score++;
+    document.getElementById('score-display').textContent = score;
+  }
+}
+
+function nextQuestion() {
+  currentIdx++;
+  if (currentIdx >= words.length) showResults();
+  else renderQuestion();
+}
+
+// Type It
+function renderType(card, w) {
+  card.innerHTML = `
+    <div class="game-word">Word ${currentIdx+1} of ${words.length}</div>
+    <div class="game-prompt">How do you spell: <strong style="color:var(--orange)">${w.wrong}</strong>?</div>
+    <input type="text" class="type-input" id="type-input" placeholder="Type it here..." autocomplete="off" autocorrect="off" spellcheck="false"/>
+    <div style="margin-top:12px">
+      <button class="btn btn-blue" onclick="checkType()">Check ✓</button>
+    </div>
+    <div class="feedback" id="feedback-msg"></div>
+  `;
+  const inp = document.getElementById('type-input');
+  inp.focus();
+  inp.addEventListener('keydown', e => { if(e.key==='Enter' && !answered) checkType(); });
+}
+
+function checkType() {
+  if (answered) return;
+  const inp = document.getElementById('type-input');
+  const correct = inp.value.trim().toLowerCase() === words[currentIdx].correct.toLowerCase();
+  inp.classList.add(correct ? 'correct' : 'wrong');
+  inp.disabled = true;
+  showFeedback(correct, words[currentIdx].correct);
+}
+
+// Pick It
+function renderChoice(card, w) {
+  const opts = generateChoices(w.correct, words.map(x => x.correct));
+  card.innerHTML = `
+    <div class="game-word">Word ${currentIdx+1} of ${words.length}</div>
+    <div class="game-prompt">Which spelling is correct?<br><span style="color:var(--muted);font-size:1rem">Fix: <em>${w.wrong}</em></span></div>
+    <div class="choices">
+      ${opts.map(o => `<button class="choice-btn" onclick="checkChoice(this,'${o}','${w.correct}')">${o}</button>`).join('')}
+    </div>
+    <div class="feedback" id="feedback-msg"></div>
+  `;
+}
+
+function generateChoices(correct, allWords) {
+  const opts = new Set([correct]);
+  const variants = generateVariants(correct);
+  for (const v of variants) { if (opts.size < 4) opts.add(v); }
+  for (const w of allWords) { if (opts.size < 4 && w !== correct) opts.add(w); }
+  while (opts.size < 4) opts.add(scrambleWord(correct));
+  return shuffle([...opts]);
+}
+
+function generateVariants(word) {
+  const v = [];
+  if (word.length > 3) {
+    v.push(word.slice(0,-1) + (word.slice(-1)==='e'?'ing':word.slice(-1)+'e'));
+    v.push(word[0].toUpperCase()+word.slice(1).toLowerCase());
+    v.push(word.replace(/ie/,'ei').replace(/ei/,'ie'));
+    v.push(word.replace(/tion/,'sion').replace(/sion/,'tion'));
+    const i = Math.floor(word.length/2);
+    v.push(word.slice(0,i)+word[i]+word.slice(i));
+  }
+  return v.filter(x => x !== word && x.length > 1);
+}
+
+function scrambleWord(word) {
+  return word.split('').sort(()=>Math.random()-0.5).join('');
+}
+
+function checkChoice(btn, chosen, correct) {
+  if (answered) return;
+  document.querySelectorAll('.choice-btn').forEach(b => b.disabled = true);
+  const isCorrect = chosen === correct;
+  btn.classList.add(isCorrect ? 'correct' : 'wrong');
+  if (!isCorrect) {
+    document.querySelectorAll('.choice-btn').forEach(b => {
+      if (b.textContent === correct) b.classList.add('correct');
+    });
+  }
+  showFeedback(isCorrect, correct);
+}
+
+// Unscramble
+function renderScramble(card, w) {
+  const letters = shuffle(w.correct.split(''));
+  let answer = [];
+  let letterEls = [];
+
+  card.innerHTML = `
+    <div class="game-word">Word ${currentIdx+1} of ${words.length}</div>
+    <div class="game-prompt">Unscramble the letters:<br><span style="font-size:0.9rem;color:var(--muted)">Hint: fix of <em>${w.wrong}</em></span></div>
+    <div class="answer-row" id="answer-row"></div>
+    <div class="letter-tiles" id="letter-tiles">
+      ${letters.map((l,i) => `<button class="letter-tile" data-idx="${i}" onclick="pickLetter(this,'${l}')">${l}</button>`).join('')}
+    </div>
+    <div style="display:flex;gap:10px;justify-content:center;margin-top:12px">
+      <button class="btn btn-ghost" onclick="clearAnswer()">Clear</button>
+      <button class="btn btn-blue" onclick="checkScramble('${w.correct}')">Check ✓</button>
+    </div>
+    <div class="feedback" id="feedback-msg"></div>
+  `;
+}
+
+function pickLetter(btn, letter) {
+  if (answered) return;
+  btn.classList.add('used');
+  const row = document.getElementById('answer-row');
+  const tile = document.createElement('div');
+  tile.className = 'answer-tile';
+  tile.textContent = letter;
+  tile.dataset.src = btn.dataset.idx;
+  tile.onclick = () => {
+    if (answered) return;
+    btn.classList.remove('used');
+    tile.remove();
+  };
+  row.appendChild(tile);
+}
+
+function clearAnswer() {
+  document.querySelectorAll('.letter-tile').forEach(t => t.classList.remove('used'));
+  document.getElementById('answer-row').innerHTML = '';
+}
+
+function checkScramble(correct) {
+  if (answered) return;
+  const tiles = document.querySelectorAll('#answer-row .answer-tile');
+  const attempt = [...tiles].map(t=>t.textContent).join('');
+  const isCorrect = attempt.toLowerCase() === correct.toLowerCase();
+  showFeedback(isCorrect, correct);
+}
+
+// Fill sentence
+function renderSentence(card, w) {
+  const sentence = w.context || `The word is: ___.`;
+  const highlighted = sentence.replace(
+    new RegExp(w.wrong, 'gi'),
+    `<span class="blank">___</span>`
+  );
+  card.innerHTML = `
+    <div class="game-word">Word ${currentIdx+1} of ${words.length}</div>
+    <div class="game-prompt">Fill in the blank with the correct spelling:</div>
+    <div class="sentence-display">${highlighted}</div>
+    <input type="text" class="type-input" id="type-input" placeholder="Spell it correctly..." autocomplete="off" autocorrect="off" spellcheck="false"/>
+    <div style="margin-top:12px">
+      <button class="btn btn-blue" onclick="checkSentence('${w.correct}')">Check ✓</button>
+    </div>
+    <div class="feedback" id="feedback-msg"></div>
+  `;
+  const inp = document.getElementById('type-input');
+  inp.focus();
+  inp.addEventListener('keydown', e => { if(e.key==='Enter'&&!answered) checkSentence(w.correct); });
+}
+
+function checkSentence(correct) {
+  if (answered) return;
+  const inp = document.getElementById('type-input');
+  const isCorrect = inp.value.trim().toLowerCase() === correct.toLowerCase();
+  inp.classList.add(isCorrect ? 'correct' : 'wrong');
+  inp.disabled = true;
+  showFeedback(isCorrect, correct);
+}
+
+// Results
+function showResults() {
+  const pct = words.length > 0 ? score / words.length : 0;
+  document.getElementById('final-score').textContent = `${score}/${words.length}`;
+  document.getElementById('star-row').textContent = pct===1 ? '⭐⭐⭐' : pct>=0.6 ? '⭐⭐' : '⭐';
+  document.getElementById('results-msg').textContent = pct===1 ? 'Perfect score! 🎉' : pct>=0.6 ? 'Great job! 🌟' : 'Keep practicing! 💪';
+  document.getElementById('results-sub').textContent = `You got ${score} out of ${words.length} correct.`;
+  document.getElementById('progress-bar').style.width = '100%';
+  showScreen('screen-results');
+}
+
+function shuffle(arr) {
+  for (let i=arr.length-1;i>0;i--) {
+    const j=Math.floor(Math.random()*(i+1));
+    [arr[i],arr[j]]=[arr[j],arr[i]];
+  }
+  return arr;
+}
+</script>
+</body>
+</html>
