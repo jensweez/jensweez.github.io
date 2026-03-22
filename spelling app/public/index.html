@@ -413,6 +413,8 @@ scanBtn.addEventListener('click', async () => {
   if (!file) return;
   showScreen('screen-loading');
 
+ 
+  #Testing commit changes
   try {
     const base64 = await fileToBase64(file);
     const mediaType = file.type || 'image/jpeg';
