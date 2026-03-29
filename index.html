@@ -1,657 +1,299 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Spell Check!</title>
-<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700;800;900&display=swap" rel="stylesheet"/>
-<style>
-:root{
-  --pink:#FF4D8D;--pink-dark:#CC2266;
-  --blue:#3B82F6;--blue-dark:#1D4ED8;
-  --yellow:#FFD93D;--yellow-dark:#E5B800;
-  --mint:#00C9A7;--mint-dark:#009F83;
-  --orange:#FF7F2A;--orange-dark:#CC5500;
-  --purple:#9333EA;--purple-dark:#6B21A8;
-  --green:#22C55E;--green-dark:#15803D;
-  --bg:#FFF0F7;--text:#1E1B4B;--muted:#6B7280;--border:#F0E0EA;
-  --card:#FFFFFF;--radius:20px;--radius-sm:12px;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;background-image:radial-gradient(circle at 20% 20%,#FFE4F0 0%,transparent 50%),radial-gradient(circle at 80% 80%,#E0F0FF 0%,transparent 50%)}
-h1,h2,h3{font-family:'Fredoka One',sans-serif;letter-spacing:.5px}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jennifer Sweezey | Data Analysis Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-/* ── Header ── */
-header{background:linear-gradient(135deg,var(--pink) 0%,var(--purple) 100%);padding:20px 24px 18px;text-align:center;position:relative;overflow:hidden}
-header::before{content:'⭐';position:absolute;left:16px;top:12px;font-size:1.8rem;opacity:.4;animation:spin2 4s linear infinite}
-header::after{content:'✨';position:absolute;right:16px;bottom:8px;font-size:1.5rem;opacity:.4;animation:spin2 3s linear infinite reverse}
-@keyframes spin2{0%{transform:rotate(0deg) scale(1)}50%{transform:rotate(180deg) scale(1.2)}100%{transform:rotate(360deg) scale(1)}}
-header h1{font-size:2.4rem;color:white;text-shadow:0 3px 0 rgba(0,0,0,.2)}
-header p{font-size:.95rem;color:rgba(255,255,255,.85);margin-top:4px;font-weight:700}
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f9fa;
+        }
 
-/* ── Screens ── */
-.screen{display:none;max-width:600px;margin:0 auto;padding:24px 16px}
-.screen.active{display:block}
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
 
-/* ── Upload ── */
-.upload-zone{border:4px dashed var(--pink);border-radius:var(--radius);background:white;padding:44px 20px;text-align:center;cursor:pointer;transition:all .2s;position:relative}
-.upload-zone:hover{background:#FFF0F7;border-color:var(--purple);transform:scale(1.01)}
-.upload-zone input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
-.upload-icon{font-size:4.5rem;line-height:1;animation:bounce 2s ease-in-out infinite}
-@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-.upload-zone h2{font-size:1.5rem;color:var(--text);margin:12px 0 6px}
-.upload-zone p{color:var(--muted);font-size:.9rem;font-weight:700}
-.preview-wrap{margin-top:16px;position:relative;display:none;border-radius:var(--radius-sm);overflow:hidden;border:3px solid var(--pink)}
-.preview-wrap img{width:100%;display:block}
-.remove-btn{position:absolute;top:8px;right:8px;background:var(--pink);color:white;border:none;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:1rem;font-weight:900;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+        header {
+            text-align: center;
+            padding: 60px 0 40px 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            margin: -40px -20px 60px -20px;
+            border-radius: 0 0 20px 20px;
+        }
 
-/* ── Buttons ── */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 28px;border-radius:50px;border:none;cursor:pointer;font-family:'Fredoka One',sans-serif;font-size:1.15rem;letter-spacing:.5px;transition:transform .1s,box-shadow .1s}
-.btn:active{transform:scale(.96)!important;box-shadow:none!important}
-.btn-primary{background:var(--pink);color:white;box-shadow:0 5px 0 var(--pink-dark)}
-.btn-primary:hover{transform:translateY(-3px);box-shadow:0 8px 0 var(--pink-dark)}
-.btn-secondary{background:var(--mint);color:white;box-shadow:0 5px 0 var(--mint-dark)}
-.btn-secondary:hover{transform:translateY(-3px);box-shadow:0 8px 0 var(--mint-dark)}
-.btn-ghost{background:white;color:var(--text);border:3px solid var(--border);box-shadow:0 4px 0 var(--border);font-family:'Nunito',sans-serif;font-weight:800;font-size:1rem}
-.btn-worksheet{background:var(--blue);color:white;box-shadow:0 5px 0 var(--blue-dark)}
-.btn-worksheet:hover{transform:translateY(-3px);box-shadow:0 8px 0 var(--blue-dark)}
-.btn-ghost:hover{border-color:#ddd;box-shadow:0 4px 0 #ddd}
-.btn:disabled{opacity:.4;cursor:not-allowed;transform:none!important;box-shadow:none!important}
-.btn-row{display:flex;gap:12px;margin-top:20px;flex-wrap:wrap;justify-content:center}
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
 
-/* ── Loading ── */
-#screen-loading{text-align:center;padding-top:60px}
-.loader{width:80px;height:80px;margin:0 auto 20px;position:relative}
-.loader::before,.loader::after{content:'';position:absolute;border-radius:50%}
-.loader::before{width:80px;height:80px;border:6px solid #FFE4F0;border-top-color:var(--pink);animation:spin .9s linear infinite}
-.loader::after{width:50px;height:50px;top:15px;left:15px;border:5px solid #E0F0FF;border-top-color:var(--blue);animation:spin .7s linear infinite reverse}
-@keyframes spin{to{transform:rotate(360deg)}}
-#screen-loading h2{font-size:1.6rem;color:var(--pink)}
-#screen-loading p{color:var(--muted);margin-top:6px;font-weight:700}
+        .tagline {
+            font-size: 1.2em;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
 
-/* ── Results ── */
-.results-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
-.results-header h2{font-size:1.6rem;color:var(--text)}
-.badge{background:var(--pink);color:white;padding:5px 16px;border-radius:50px;font-family:'Fredoka One',sans-serif;font-size:1.1rem;box-shadow:0 3px 0 var(--pink-dark)}
-.word-card{background:white;border:3px solid #F0E0EA;border-radius:var(--radius-sm);padding:14px 16px;margin-bottom:10px;display:flex;align-items:center;gap:14px;transition:transform .15s,box-shadow .15s}
-.word-card:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(255,77,141,.12)}
-.word-num{width:36px;height:36px;background:linear-gradient(135deg,var(--yellow),var(--orange));border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Fredoka One',sans-serif;font-size:1rem;color:white;flex-shrink:0;box-shadow:0 2px 0 var(--orange-dark)}
-.word-info{flex:1;min-width:0}
-.word-wrong{font-size:1rem;color:var(--pink);font-weight:800;text-decoration:line-through;text-decoration-thickness:2px}
-.word-correct{font-size:1.15rem;font-weight:900;color:var(--green-dark)}
-.word-context{font-size:.78rem;color:var(--muted);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:700}
-.no-errors{text-align:center;padding:40px 20px}
-.no-errors .big{font-size:5rem;animation:bounce 1.5s ease-in-out infinite}
-.no-errors h2{font-size:1.7rem;margin:12px 0 6px;color:var(--green-dark)}
+        .links {
+            margin-top: 20px;
+        }
 
-/* ── Mode select ── */
-.mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
-.mode-card{background:white;border:3px solid #F0E0EA;border-radius:var(--radius);padding:20px 14px;text-align:center;cursor:pointer;transition:all .15s}
-.mode-card:hover{transform:translateY(-3px);border-color:var(--mint);box-shadow:0 6px 20px rgba(0,201,167,.15)}
-.mode-card.selected{border-color:var(--mint);background:linear-gradient(135deg,#F0FFF9,#E0FFF5);box-shadow:0 4px 0 var(--mint-dark)}
-.mode-card .icon{font-size:2.5rem}
-.mode-card h3{font-size:1rem;margin-top:8px;color:var(--text)}
-.mode-card p{font-size:.75rem;color:var(--muted);margin-top:3px;font-weight:700}
+        .links a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 0.95em;
+            opacity: 0.9;
+            transition: opacity 0.2s;
+        }
 
-/* ── Game ── */
-.game-topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;background:white;padding:10px 16px;border-radius:50px;border:3px solid #F0E0EA}
-.progress-track{flex:1;height:12px;background:#F0E0EA;border-radius:50px;margin:0 12px;overflow:hidden}
-.progress-fill{height:100%;background:linear-gradient(90deg,var(--mint),var(--blue));border-radius:50px;transition:width .4s ease}
-.word-count{font-size:.85rem;font-weight:900;color:var(--muted);white-space:nowrap}
-.score-badge{background:linear-gradient(135deg,var(--yellow),var(--orange));color:white;padding:4px 14px;border-radius:50px;font-family:'Fredoka One',sans-serif;font-size:1rem;box-shadow:0 3px 0 var(--orange-dark);white-space:nowrap}
-.game-card{background:white;border:3px solid #F0E0EA;border-radius:var(--radius);padding:28px 20px;text-align:center;min-height:280px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;box-shadow:0 4px 24px rgba(255,77,141,.08)}
-.game-label{font-size:.8rem;color:var(--muted);font-weight:900;text-transform:uppercase;letter-spacing:.1em;background:#F9F0FF;padding:4px 14px;border-radius:50px}
-.game-context{font-size:1rem;color:var(--muted);font-style:italic;background:#F9F9FF;padding:12px 16px;border-radius:var(--radius-sm);width:100%;line-height:1.7;font-weight:700;border:2px solid #EEE}
-.blank{display:inline-block;border-bottom:3px solid var(--pink);min-width:70px;color:transparent;background:#FFE4F0;border-radius:6px;padding:0 6px}
-.type-input{font-family:'Fredoka One',sans-serif;font-size:1.8rem;text-align:center;border:4px solid #F0E0EA;border-radius:var(--radius-sm);padding:12px 20px;width:100%;max-width:300px;outline:none;transition:border-color .2s;letter-spacing:1px}
-.type-input:focus{border-color:var(--mint)}
-.type-input.correct{border-color:var(--green);background:#F0FFF4;color:var(--green-dark)}
-.type-input.wrong{border-color:var(--pink);background:#FFF0F7;animation:shake .3s ease}
-@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
-.hint-btn{background:none;border:3px solid #F0E0EA;border-radius:50px;padding:6px 18px;cursor:pointer;font-size:.85rem;font-weight:900;color:var(--muted);transition:all .15s;font-family:'Nunito',sans-serif}
-.hint-btn:hover{border-color:var(--purple);color:var(--purple);background:#F9F0FF}
-.choices{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%}
-.choice-btn{padding:14px 10px;border:3px solid #F0E0EA;border-radius:var(--radius-sm);cursor:pointer;background:white;font-family:'Fredoka One',sans-serif;font-size:1.05rem;letter-spacing:.5px;transition:all .15s}
-.choice-btn:hover:not(:disabled){border-color:var(--mint);background:#F0FFF9;transform:translateY(-2px)}
-.choice-btn.correct{border-color:var(--green);background:#F0FFF4;color:var(--green-dark)}
-.choice-btn.wrong{border-color:var(--pink);background:#FFF0F7;color:var(--pink-dark)}
-.choice-btn:disabled{cursor:default}
-.scramble-area{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;min-height:56px}
-.letter-tile{width:46px;height:54px;background:linear-gradient(135deg,var(--yellow),#FFB800);border:3px solid var(--yellow-dark);border-radius:12px;display:flex;align-items:center;justify-content:center;font-family:'Fredoka One',sans-serif;font-size:1.5rem;cursor:pointer;transition:transform .1s,box-shadow .1s;user-select:none;color:var(--text);box-shadow:0 3px 0 var(--yellow-dark)}
-.letter-tile:hover{transform:translateY(-4px);box-shadow:0 6px 0 var(--yellow-dark)}
-.letter-tile.used{background:#EEE;border-color:#DDD;color:transparent;cursor:default;box-shadow:none}
-.answer-slots{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;min-height:56px}
-.answer-slot{width:46px;height:54px;border-bottom:4px solid var(--text);display:flex;align-items:center;justify-content:center;font-family:'Fredoka One',sans-serif;font-size:1.5rem;cursor:pointer;transition:border-color .15s}
-.scramble-hr{width:100%;border:none;border-top:2px dashed #F0E0EA;margin:4px 0}
-.feedback{font-family:'Fredoka One',sans-serif;font-size:1.15rem;padding:10px 24px;border-radius:50px;display:none;letter-spacing:.5px}
-.feedback.show{display:block}
-.feedback.good{background:linear-gradient(135deg,#F0FFF4,#DCFCE7);color:var(--green-dark);border:2px solid #BBF7D0}
-.feedback.bad{background:linear-gradient(135deg,#FFF0F7,#FFE4F0);color:var(--pink-dark);border:2px solid #FBCFE8}
+        .links a:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
 
-/* ── Summary ── */
-.summary-card{background:white;border:3px solid #F0E0EA;border-radius:var(--radius);padding:36px 24px;text-align:center;box-shadow:0 8px 32px rgba(255,77,141,.1)}
-.summary-emoji{font-size:5rem;animation:bounce 1.5s ease-in-out infinite}
-.summary-card h2{font-size:2rem;margin:12px 0 6px;color:var(--pink)}
-.summary-card>p{color:var(--muted);font-weight:700}
-.summary-score{font-size:4rem;color:var(--purple);font-family:'Fredoka One',sans-serif;margin:16px 0;text-shadow:0 3px 0 var(--purple-dark)}
-.summary-score span{font-size:1.3rem;color:var(--muted)}
-.missed-list{text-align:left;margin-top:20px}
-.missed-list h3{font-size:.8rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-weight:900;margin-bottom:10px}
-.missed-item{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:2px solid #F0E0EA;font-size:.95rem}
-.missed-item:last-child{border-bottom:none}
-.x-icon{color:var(--pink);font-weight:900;font-size:1.1rem}
-.correct-text{color:var(--green-dark);font-weight:900;font-family:'Fredoka One',sans-serif;font-size:1.1rem}
-.err-msg{color:var(--pink);text-align:center;margin-top:10px;font-size:.9rem;display:none;font-weight:700}
-@media(max-width:380px){.mode-grid,.choices{grid-template-columns:1fr}}
+        .about {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 40px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
 
-/* ── Worksheet Modal ── */
-.ws-overlay{position:fixed;inset:0;background:rgba(30,27,75,.5);z-index:100;display:flex;align-items:center;justify-content:center;padding:16px}
-.ws-modal{background:white;border-radius:var(--radius);padding:28px 24px;width:100%;max-width:480px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.2)}
-.ws-modal h2{font-size:1.6rem;margin-bottom:4px;color:var(--pink)}
-.ws-modal p{color:var(--muted);font-size:.9rem;font-weight:700;margin-bottom:20px}
-.ws-options{display:flex;flex-direction:column;gap:10px;margin-bottom:20px}
-.ws-option{display:flex;align-items:center;gap:12px;padding:12px 16px;border:3px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;transition:all .15s;font-weight:800}
-.ws-option:hover{border-color:var(--blue);background:#EFF6FF}
-.ws-option input[type=checkbox]{width:20px;height:20px;accent-color:var(--blue);cursor:pointer;flex-shrink:0}
-.ws-option.checked{border-color:var(--blue);background:#EFF6FF}
-.ws-name-input{width:100%;border:3px solid var(--border);border-radius:var(--radius-sm);padding:10px 14px;font-family:'Nunito',sans-serif;font-size:1rem;font-weight:700;outline:none;margin-bottom:20px;transition:border-color .2s}
-.ws-name-input:focus{border-color:var(--blue)}
-.ws-btn-row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+        .about h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
 
-/* ── Print styles ── */
-@media print{
-  body *{visibility:hidden}
-  #print-area,#print-area *{visibility:visible}
-  #print-area{position:fixed;inset:0;background:white;padding:20px}
-}
-#print-area{display:none}
+        .about p {
+            color: #666;
+            margin-bottom: 12px;
+        }
 
-/* ── Worksheet content styles ── */
-.ws-sheet{font-family:'Nunito',sans-serif;color:#111;max-width:700px;margin:0 auto;padding:20px}
-.ws-sheet h1{font-family:'Fredoka One',sans-serif;font-size:1.8rem;color:#FF4D8D;text-align:center;margin-bottom:4px}
-.ws-sheet .ws-meta{text-align:center;font-size:.85rem;color:#888;margin-bottom:24px;font-weight:700}
-.ws-section{margin-bottom:32px}
-.ws-section h2{font-family:'Fredoka One',sans-serif;font-size:1.2rem;color:#9333EA;border-bottom:3px solid #F0E0EA;padding-bottom:6px;margin-bottom:16px}
-.ws-word-row{margin-bottom:18px}
-.ws-word-label{font-weight:900;font-size:1.1rem;color:#FF4D8D;margin-bottom:4px}
-.ws-lines{display:flex;flex-direction:column;gap:6px}
-.ws-line{border:none;border-bottom:2px solid #CCC;height:32px;width:100%}
-.ws-fill-item{margin-bottom:20px;font-size:1rem;line-height:2;font-weight:700}
-.ws-fill-blank{display:inline-block;border-bottom:2px solid #333;min-width:100px;margin:0 4px}
-.ws-grid{display:inline-grid;gap:0;border:2px solid #333;margin:8px 0}
-.ws-cell{width:28px;height:28px;border:1px solid #DDD;display:flex;align-items:center;justify-content:center;font-size:.95rem;font-weight:900;font-family:'Fredoka One',sans-serif}
-.ws-cell.highlight{background:#FFD93D;color:#333}
-.ws-wordlist{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:12px}
-.ws-wordlist span{font-weight:900;font-size:.95rem;color:#1E1B4B}
-</style>
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .skill-tag {
+            background: #e8f0fe;
+            color: #667eea;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 500;
+        }
+
+        .projects-section h2 {
+            font-size: 1.8em;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        .project-card {
+            background: white;
+            border-radius: 12px;
+            padding: 35px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border: 1px solid #e8e8e8;
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(102, 126, 234, 0.15);
+        }
+
+        .project-card h3 {
+            color: #667eea;
+            font-size: 1.5em;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .project-tag {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 0.75em;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+
+        .project-meta {
+            color: #999;
+            font-size: 0.9em;
+            margin-bottom: 15px;
+        }
+
+        .project-card p {
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .project-highlights {
+            margin: 15px 0;
+            padding-left: 20px;
+        }
+
+        .project-highlights li {
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .view-project {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 10px 24px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+
+        .view-project:hover {
+            background: #764ba2;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 0 20px 0;
+            color: #999;
+            font-size: 0.9em;
+        }
+
+        .coming-soon {
+            background: #f8f9fa;
+            border: 2px dashed #ddd;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            color: #999;
+            font-style: italic;
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2em;
+            }
+            .container {
+                padding: 20px 15px;
+            }
+        }
+    </style>
 </head>
 <body>
-<header>
-  <h1>✏️ Spell Check!</h1>
-  <p>Upload homework — let's fix those tricky words!</p>
-</header>
+    <div class="container">
+        <header>
+            <h1>Jennifer Sweezey</h1>
+            <p class="tagline">Data Analyst | Systems Engineer | Problem Solver</p>
+            <div class="links">
+                <a href="https://github.com/jensweez" target="_blank">GitHub</a>
+                <a href="https://www.linkedin.com/in/yourprofile" target="_blank">LinkedIn</a>
+                <a href="mailto:your.email@example.com">Contact</a>
+            </div>
+        </header>
 
-<div id="screen-upload" class="screen active">
-  <div class="upload-zone">
-    <input type="file" id="file-input" accept="image/*" capture="environment"/>
-    <div class="upload-icon">📸</div>
-    <h2>Take or Upload a Photo</h2>
-    <p>Tap to use your camera or pick an image</p>
-  </div>
-  <div class="preview-wrap" id="preview-wrap">
-    <img id="preview-img" src="" alt=""/>
-    <button class="remove-btn" id="remove-img">✕</button>
-  </div>
-  <div class="btn-row">
-    <button class="btn btn-primary" id="scan-btn" disabled>🔍 Find Misspellings</button>
-  </div>
-  <p class="err-msg" id="upload-error"></p>
-</div>
+        <section class="about">
+            <h2>About Me</h2>
+            <p>
+                I'm a data analyst with a background in systems engineering and software development. After earning my M.S. in Systems Engineering and completing a Data Analytics certificate from DeepLearning.AI, I'm passionate about transforming complex datasets into actionable insights.
+            </p>
+            <p>
+                My technical foundation includes extensive experience with Python, SQL, and data visualization tools. I bring a unique perspective combining engineering rigor with analytical creativity to solve real-world problems.
+            </p>
+            <div class="skills">
+                <span class="skill-tag">Python</span>
+                <span class="skill-tag">Pandas</span>
+                <span class="skill-tag">SQL</span>
+                <span class="skill-tag">Plotly</span>
+                <span class="skill-tag">Data Visualization</span>
+                <span class="skill-tag">Statistical Analysis</span>
+                <span class="skill-tag">Jupyter</span>
+            </div>
+        </section>
 
-<div id="screen-loading" class="screen">
-  <div class="loader"></div>
-  <h2>Reading the homework...</h2>
-  <p>Finding spelling mistakes ✨</p>
-</div>
+        <section class="projects-section">
+            <h2>AI & Software Projects</h2>
 
-<div id="screen-results" class="screen">
-  <div class="results-header">
-    <h2>Mistakes Found!</h2>
-    <span class="badge" id="error-count">0</span>
-  </div>
-  <div id="word-list"></div>
-  <div class="btn-row">
-    <button class="btn btn-secondary" id="practice-btn">🎮 Practice These Words</button>
-    <button class="btn btn-worksheet" id="worksheet-btn">📄 Make a Worksheet</button>
-    <button class="btn btn-ghost" id="rescan-btn">↩ New Photo</button>
-  </div>
-</div>
+            <div class="project-card">
+                <span class="project-tag">Featured Project</span>
+                <h3>AI-Powered Voter Database Assistant</h3>
+                <p class="project-meta">Python • Streamlit • Claude API • LangChain • SQL Server | February 2026</p>
+                <p>
+                    Built a natural language interface to query a 4+ million record voter database using Claude AI and LangChain. Enables non-technical users to ask complex questions in plain English and receive accurate SQL-generated results through an intuitive Streamlit web application.
+                </p>
+                <ul class="project-highlights">
+                    <li>Designed conversational AI agent that translates natural language to SQL queries for large-scale database</li>
+                    <li>Optimized performance by switching from Claude Sonnet to Haiku, reducing query response times</li>
+                    <li>Implemented error handling and query validation to ensure data accuracy and user safety</li>
+                    <li>Created user-friendly interface making complex database accessible to non-technical stakeholders</li>
+                </ul>
+                <a href="#" class="view-project" style="background: #999; cursor: not-allowed;">Live Demo Coming Soon</a>
+            </div>
 
-<div id="screen-modes" class="screen">
-  <h2 style="font-size:1.7rem;margin-bottom:4px">Pick a Game!</h2>
-  <p style="color:var(--muted);font-size:.9rem;font-weight:700;margin-bottom:2px">How do you want to practice?</p>
-  <div class="mode-grid">
-    <div class="mode-card" data-mode="type"><div class="icon">⌨️</div><h3>Type It Out</h3><p>Spell the word yourself</p></div>
-    <div class="mode-card" data-mode="choice"><div class="icon">🔤</div><h3>Pick One</h3><p>Choose the right spelling</p></div>
-    <div class="mode-card" data-mode="scramble"><div class="icon">🔀</div><h3>Unscramble</h3><p>Tap letters in order</p></div>
-    <div class="mode-card" data-mode="fill"><div class="icon">✏️</div><h3>Fill the Blank</h3><p>Complete the sentence</p></div>
-  </div>
-  <div class="btn-row">
-    <button class="btn btn-primary" id="start-game-btn" disabled>Let's Go! 🚀</button>
-    <button class="btn btn-ghost" id="back-to-results">↩ Back</button>
-  </div>
-</div>
+            <div class="coming-soon">
+                <p>Additional AI projects in development...</p>
+            </div>
+        </section>
 
-<div id="screen-game" class="screen">
-  <div class="game-topbar">
-    <span class="word-count" id="word-count">1/5</span>
-    <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
-    <span class="score-badge">⭐ <span id="score-display">0</span></span>
-  </div>
-  <div class="game-card" id="game-card"></div>
-  <div class="btn-row" id="game-btn-row"></div>
-</div>
+        <section class="projects-section" style="margin-top: 50px;">
+            <h2>Data Analysis Projects</h2>
 
-<div id="screen-summary" class="screen">
-  <div class="summary-card">
-    <div class="summary-emoji" id="summary-emoji">🎉</div>
-    <h2 id="summary-title">Awesome Job!</h2>
-    <p id="summary-subtitle"></p>
-    <div class="summary-score"><span id="final-score">0</span> <span>/ <span id="final-total">0</span></span></div>
-    <div class="missed-list" id="missed-list"></div>
-  </div>
-  <div class="btn-row">
-    <button class="btn btn-secondary" id="play-again-btn">🔁 Play Again</button>
-    <button class="btn btn-ghost" id="new-photo-btn">📸 New Photo</button>
-  </div>
-</div>
+            <div class="project-card">
+                <h3>Denver Traffic Safety Analysis: Neighborhood Accident Hotspots</h3>
+                <p class="project-meta">Python • Pandas • Plotly • Data Visualization | February 2026</p>
+                <p>
+                    Comprehensive analysis of 12 years of Denver traffic accident data (266,895 records across 78 neighborhoods) to identify safety patterns and inform infrastructure decisions. Combined statistical analysis with interactive geospatial visualization to distinguish between high-volume and genuinely dangerous areas.
+                </p>
+                <ul class="project-highlights">
+                    <li>Identified Central Park as having 45 fatalities—nearly double any other neighborhood—linked to wide, high-speed arterial road design</li>
+                    <li>Discovered "hidden danger" neighborhoods with disproportionately high severity rates despite lower traffic volumes</li>
+                    <li>Quantified permanent COVID-19 impact: most neighborhoods never recovered to pre-pandemic accident levels</li>
+                    <li>Created interactive visualizations revealing Colfax Avenue as Denver's most dangerous corridor</li>
+                </ul>
+                <a href="analysis.html" class="view-project">View Full Analysis →</a>
+            </div>
 
-<!-- Worksheet Modal -->
-<div class="ws-overlay" id="ws-overlay" style="display:none">
-  <div class="ws-modal">
-    <h2>📄 Create Worksheet</h2>
-    <p>Choose what to include and enter the student's name</p>
-    <input class="ws-name-input" id="ws-name" placeholder="Student name (optional)"/>
-    <div class="ws-options">
-      <label class="ws-option" id="opt-write">
-        <input type="checkbox" id="chk-write" checked/> ✏️ Write each word 3 times
-      </label>
-      <label class="ws-option" id="opt-fill">
-        <input type="checkbox" id="chk-fill" checked/> 📝 Fill in the blank sentences
-      </label>
-      <label class="ws-option" id="opt-search">
-        <input type="checkbox" id="chk-search" checked/> 🔍 Word search puzzle
-      </label>
+            <div class="coming-soon">
+                <p>More data analysis projects coming soon...</p>
+            </div>
+        </section>
+
+        <footer>
+            <p>© 2026 Jennifer Sweezey | Built with curiosity and data</p>
+        </footer>
     </div>
-    <div class="ws-btn-row">
-      <button class="btn btn-primary" id="ws-print-btn">🖨️ Print</button>
-      <button class="btn btn-worksheet" id="ws-pdf-btn">⬇️ Save as PDF</button>
-      <button class="btn btn-ghost" id="ws-close-btn">Cancel</button>
-    </div>
-  </div>
-</div>
-
-<!-- Hidden print area -->
-<div id="print-area"></div>
-
-<script>
-const API_URL='/api/scan';
-let words=[],gameMode=null,gameWords=[],currentIdx=0,score=0,missed=[],scrambleAnswer=[],scrambleUsed=[];
-let imageBase64=null,imageMediaType=null;
-
-function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById('screen-'+id).classList.add('active')}
-function speak(t){if(!window.speechSynthesis)return;window.speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.rate=.85;window.speechSynthesis.speak(u)}
-function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b}
-function wrongChoices(correct,all,n=3){const pool=all.map(w=>w.correct).filter(w=>w!==correct);const extras=['because','friend','really','their','coming','people','school','writing','before','through'];return shuffle([...new Set([...pool,...extras])]).slice(0,n)}
-
-const fileInput=document.getElementById('file-input');
-const previewWrap=document.getElementById('preview-wrap');
-const previewImg=document.getElementById('preview-img');
-const scanBtn=document.getElementById('scan-btn');
-
-fileInput.addEventListener('change',e=>{
-  const file=e.target.files[0];if(!file)return;
-  imageMediaType='image/jpeg';
-  const img=new Image();
-  const url=URL.createObjectURL(file);
-  img.onload=()=>{
-    // Preprocess: boost contrast + sharpen for better handwriting recognition
-    const canvas=document.createElement('canvas');
-    const MAX=1600;
-    let w=img.width,h=img.height;
-    if(w>MAX||h>MAX){const s=MAX/Math.max(w,h);w=Math.round(w*s);h=Math.round(h*s)}
-    canvas.width=w;canvas.height=h;
-    const ctx=canvas.getContext('2d');
-    // Draw and enhance
-    ctx.filter='contrast(1.4) brightness(1.05) saturate(0)';
-    ctx.drawImage(img,0,0,w,h);
-    // Sharpen via convolution
-    const src=ctx.getImageData(0,0,w,h);
-    const dst=ctx.createImageData(w,h);
-    const kern=[-1,-1,-1,-1,9,-1,-1,-1,-1];
-    const d=src.data,o=dst.data;
-    for(let y=1;y<h-1;y++){
-      for(let x=1;x<w-1;x++){
-        for(let c=0;c<3;c++){
-          let v=0;
-          for(let ky=-1;ky<=1;ky++)for(let kx=-1;kx<=1;kx++){
-            v+=d[((y+ky)*w+(x+kx))*4+c]*kern[(ky+1)*3+(kx+1)];
-          }
-          o[(y*w+x)*4+c]=Math.min(255,Math.max(0,v));
-        }
-        o[(y*w+x)*4+3]=255;
-      }
-    }
-    ctx.putImageData(dst,0,0);
-    const dataURL=canvas.toDataURL('image/jpeg',0.92);
-    imageBase64=dataURL.split(',')[1];
-    previewImg.src=dataURL;
-    previewWrap.style.display='block';
-    scanBtn.disabled=false;
-    URL.revokeObjectURL(url);
-  };
-  img.src=url;
-});
-
-document.getElementById('remove-img').addEventListener('click',()=>{
-  imageBase64=null;imageMediaType=null;previewWrap.style.display='none';previewImg.src='';fileInput.value='';scanBtn.disabled=true;
-});
-
-scanBtn.addEventListener('click',async()=>{
-  if(!imageBase64)return;
-  document.getElementById('upload-error').style.display='none';
-  show('loading');
-  try{
-    const res=await fetch(API_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({imageBase64,mediaType:imageMediaType})});
-    const data=await res.json();
-    if(!res.ok)throw new Error(data.error||'Server error');
-    words=data.words||[];renderResults();show('results');
-  }catch(err){
-    show('upload');
-    const e=document.getElementById('upload-error');e.textContent='Something went wrong: '+err.message;e.style.display='block';
-  }
-});
-
-function renderResults(){
-  document.getElementById('error-count').textContent=words.length;
-  const list=document.getElementById('word-list');
-  if(words.length===0){
-    list.innerHTML='<div class="no-errors"><div class="big">🌟</div><h2>No mistakes found!</h2><p style="color:var(--muted);font-weight:700">Amazing work on this assignment!</p></div>';
-    document.getElementById('practice-btn').style.display='none';
-  }else{
-    document.getElementById('practice-btn').style.display='';
-    list.innerHTML=words.map((w,i)=>`<div class="word-card"><div class="word-num">${i+1}</div><div class="word-info"><div class="word-wrong">${w.wrong}</div><div class="word-correct">✓ ${w.correct}</div><div class="word-context">${w.context||''}</div></div></div>`).join('');
-  }
-}
-
-document.getElementById('practice-btn').addEventListener('click',()=>show('modes'));
-document.getElementById('rescan-btn').addEventListener('click',()=>{imageBase64=null;previewWrap.style.display='none';previewImg.src='';fileInput.value='';scanBtn.disabled=true;show('upload')});
-
-document.querySelectorAll('.mode-card').forEach(card=>{
-  card.addEventListener('click',()=>{
-    document.querySelectorAll('.mode-card').forEach(c=>c.classList.remove('selected'));
-    card.classList.add('selected');gameMode=card.dataset.mode;
-    document.getElementById('start-game-btn').disabled=false;
-  });
-});
-document.getElementById('start-game-btn').addEventListener('click',startGame);
-document.getElementById('back-to-results').addEventListener('click',()=>show('results'));
-
-function startGame(){gameWords=shuffle(words);currentIdx=0;score=0;missed=[];show('game');renderQuestion()}
-
-function renderQuestion(){
-  const w=gameWords[currentIdx];const total=gameWords.length;
-  document.getElementById('word-count').textContent=`${currentIdx+1}/${total}`;
-  document.getElementById('progress-fill').style.width=`${(currentIdx/total)*100}%`;
-  document.getElementById('score-display').textContent=score;
-  const card=document.getElementById('game-card');const btnRow=document.getElementById('game-btn-row');
-  card.innerHTML='';btnRow.innerHTML='';
-  if(gameMode==='type')renderTypeGame(w,card,btnRow);
-  else if(gameMode==='choice')renderChoiceGame(w,card,btnRow);
-  else if(gameMode==='scramble')renderScrambleGame(w,card,btnRow);
-  else renderFillGame(w,card,btnRow);
-}
-
-function makeNextBtn(){
-  const btn=document.createElement('button');btn.className='btn btn-primary';btn.textContent='Next ➡';
-  btn.addEventListener('click',()=>{currentIdx++;if(currentIdx>=gameWords.length)showSummary();else renderQuestion()});
-  return btn;
-}
-
-function showFeedback(card,correct,correctWord){
-  let fb=card.querySelector('.feedback');
-  if(!fb){fb=document.createElement('div');fb.className='feedback';card.appendChild(fb)}
-  if(correct){fb.className='feedback show good';fb.textContent='✓ Correct! '+correctWord;score++;}
-  else{fb.className='feedback show bad';fb.textContent="✗ It's: "+correctWord;missed.push(correctWord)}
-  document.getElementById('score-display').textContent=score;
-}
-
-function renderTypeGame(w,card,btnRow){
-  card.innerHTML=`<div class="game-label">Spell this word correctly</div><div style="font-size:1.8rem;font-family:'Fredoka One',sans-serif;color:var(--pink)">"${w.wrong}"</div><input class="type-input" id="type-input" placeholder="Type here…" autocomplete="off" autocorrect="off" spellcheck="false"/><button class="hint-btn" id="hint-btn">🔊 Hear it</button><div class="feedback"></div>`;
-  const input=card.querySelector('#type-input');
-  card.querySelector('#hint-btn').addEventListener('click',()=>speak(w.correct));
-  setTimeout(()=>input.focus(),100);
-  let done=false;
-  function check(){
-    if(done)return;const val=input.value.trim().toLowerCase();
-    if(val===w.correct.toLowerCase()){input.classList.add('correct');done=true;showFeedback(card,true,w.correct);btnRow.appendChild(makeNextBtn())}
-    else if(val.length>=w.correct.length){input.classList.add('wrong');done=true;showFeedback(card,false,w.correct);btnRow.appendChild(makeNextBtn())}
-  }
-  input.addEventListener('input',()=>{input.classList.remove('correct','wrong');check()});
-  input.addEventListener('keydown',e=>{if(e.key==='Enter')check()});
-}
-
-function renderChoiceGame(w,card,btnRow){
-  const options=shuffle([w.correct,...wrongChoices(w.correct,words)]);
-  card.innerHTML=`<div class="game-label">Which spelling is correct?</div><div style="font-size:1.1rem;font-weight:800;color:var(--muted)">The word is: <span style="color:var(--text);font-family:'Fredoka One',sans-serif">"${w.wrong}"</span></div><div class="choices">${options.map(o=>`<button class="choice-btn" data-val="${o}">${o}</button>`).join('')}</div><div class="feedback"></div>`;
-  card.querySelectorAll('.choice-btn').forEach(btn=>{
-    btn.addEventListener('click',()=>{
-      const correct=btn.dataset.val===w.correct;
-      card.querySelectorAll('.choice-btn').forEach(b=>{b.disabled=true;if(b.dataset.val===w.correct)b.classList.add('correct');else if(b===btn&&!correct)b.classList.add('wrong')});
-      showFeedback(card,correct,w.correct);btnRow.appendChild(makeNextBtn());
-    });
-  });
-}
-
-function renderScrambleGame(w,card,btnRow){
-  const letters=shuffle(w.correct.split(''));
-  scrambleAnswer=Array(w.correct.length).fill(null);scrambleUsed=Array(letters.length).fill(false);
-  function draw(){
-    card.innerHTML=`<div class="game-label">Tap letters to spell it out</div><div style="font-size:1rem;font-weight:800;color:var(--muted)">Correct: <span style="color:var(--pink);font-family:'Fredoka One',sans-serif">${w.wrong}</span></div><div class="answer-slots">${scrambleAnswer.map((l,i)=>`<div class="answer-slot" data-idx="${i}">${l!==null?`<span>${l.letter}</span>`:''}</div>`).join('')}</div><hr class="scramble-hr"/><div class="scramble-area">${letters.map((l,i)=>`<div class="letter-tile${scrambleUsed[i]?' used':''}" data-li="${i}">${l}</div>`).join('')}</div><div class="feedback"></div>`;
-    card.querySelectorAll('.letter-tile:not(.used)').forEach(tile=>{
-      tile.addEventListener('click',()=>{
-        const li=parseInt(tile.dataset.li);const slot=scrambleAnswer.indexOf(null);if(slot===-1)return;
-        scrambleAnswer[slot]={letter:letters[li],tileIdx:li};scrambleUsed[li]=true;draw();
-        if(!scrambleAnswer.some(x=>x===null)){
-          const typed=scrambleAnswer.map(x=>x.letter).join('');const correct=typed.toLowerCase()===w.correct.toLowerCase();
-          showFeedback(card,correct,w.correct);
-          card.querySelectorAll('.letter-tile,.answer-slot').forEach(t=>t.style.pointerEvents='none');
-          btnRow.appendChild(makeNextBtn());
-        }
-      });
-    });
-    card.querySelectorAll('.answer-slot').forEach(slot=>{
-      const idx=parseInt(slot.dataset.idx);
-      if(scrambleAnswer[idx]!==null){slot.style.cursor='pointer';slot.addEventListener('click',()=>{scrambleUsed[scrambleAnswer[idx].tileIdx]=false;scrambleAnswer[idx]=null;const filled=scrambleAnswer.filter(x=>x!==null);scrambleAnswer=[...filled,...Array(w.correct.length-filled.length).fill(null)];draw()});}
-    });
-  }
-  draw();
-}
-
-function renderFillGame(w,card,btnRow){
-  const ctx=w.context||`Use the word correctly: ${w.wrong}`;
-  const re=new RegExp(w.wrong.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'gi');
-  const highlighted=ctx.replace(re,`<span class="blank">${'&nbsp;'.repeat(Math.max(w.correct.length,4))}</span>`);
-  card.innerHTML=`<div class="game-label">Fill in the blank</div><div class="game-context">${highlighted}</div><input class="type-input" id="fill-input" placeholder="Type the correct word…" autocomplete="off" autocorrect="off" spellcheck="false"/><button class="hint-btn" id="fill-hint">🔊 Hear it</button><div class="feedback"></div>`;
-  const input=card.querySelector('#fill-input');
-  card.querySelector('#fill-hint').addEventListener('click',()=>speak(w.correct));
-  setTimeout(()=>input.focus(),100);
-  let done=false;
-  input.addEventListener('input',()=>{if(!done&&input.value.trim().toLowerCase()===w.correct.toLowerCase()){done=true;input.classList.add('correct');showFeedback(card,true,w.correct);btnRow.appendChild(makeNextBtn())}});
-  input.addEventListener('keydown',e=>{if(e.key==='Enter'&&!done&&input.value.trim().length>0){done=true;const correct=input.value.trim().toLowerCase()===w.correct.toLowerCase();input.classList.add(correct?'correct':'wrong');showFeedback(card,correct,w.correct);btnRow.appendChild(makeNextBtn())}});
-}
-
-function showSummary(){
-  const total=gameWords.length;const pct=Math.round((score/total)*100);
-  document.getElementById('final-score').textContent=score;document.getElementById('final-total').textContent=total;
-  document.getElementById('summary-emoji').textContent=pct===100?'🏆':pct>=70?'🌟':'💪';
-  document.getElementById('summary-title').textContent=pct===100?'Perfect Score!':pct>=70?'Great Job!':'Keep Practicing!';
-  document.getElementById('summary-subtitle').textContent=`You got ${score} out of ${total} right!`;
-  const missedEl=document.getElementById('missed-list');
-  missedEl.innerHTML=missed.length===0?'':`<h3>Words to review</h3>${[...new Set(missed)].map(w=>`<div class="missed-item"><span class="x-icon">✗</span><span class="correct-text">${w}</span></div>`).join('')}`;
-  show('summary');
-}
-
-document.getElementById('play-again-btn').addEventListener('click',startGame);
-document.getElementById('new-photo-btn').addEventListener('click',()=>{imageBase64=null;previewWrap.style.display='none';previewImg.src='';fileInput.value='';scanBtn.disabled=true;show('upload')});
-
-// ── Worksheet ──
-document.getElementById('worksheet-btn').addEventListener('click',()=>{
-  document.getElementById('ws-overlay').style.display='flex';
-});
-document.getElementById('ws-close-btn').addEventListener('click',()=>{
-  document.getElementById('ws-overlay').style.display='none';
-});
-
-// checkbox visual
-['write','fill','search'].forEach(id=>{
-  const chk=document.getElementById('chk-'+id);
-  const opt=document.getElementById('opt-'+id);
-  opt.classList.toggle('checked',chk.checked);
-  chk.addEventListener('change',()=>opt.classList.toggle('checked',chk.checked));
-});
-
-function buildWordSearch(wordList,size=14){
-  const dirs=[[0,1],[1,0],[1,1],[0,-1],[-1,0],[-1,-1],[1,-1],[-1,1]];
-  const grid=Array.from({length:size},()=>Array(size).fill(''));
-  const placed=[];
-  const words=wordList.map(w=>w.toUpperCase()).filter(w=>w.length<=size);
-  for(const word of words){
-    let success=false;
-    for(let attempt=0;attempt<200&&!success;attempt++){
-      const [dr,dc]=dirs[Math.floor(Math.random()*dirs.length)];
-      const r=Math.floor(Math.random()*size);
-      const c=Math.floor(Math.random()*size);
-      const cells=[];
-      let ok=true;
-      for(let i=0;i<word.length;i++){
-        const nr=r+dr*i,nc=c+dc*i;
-        if(nr<0||nr>=size||nc<0||nc>=size){ok=false;break}
-        if(grid[nr][nc]!==''&&grid[nr][nc]!==word[i]){ok=false;break}
-        cells.push([nr,nc]);
-      }
-      if(ok){
-        cells.forEach(([nr,nc],i)=>grid[nr][nc]=word[i]);
-        placed.push({word,cells});
-        success=true;
-      }
-    }
-  }
-  const alpha='ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-  for(let r=0;r<size;r++)for(let c=0;c<size;c++)if(grid[r][c]==='')grid[r][c]=alpha[Math.floor(Math.random()*26)];
-  return{grid,placed};
-}
-
-function buildSheetHTML(studentName,includeWrite,includeFill,includeSearch){
-  const w=words;
-  const date=new Date().toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
-  let html=`<div class="ws-sheet">
-  <h1>✏️ Spelling Practice</h1>
-  <div class="ws-meta">${studentName?`Name: <strong>${studentName}</strong> &nbsp;|&nbsp; `:''}Date: ${date}</div>`;
-
-  if(includeWrite){
-    html+=`<div class="ws-section"><h2>Section 1 — Write Each Word 3 Times</h2>`;
-    w.forEach(word=>{
-      html+=`<div class="ws-word-row">
-        <div class="ws-word-label">${word.correct}</div>
-        <div class="ws-lines">
-          <div class="ws-line"></div>
-          <div class="ws-line"></div>
-          <div class="ws-line"></div>
-        </div>
-      </div>`;
-    });
-    html+=`</div>`;
-  }
-
-  if(includeFill){
-    const sec=includeWrite?2:1;
-    html+=`<div class="ws-section"><h2>Section ${sec} — Fill in the Blank</h2>`;
-    w.forEach(word=>{
-      const ctx=word.context||`The word _____ is spelled correctly as "${word.correct}".`;
-      const blanked=ctx.replace(new RegExp(word.wrong.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'gi'),'<span class="ws-fill-blank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>');
-      html+=`<div class="ws-fill-item">${blanked}</div>`;
-    });
-    html+=`</div>`;
-  }
-
-  if(includeSearch){
-    const sec=(includeWrite?1:0)+(includeFill?1:0)+1;
-    const {grid,placed}=buildWordSearch(w.map(x=>x.correct));
-    const placedWords=new Set(placed.map(p=>p.word));
-    const allCells=placed.flatMap(p=>p.cells.map(([r,c])=>`${r},${c}`));
-    const highlightSet=new Set(allCells);
-    const size=grid.length;
-    html+=`<div class="ws-section"><h2>Section ${sec} — Word Search</h2>
-    <div class="ws-grid" style="grid-template-columns:repeat(${size},28px)">`;
-    for(let r=0;r<size;r++)for(let c=0;c<size;c++){
-      const hl=highlightSet.has(`${r},${c}`)?'':'' ;
-      html+=`<div class="ws-cell">${grid[r][c]}</div>`;
-    }
-    html+=`</div><div class="ws-wordlist">`;
-    w.forEach(word=>{
-      const found=placedWords.has(word.correct.toUpperCase());
-      html+=`<span>${found?word.correct:'[could not place]'}</span>`;
-    });
-    html+=`</div></div>`;
-  }
-
-  html+=`</div>`;
-  return html;
-}
-
-function generateAndShow(forPDF=false){
-  const name=document.getElementById('ws-name').value.trim();
-  const write=document.getElementById('chk-write').checked;
-  const fill=document.getElementById('chk-fill').checked;
-  const search=document.getElementById('chk-search').checked;
-  if(!write&&!fill&&!search){alert('Please select at least one section!');return;}
-  const html=buildSheetHTML(name,write,fill,search);
-  const printArea=document.getElementById('print-area');
-  printArea.innerHTML=html;
-  printArea.style.display='block';
-  document.getElementById('ws-overlay').style.display='none';
-  if(forPDF){
-    // For PDF: open in new window so browser Save as PDF works cleanly
-    const win=window.open('','_blank');
-    win.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"/>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700;800;900&display=swap" rel="stylesheet"/>
-    <style>
-    body{font-family:'Nunito',sans-serif;color:#111;padding:20px}
-    h1{font-family:'Fredoka One',sans-serif;font-size:1.8rem;color:#FF4D8D;text-align:center;margin-bottom:4px}
-    .ws-meta{text-align:center;font-size:.85rem;color:#888;margin-bottom:24px;font-weight:700}
-    .ws-section{margin-bottom:32px}
-    .ws-section h2{font-family:'Fredoka One',sans-serif;font-size:1.2rem;color:#9333EA;border-bottom:3px solid #F0E0EA;padding-bottom:6px;margin-bottom:16px}
-    .ws-word-row{margin-bottom:18px}
-    .ws-word-label{font-weight:900;font-size:1.1rem;color:#FF4D8D;margin-bottom:4px}
-    .ws-line{border:none;border-bottom:2px solid #CCC;height:32px;width:100%;display:block;margin-bottom:6px}
-    .ws-fill-item{margin-bottom:20px;font-size:1rem;line-height:2;font-weight:700}
-    .ws-fill-blank{display:inline-block;border-bottom:2px solid #333;min-width:100px;margin:0 4px}
-    .ws-grid{display:inline-grid;gap:0;border:2px solid #333;margin:8px 0}
-    .ws-cell{width:28px;height:28px;border:1px solid #DDD;display:flex;align-items:center;justify-content:center;font-size:.95rem;font-weight:900;font-family:'Fredoka One',sans-serif}
-    .ws-wordlist{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:12px}
-    .ws-wordlist span{font-weight:900;font-size:.95rem}
-    </style></head><body>${html}</body></html>`);
-    win.document.close();
-    setTimeout(()=>win.print(),800);
-  } else {
-    window.print();
-    setTimeout(()=>{printArea.style.display='none'},1000);
-  }
-}
-
-document.getElementById('ws-print-btn').addEventListener('click',()=>generateAndShow(false));
-document.getElementById('ws-pdf-btn').addEventListener('click',()=>generateAndShow(true));
-</script>
 </body>
 </html>
