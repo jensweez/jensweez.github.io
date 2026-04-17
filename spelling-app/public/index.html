@@ -317,7 +317,7 @@ fileInput.addEventListener('change',e=>{
   img.onload=()=>{
     // Preprocess: boost contrast + sharpen for better handwriting recognition
     const canvas=document.createElement('canvas');
-    const MAX=1600;
+    const MAX=1200;
     let w=img.width,h=img.height;
     if(w>MAX||h>MAX){const s=MAX/Math.max(w,h);w=Math.round(w*s);h=Math.round(h*s)}
     canvas.width=w;canvas.height=h;
@@ -343,7 +343,7 @@ fileInput.addEventListener('change',e=>{
       }
     }
     ctx.putImageData(dst,0,0);
-    const dataURL=canvas.toDataURL('image/jpeg',0.92);
+    const dataURL=canvas.toDataURL('image/jpeg',0.7);
     imageBase64=dataURL.split(',')[1];
     previewImg.src=dataURL;
     previewWrap.style.display='block';
