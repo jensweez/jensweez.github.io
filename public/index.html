@@ -341,20 +341,54 @@ fileInput.addEventListener('change',e=>{
   const url=URL.createObjectURL(file);
   img.onload=()=>{
     const canvas=document.createElement('canvas');
-    // Keep max 1200px — balances quality vs payload size for phone photos
-    const MAX=1200;
+    const MAX=1800;
     let w=img.width,h=img.height;
     if(w>MAX||h>MAX){const s=MAX/Math.max(w,h);w=Math.round(w*s);h=Math.round(h*s)}
     canvas.width=w;canvas.height=h;
     const ctx=canvas.getContext('2d');
-    // Grayscale + contrast boost for handwriting
-    ctx.filter='contrast(1.5) brightness(1.1) saturate(0)';
+
+    // Step 1: Draw grayscale with contrast boost
+    ctx.filter='grayscale(1) contrast(1.6) brightness(1.1)';
     ctx.drawImage(img,0,0,w,h);
-    // Compress to JPEG at 0.7 quality — keeps size under 1MB
-    let quality=0.7;
+    ctx.filter='none';
+
+    // Step 2: Adaptive thresholding — pure black text on white background
+    const imgData=ctx.getImageData(0,0,w,h);
+    const d=imgData.data;
+    const blockSize=15;
+    const C=10;
+    const gray=new Uint8Array(w*h);
+    for(let i=0;i<w*h;i++) gray[i]=d[i*4];
+
+    // Integral image for fast local mean
+    const integral=new Float64Array((w+1)*(h+1));
+    for(let y=0;y<h;y++){
+      for(let x=0;x<w;x++){
+        integral[(y+1)*(w+1)+(x+1)]=gray[y*w+x]+integral[y*(w+1)+(x+1)]+integral[(y+1)*(w+1)+x]-integral[y*(w+1)+x];
+      }
+    }
+
+    // Apply adaptive threshold
+    const half=Math.floor(blockSize/2);
+    for(let y=0;y<h;y++){
+      for(let x=0;x<w;x++){
+        const x1=Math.max(0,x-half),y1=Math.max(0,y-half);
+        const x2=Math.min(w-1,x+half),y2=Math.min(h-1,y+half);
+        const area=(x2-x1+1)*(y2-y1+1);
+        const sum=integral[(y2+1)*(w+1)+(x2+1)]-integral[y1*(w+1)+(x2+1)]-integral[(y2+1)*(w+1)+x1]+integral[y1*(w+1)+x1];
+        const mean=sum/area;
+        const val=gray[y*w+x]<mean-C?0:255;
+        const idx=(y*w+x)*4;
+        d[idx]=d[idx+1]=d[idx+2]=val;
+        d[idx+3]=255;
+      }
+    }
+    ctx.putImageData(imgData,0,0);
+
+    // Step 3: Compress keeping quality high since b&w compresses well
+    let quality=0.85;
     let dataURL=canvas.toDataURL('image/jpeg',quality);
-    // If still too large, compress further
-    while(dataURL.length>1400000&&quality>0.3){
+    while(dataURL.length>1400000&&quality>0.5){
       quality-=0.1;
       dataURL=canvas.toDataURL('image/jpeg',quality);
     }
