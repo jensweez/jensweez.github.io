@@ -4,7 +4,6 @@ export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
@@ -13,92 +12,79 @@ export default async function handler(req, res) {
     if (typeof body === 'string') body = JSON.parse(body);
     const { imageBase64, mediaType } = body || {};
 
-    // Diagnostic info
-    const diag = {
-      hasApiKey: !!process.env.ANTHROPIC_API_KEY,
-      apiKeyPrefix: process.env.ANTHROPIC_API_KEY?.slice(0, 10) + '...',
-      hasImage: !!imageBase64,
-      imageSizeKB: imageBase64 ? Math.round(imageBase64.length * 0.75 / 1024) : 0,
-      mediaType,
-    };
-
     if (!imageBase64 || !mediaType) {
-      return res.status(400).json({ error: 'Missing imageBase64 or mediaType', diag });
+      return res.status(400).json({ error: 'Missing imageBase64 or mediaType' });
     }
 
-    const headers = {
-      'Content-Type': 'application/json',
-      'x-api-key': process.env.ANTHROPIC_API_KEY,
-      'anthropic-version': '2023-06-01',
-    };
+    // ── PASS 1: Google Cloud Vision — transcribe handwriting ──
+    const visionRes = await fetch(
+      `https://vision.googleapis.com/v1/images:annotate?key=${process.env.GOOGLE_VISION_API_KEY}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          requests: [{
+            image: { content: imageBase64 },
+            features: [{ type: 'DOCUMENT_TEXT_DETECTION', maxResults: 1 }],
+            imageContext: { languageHints: ['en'] },
+          }],
+        }),
+      }
+    );
 
-    const transcribeRes = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers,
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-6',
-        max_tokens: 2048,
-        messages: [{
-          role: 'user',
-          content: [
-            {
-              type: 'image',
-              source: { type: 'base64', media_type: mediaType, data: imageBase64 },
-            },
-            {
-              type: 'text',
-              text: 'Transcribe exactly what you see in this handwritten assignment, word for word, no corrections.',
-            },
-          ],
-        }],
-      }),
-    });
-
-    const transcribeText = await transcribeRes.text();
-
-    if (!transcribeRes.ok) {
-      return res.status(500).json({
-        error: 'Transcription failed',
-        status: transcribeRes.status,
-        detail: transcribeText,
-        diag,
-      });
+    if (!visionRes.ok) {
+      const err = await visionRes.text();
+      return res.status(500).json({ error: 'Google Vision failed', detail: err });
     }
 
-    const transcribeData = JSON.parse(transcribeText);
-    const transcript = transcribeData.content?.[0]?.text ?? '';
+    const visionData = await visionRes.json();
+    const transcript = visionData.responses?.[0]?.fullTextAnnotation?.text ?? '';
 
     if (!transcript.trim()) {
-      return res.status(200).json({ words: [], transcript: '', diag });
+      return res.status(200).json({ words: [], transcript: 'No text detected in image.' });
     }
 
+    // ── PASS 2: Claude — spell check the clean transcript ──
     const spellRes = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
-      headers,
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': process.env.ANTHROPIC_API_KEY,
+        'anthropic-version': '2023-06-01',
+      },
       body: JSON.stringify({
         model: 'claude-sonnet-4-6',
         max_tokens: 1024,
         messages: [{
           role: 'user',
-          content: `Find misspelled words in this child's writing. Return ONLY a JSON array with "wrong", "correct", "context" fields. If none return [].
+          content: `The following is a transcription of a child's handwritten assignment. Find every misspelled word.
 
-${transcript}`,
+TRANSCRIPTION:
+${transcript}
+
+RULES:
+- Only flag genuine spelling mistakes — words spelled incorrectly.
+- Do NOT flag: proper nouns, names, places, titles, creative/invented words, or correct words.
+- Do NOT flag grammar errors, punctuation errors, or capitalization — spelling only.
+- If a word could reasonably be a valid alternate spelling or a name, do not flag it.
+
+Return ONLY a valid JSON array, no other text, no markdown.
+Each item must have:
+- "wrong": the misspelled word exactly as it appears
+- "correct": the correct standard spelling
+- "context": the complete sentence it appeared in
+
+If no spelling mistakes, return: []`,
         }],
       }),
     });
 
-    const spellText = await spellRes.text();
-
     if (!spellRes.ok) {
-      return res.status(500).json({
-        error: 'Spell check failed',
-        status: spellRes.status,
-        detail: spellText,
-        diag,
-      });
+      const err = await spellRes.text();
+      return res.status(500).json({ error: 'Spell check failed', detail: err });
     }
 
-    const spellData = JSON.parse(spellText);
+    const spellData = await spellRes.json();
     const raw = spellData.content?.[0]?.text ?? '[]';
 
     let words;
