@@ -158,6 +158,22 @@
             margin-bottom: 15px;
         }
 
+        .workflow-image {
+            width: 100%;
+            border-radius: 10px;
+            border: 1px solid #e8e8e8;
+            display: block;
+            margin-top: 20px;
+        }
+
+        .image-caption {
+            text-align: center;
+            color: #999;
+            font-size: 0.85em;
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+
         footer {
             text-align: center;
             padding: 40px 0 20px 0;
@@ -191,6 +207,9 @@
             <p>
                 Sal's Home Improvement, a practice client for my consulting portfolio, originally had an estimate automation built in Zapier: a customer submits a project inquiry, Airtable stores the lead, GPT-4o drafts a cost estimate, and the result is written to a Google Doc. To explore a cheaper, more flexible alternative for clients who outgrow no-code tooling, I rebuilt the entire pipeline in <strong>n8n</strong> — a self-hosted, open-source automation platform — running locally via Docker at zero recurring cost.
             </p>
+
+            <img src="n8n-workflow.png" alt="Screenshot of the six-node n8n workflow: Airtable Trigger, IF filter, Claude message model, Google Docs Create, Google Docs Update, and Airtable Update Record" class="workflow-image">
+            <p class="image-caption">The finished n8n pipeline — Airtable Trigger → IF → Claude → Google Docs Create → Google Docs Update → Airtable Update Record</p>
 
             <h2>1. Set Up n8n Locally</h2>
             <ul>
