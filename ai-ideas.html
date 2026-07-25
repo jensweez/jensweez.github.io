@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Can This Help Your Business? | Jennifer Sweezey</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f9fa;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 60px 0 40px 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            margin: -40px -20px 60px -20px;
+            border-radius: 0 0 20px 20px;
+        }
+
+        h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .tagline {
+            font-size: 1.1em;
+            opacity: 0.9;
+            max-width: 560px;
+            margin: 0 auto;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: white;
+            text-decoration: none;
+            opacity: 0.9;
+            font-size: 0.95em;
+        }
+
+        .back-link:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
+
+        .intro {
+            background: white;
+            padding: 30px 35px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            color: #555;
+        }
+
+        .quick-list {
+            background: white;
+            padding: 30px 35px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .quick-list h2 {
+            font-size: 1.15em;
+            color: #333;
+            margin-bottom: 14px;
+        }
+
+        .quick-list ul {
+            padding-left: 22px;
+        }
+
+        .quick-list li {
+            color: #555;
+            margin-bottom: 8px;
+        }
+
+        .pain-point {
+            margin-bottom: 14px;
+            margin-top: 44px;
+        }
+
+        .pain-point:first-of-type {
+            margin-top: 0;
+        }
+
+        .pain-point h2 {
+            font-size: 1.35em;
+            color: #333;
+        }
+
+        .pain-point .pain-sub {
+            color: #888;
+            font-size: 0.92em;
+            margin-top: 4px;
+        }
+
+        .idea-card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px 35px;
+            margin-bottom: 22px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border: 1px solid #e8e8e8;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .idea-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .idea-tag {
+            display: inline-block;
+            background: #e8f0fe;
+            color: #667eea;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.78em;
+            font-weight: 600;
+            margin-bottom: 14px;
+        }
+
+        .idea-card h2 {
+            color: #333;
+            font-size: 1.25em;
+            margin-bottom: 10px;
+        }
+
+        .idea-card .the-problem {
+            color: #777;
+            font-size: 0.95em;
+            margin-bottom: 14px;
+            font-style: italic;
+        }
+
+        .idea-card .how-it-helps {
+            color: #555;
+            margin-bottom: 14px;
+        }
+
+        .idea-card .how-it-helps strong {
+            color: #667eea;
+        }
+
+        .example-link {
+            display: inline-block;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.92em;
+        }
+
+        .example-link:hover {
+            text-decoration: underline;
+        }
+
+        .cta {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 35px 30px;
+            border-radius: 12px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .cta h2 {
+            margin-bottom: 12px;
+            font-size: 1.4em;
+        }
+
+        .cta p {
+            opacity: 0.9;
+            margin-bottom: 18px;
+        }
+
+        .cta a {
+            display: inline-block;
+            background: white;
+            color: #667eea;
+            padding: 10px 24px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 0 20px 0;
+            color: #999;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 1.7em; }
+            .container { padding: 20px 15px; }
+            .idea-card { padding: 22px 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>How Can This Help Your Business?</h1>
+            <p class="tagline">Most business owners have heard of AI but aren't sure where it actually fits into their day-to-day. Here are real, concrete ways it can help — no technical background required.</p>
+            <a href="index.html" class="back-link">← Back to portfolio</a>
+        </header>
+
+        <div class="intro">
+            <p>You don't need to become a tech company to benefit from AI. Most of the ideas below take a task your team already does by hand — writing a quote, following up with a lead, copying data between two apps — and let AI handle the repetitive part, while a person still reviews before anything goes out. That ranges from simple automations, to AI agents that can handle multi-step tasks on their own, to live dashboards that pull your scattered data into one place you can actually see. Below are a few examples, including ones I've actually built and can show you working end to end.</p>
+        </div>
+
+        <div class="quick-list">
+            <h2>Common pain points this can solve:</h2>
+            <ul>
+                <li>Slow, manual quotes and estimates</li>
+                <li>Missed leads and slow follow-up after hours</li>
+                <li>Data scattered across tools that don't talk to each other</li>
+                <li>No easy way to see what's actually happening across the business</li>
+                <li>Repetitive customer questions eating up staff time</li>
+                <li>Paperwork and handwritten notes that need re-typing into a system</li>
+            </ul>
+        </div>
+
+        <div class="pain-point">
+            <h2>"We're losing leads we shouldn't be."</h2>
+            <p class="pain-sub">Slow responses and unanswered questions send customers to the next business on the list.</p>
+        </div>
+
+        <div class="idea-card">
+            <span class="idea-tag">Built &amp; working</span>
+            <h2>Never miss a lead after hours</h2>
+            <p class="the-problem">The problem: a missed call or a message that sits overnight is often a lost customer — people expect a fast response and will just call the next business on the list.</p>
+            <p class="how-it-helps"><strong>How it helps:</strong> A simple chatbot captures and qualifies inbound inquiries the moment they come in, any time of day, and routes them straight into your workflow — no manual data entry, no delay.</p>
+        </div>
+
+        <div class="idea-card">
+            <span class="idea-tag">Idea</span>
+            <h2>Answer common customer questions automatically</h2>
+            <p class="the-problem">The problem: a lot of customer contact is the same handful of questions over and over — hours, pricing ranges, service areas, availability — and answering them one by one eats into time better spent elsewhere.</p>
+            <p class="how-it-helps"><strong>How it helps:</strong> A simple AI-powered chat widget on your website or texting line can handle the repetitive questions instantly, and hand off to a real person only when it's something that actually needs one.</p>
+        </div>
+
+        <div class="pain-point">
+            <h2>"We're buried in paperwork."</h2>
+            <p class="pain-sub">Quotes, notes, and forms that all have to be typed up by hand eat into hours you don't have.</p>
+        </div>
+
+        <div class="idea-card">
+            <span class="idea-tag">Built &amp; working</span>
+            <h2>Turn job details into a finished estimate automatically</h2>
+            <p class="the-problem">The problem: writing up quotes by hand is slow — pulling job details, calculating costs, formatting a document — and it's usually the bottleneck between a lead and a sale.</p>
+            <p class="how-it-helps"><strong>How it helps:</strong> A form submission (or even a photo of handwritten notes) feeds job details into an AI model that drafts an itemized estimate using your pricing rules, then automatically creates and fills a polished document — ready for someone to review and send.</p>
+            <a href="automation-with-ai.html" class="example-link">See this one built end to end →</a>
+        </div>
+
+        <div class="idea-card">
+            <span class="idea-tag">Idea</span>
+            <h2>Turn handwritten or photographed notes into usable data</h2>
+            <p class="the-problem">The problem: field notes, intake forms, or paperwork collected on-site often has to be manually re-typed into a system later — extra work and a chance for errors.</p>
+            <p class="how-it-helps"><strong>How it helps:</strong> AI vision models can read a photo of handwritten notes and pull out structured information (names, addresses, measurements, etc.) directly into your system, skipping the re-typing step entirely.</p>
+        </div>
+
+        <div class="pain-point">
+            <h2>"Nothing talks to anything else."</h2>
+            <p class="pain-sub">Juggling separate tools means someone's stuck copying data by hand and following up manually.</p>
+        </div>
+
+        <div class="idea-card">
+            <span class="idea-tag">Idea</span>
+            <h2>Stop re-typing the same information into multiple apps</h2>
+            <p class="the-problem">The problem: a lot of small businesses run on 3–5 different tools (scheduling, invoicing, CRM, spreadsheets) that don't talk to each other, so someone ends up manually copying data between them.</p>
+            <p class="how-it-helps"><strong>How it helps:</strong> Tools like Zapier or n8n can connect the apps you already use, so a new customer entered in one place automatically shows up everywhere else it needs to — no double entry, fewer mistakes.</p>
+        </div>
+
+        <div class="idea-card">
+            <span class="idea-tag">Idea</span>
+            <h2>Draft customer follow-ups without starting from a blank page</h2>
+            <p class="the-problem">The problem: following up on quotes, checking in after a job, or asking for a review are all things that should happen consistently but often just... don't, because nobody has time to write them.</p>
+            <p class="how-it-helps"><strong>How it helps:</strong> AI can draft a first pass of these messages automatically based on the job or customer record, so sending a follow-up becomes a 30-second review-and-send instead of a task that keeps getting pushed to tomorrow.</p>
+        </div>
+
+        <div class="pain-point">
+            <h2>"I have no idea what's actually happening in my business right now."</h2>
+            <p class="pain-sub">Data lives in five different tools, and pulling it together into something useful takes hours nobody has.</p>
+        </div>
+
+        <div class="idea-card">
+            <span class="idea-tag">Idea</span>
+            <h2>A live dashboard that pulls your numbers into one view</h2>
+            <p class="the-problem">The problem: knowing how many jobs are open, what's overdue, and how revenue is trending usually means digging through several tools or building a spreadsheet by hand.</p>
+            <p class="how-it-helps"><strong>How it helps:</strong> A dashboard connected directly to the tools you already use can show the numbers that matter — jobs in progress, leads waiting on follow-up, revenue this month — updated automatically, no manual pulling required.</p>
+        </div>
+
+        <div class="idea-card">
+            <span class="idea-tag">Idea</span>
+            <h2>An AI agent that handles a task start to finish, not just answers a question</h2>
+            <p class="the-problem">The problem: some tasks aren't a single step — they involve checking a few things, making a decision, and taking an action, which is usually why they still require a person even when the individual steps are simple.</p>
+            <p class="how-it-helps"><strong>How it helps:</strong> Rather than a simple chatbot or a fixed automation, an AI agent can work through a multi-step task on its own — checking availability, gathering the right information, and completing the next step — with a person reviewing the outcome rather than doing each step by hand.</p>
+        </div>
+
+        <div class="cta">
+            <h2>Have a repetitive task in your business?</h2>
+            <p>If something above sounds familiar, there's a good chance it can be automated. Happy to talk through what that might look like for your business.</p>
+            <a href="mailto:jen@jensweezey.com">Get in touch</a>
+        </div>
+
+        <footer>
+            <p>© 2026 Jennifer Sweezey | Built with curiosity and data</p>
+        </footer>
+    </div>
+</body>
+</html>
