@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jennifer Sweezey | AI Automation Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+    :root {
+        --bg: #FFFFF2;
+        --bg-hero: #51A0A8;
+        --card: #FFFFFF;
+        --border: #E2E8F0;
+        --heading: #0F172A;
+        --body-text: #334155;
+        --muted: #64748B;
+        --tag-bg: #F1F5F9;
+        --display: 'Space Grotesk', sans-serif;
+        --body: 'Inter', sans-serif;
+        --mono: 'JetBrains Mono', monospace;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+        font-family: var(--body);
+        background: var(--bg);
+        color: var(--body-text);
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; }
+
+    :focus-visible {
+        outline: 2px solid var(--heading);
+        outline-offset: 3px;
+    }
+
+    .wrap {
+        max-width: 980px;
+        margin: 0 auto;
+        padding: 0 28px;
+    }
+
+    /* Navbar */
+    nav {
+        border-bottom: 1px solid var(--border);
+        background: var(--bg);
+    }
+
+    nav .wrap {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 68px;
+    }
+
+    .nav-logo {
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: 1.05em;
+        color: var(--heading);
+        text-decoration: none;
+    }
+
+    .nav-links {
+        display: flex;
+        gap: 32px;
+        list-style: none;
+    }
+
+    .nav-links a {
+        font-size: 0.9em;
+        font-weight: 500;
+        color: var(--muted);
+        text-decoration: none;
+        transition: color 0.15s;
+    }
+
+    .nav-links a:hover {
+        color: var(--heading);
+    }
+
+    /* Hero */
+    .hero {
+        background: var(--bg-hero);
+        padding: 100px 0 84px 0;
+    }
+
+    .hero .wrap {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 40px;
+    }
+
+    .hero-content {
+        flex: 1;
+    }
+
+    .robot {
+        flex-shrink: 0;
+        width: 130px;
+        cursor: pointer;
+    }
+
+    .robot svg {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+
+    .robot-arm {
+        transform-origin: 94px 88px;
+        animation: robotWave 2.3s ease-in-out 0.4s 1;
+    }
+
+    .robot:hover .robot-arm {
+        animation: robotWave 2.3s ease-in-out 0s 1;
+    }
+
+    @keyframes robotWave {
+        0%   { transform: rotate(0deg); }
+        12%  { transform: rotate(-165deg); }
+        24%  { transform: rotate(-150deg); }
+        36%  { transform: rotate(-178deg); }
+        48%  { transform: rotate(-150deg); }
+        60%  { transform: rotate(-178deg); }
+        72%  { transform: rotate(-160deg); }
+        88%  { transform: rotate(-160deg); }
+        100% { transform: rotate(0deg); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .robot-arm {
+            animation: none;
+        }
+    }
+
+    .eyebrow {
+        font-family: var(--mono);
+        font-size: 0.78em;
+        color: #FFF8E7;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        margin-bottom: 18px;
+    }
+
+    .hero h1 {
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: 2.7em;
+        letter-spacing: -0.02em;
+        line-height: 1.15;
+        color: var(--heading);
+        max-width: 680px;
+        margin-bottom: 20px;
+    }
+
+    .hero p {
+        font-size: 1.1em;
+        color: #FFF8E7;
+        max-width: 520px;
+        margin-bottom: 32px;
+    }
+
+    .hero-links {
+        display: flex;
+        gap: 14px;
+        flex-wrap: wrap;
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 12px 24px;
+        border-radius: 6px;
+        font-size: 0.9em;
+        font-weight: 600;
+        text-decoration: none;
+        transition: opacity 0.15s, transform 0.15s;
+    }
+
+    .btn:hover {
+        transform: translateY(-2px);
+    }
+
+    .btn-primary {
+        background: var(--heading);
+        color: var(--card);
+    }
+
+    .btn-primary:hover {
+        opacity: 0.85;
+    }
+
+    .btn-outline {
+        border: 1px solid var(--border);
+        color: var(--heading);
+    }
+
+    .btn-outline:hover {
+        border-color: var(--heading);
+    }
+
+    /* Sections */
+    section {
+        padding: 72px 0;
+        border-top: 1px solid var(--border);
+    }
+
+    .section-eyebrow {
+        font-family: var(--mono);
+        font-size: 0.78em;
+        color: var(--muted);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+    }
+
+    section h2 {
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: 1.7em;
+        color: var(--heading);
+        margin-bottom: 36px;
+    }
+
+    /* Project grid */
+    .project-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+
+    .project-card {
+        background: var(--card);
+        border: 1px solid #51A0A8;
+        border-radius: 10px;
+        padding: 28px;
+        display: flex;
+        flex-direction: column;
+        opacity: 0;
+        transform: translateY(18px);
+        transition: opacity 0.5s ease-out, transform 0.5s ease-out, box-shadow 0.25s ease, border-color 0.25s ease;
+    }
+
+    .project-card.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .project-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+    }
+
+    .project-card.visible:hover {
+        transform: translateY(-4px);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .project-card {
+            opacity: 1;
+            transform: none;
+            transition: box-shadow 0.25s ease, border-color 0.25s ease;
+        }
+        .project-card:hover {
+            transform: none;
+        }
+    }
+
+    .card-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 10px;
+        margin-bottom: 6px;
+    }
+
+    .project-card h3 {
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: 1.15em;
+        color: var(--heading);
+    }
+
+    .status-pill {
+        font-family: var(--mono);
+        font-size: 0.65em;
+        padding: 3px 8px;
+        border-radius: 4px;
+        white-space: nowrap;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+        background: var(--tag-bg);
+        color: var(--muted);
+        border: 1px solid var(--border);
+    }
+
+    .project-meta {
+        font-family: var(--mono);
+        font-size: 0.75em;
+        color: var(--muted);
+        margin-bottom: 16px;
+    }
+
+    .impact-list {
+        list-style: none;
+        margin-bottom: 18px;
+        flex-grow: 1;
+    }
+
+    .impact-list li {
+        font-size: 0.9em;
+        color: var(--body-text);
+        padding-left: 16px;
+        position: relative;
+        margin-bottom: 8px;
+    }
+
+    .impact-list li::before {
+        content: '→';
+        position: absolute;
+        left: 0;
+        color: #51A0A8;
+    }
+
+    .tag-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-bottom: 16px;
+    }
+
+    .tag {
+        font-family: var(--mono);
+        font-size: 0.72em;
+        background: var(--tag-bg);
+        color: var(--body-text);
+        border: 1px solid var(--border);
+        padding: 4px 9px;
+        border-radius: 4px;
+    }
+
+    .project-link {
+        font-size: 0.86em;
+        font-weight: 600;
+        color: var(--heading);
+        text-decoration: none;
+        border-bottom: 1px solid var(--heading);
+        align-self: flex-start;
+        padding-bottom: 1px;
+    }
+
+    .project-link.muted {
+        color: var(--muted);
+        border-color: var(--border);
+        cursor: default;
+    }
+
+    /* About */
+    .about-text {
+        max-width: 640px;
+        margin-bottom: 16px;
+    }
+
+    .stack-line {
+        font-family: var(--mono);
+        font-size: 0.82em;
+        color: var(--muted);
+        margin-top: 20px;
+        line-height: 2;
+    }
+
+    footer {
+        padding: 44px 0;
+        text-align: center;
+        font-family: var(--mono);
+        font-size: 0.78em;
+        color: var(--muted);
+        border-top: 1px solid var(--border);
+    }
+
+    @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(14px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero .eyebrow {
+        animation: fadeUp 0.6s ease-out both;
+    }
+
+    .hero h1 {
+        animation: fadeUp 0.6s ease-out 0.08s both;
+    }
+
+    .hero p {
+        animation: fadeUp 0.6s ease-out 0.16s both;
+    }
+
+    .hero-links {
+        animation: fadeUp 0.6s ease-out 0.24s both;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .hero .eyebrow, .hero h1, .hero p, .hero-links {
+            animation: none;
+        }
+    }
+
+    @media (max-width: 720px) {
+        .nav-links { display: none; }
+        .hero h1 { font-size: 2em; }
+        .project-grid { grid-template-columns: 1fr; }
+        section { padding: 52px 0; }
+        .hero { padding: 72px 0 56px 0; }
+        .robot { display: none; }
+    }
+</style>
+</head>
+<body>
+
+<nav>
+    <div class="wrap">
+        <a href="#" class="nav-logo">Jennifer Sweezey</a>
+        <ul class="nav-links">
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="mailto:jen@jensweezey.com">Contact</a></li>
+        </ul>
+    </div>
+</nav>
+
+<header class="hero">
+    <div class="wrap">
+        <div class="hero-content">
+            <div class="eyebrow">Denver, CO</div>
+            <h1>AI Automation Engineer | Full-Stack Developer</h1>
+            <p>Systems engineer building AI-powered automations, agents, and tools that solve real operational problems.</p>
+            <div class="hero-links">
+                <a href="#projects" class="btn btn-primary">View Projects</a>
+                <a href="mailto:jen@jensweezey.com" class="btn btn-outline">Get in Touch</a>
+            </div>
+        </div>
+        <div class="robot" aria-hidden="true">
+            <svg viewBox="0 0 140 180" xmlns="http://www.w3.org/2000/svg">
+                <rect x="35" y="20" width="70" height="55" rx="18" fill="#FFFFF2" stroke="#0F172A" stroke-width="3"/>
+                <circle cx="55" cy="46" r="6" fill="#0F172A"/>
+                <circle cx="85" cy="46" r="6" fill="#0F172A"/>
+                <path d="M 56 58 Q 70 68 84 58" stroke="#0F172A" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+                <line x1="70" y1="20" x2="70" y2="6" stroke="#0F172A" stroke-width="3" stroke-linecap="round"/>
+                <circle cx="70" cy="4" r="5" fill="#FFFFF2" stroke="#0F172A" stroke-width="3"/>
+                <rect x="40" y="80" width="60" height="65" rx="14" fill="#FFFFF2" stroke="#0F172A" stroke-width="3"/>
+                <rect x="55" y="98" width="30" height="8" rx="4" fill="#51A0A8"/>
+                <rect x="20" y="95" width="16" height="34" rx="8" fill="#FFFFF2" stroke="#0F172A" stroke-width="3"/>
+                <g class="robot-arm">
+                    <rect x="86" y="86" width="16" height="34" rx="8" fill="#FFFFF2" stroke="#0F172A" stroke-width="3"/>
+                </g>
+                <rect x="50" y="150" width="16" height="22" rx="6" fill="#FFFFF2" stroke="#0F172A" stroke-width="3"/>
+                <rect x="74" y="150" width="16" height="22" rx="6" fill="#FFFFF2" stroke="#0F172A" stroke-width="3"/>
+            </svg>
+        </div>
+    </div>
+</header>
+
+<section id="projects">
+    <div class="wrap">
+        <div class="section-eyebrow">Selected Work</div>
+        <h2>Projects</h2>
+
+        <div class="project-grid">
+
+            <div class="project-card">
+                <div class="card-top">
+                    <h3>Estimate Automation System</h3>
+                    <span class="status-pill">Deployed</span>
+                </div>
+                <p class="project-meta">Built in two stacks — Zapier &amp; self-hosted n8n</p>
+                <ul class="impact-list">
+                    <li>Full ETL-style pipeline: Airtable job data → Claude-generated content → Google Docs output</li>
+                    <li>Cut estimate turnaround from ~1 week to under a day</li>
+                    <li>Eliminated a $30/month subscription by rebuilding self-hosted</li>
+                    <li>API integrations across Airtable, Anthropic, and Google Docs, with credential scoping and OAuth handled end to end</li>
+                </ul>
+                <div class="tag-list">
+                    <span class="tag">Zapier</span>
+                    <span class="tag">n8n</span>
+                    <span class="tag">Claude API</span>
+                    <span class="tag">Airtable</span>
+                    <span class="tag">Google Docs API</span>
+                    <span class="tag">Docker</span>
+                </div>
+                <a href="automation-with-ai.html" class="project-link">View case study →</a>
+            </div>
+
+            <div class="project-card">
+                <div class="card-top">
+                    <h3>Lead-Capture Chatbot</h3>
+                </div>
+                <p class="project-meta">Automated intake &amp; qualification</p>
+                <ul class="impact-list">
+                    <li>No-code conversational flow capturing inbound leads the moment they arrive</li>
+                    <li>Automated lead routing and qualification, removing manual data entry</li>
+                </ul>
+                <div class="tag-list">
+                    <span class="tag">Zapier</span>
+                    <span class="tag">Chatbot Integration</span>
+                </div>
+                <span class="project-link muted">Write-up coming soon</span>
+            </div>
+
+            <div class="project-card">
+                <div class="card-top">
+                    <h3>AI-Powered Voter Database Assistant</h3>
+                    <span class="status-pill">Featured</span>
+                </div>
+                <p class="project-meta">NLP-driven natural language to SQL</p>
+                <ul class="impact-list">
+                    <li>NLP agent translating plain-English questions into SQL queries against a 4M+ record database</li>
+                    <li>Switched Claude Sonnet → Haiku, reducing query response times</li>
+                    <li>Error handling and query validation for data accuracy and user safety</li>
+                </ul>
+                <div class="tag-list">
+                    <span class="tag">Python</span>
+                    <span class="tag">Streamlit</span>
+                    <span class="tag">Claude API</span>
+                    <span class="tag">LangChain</span>
+                    <span class="tag">SQL Server</span>
+                </div>
+                <span class="project-link muted">Live demo coming soon</span>
+            </div>
+
+            <div class="project-card">
+                <div class="card-top">
+                    <h3>Spelling Tutor</h3>
+                </div>
+                <p class="project-meta">Vision API + serverless integration</p>
+                <ul class="impact-list">
+                    <li>Scans handwritten homework and identifies misspelled words via Claude's Vision API</li>
+                    <li>Generates interactive games and printable practice worksheets</li>
+                    <li>Vercel Edge Functions proxy API calls securely, no exposed keys client-side</li>
+                </ul>
+                <div class="tag-list">
+                    <span class="tag">JavaScript</span>
+                    <span class="tag">Claude Vision API</span>
+                    <span class="tag">Vercel</span>
+                </div>
+                <a href="https://spelling-app-beta.vercel.app" class="project-link" target="_blank">Try live demo →</a>
+            </div>
+
+            <div class="project-card">
+                <div class="card-top">
+                    <h3>Denver Traffic Safety Analysis</h3>
+                </div>
+                <p class="project-meta">Large-scale data pipeline &amp; visualization</p>
+                <ul class="impact-list">
+                    <li>12 years of Denver traffic data (266,895 records) processed and analyzed</li>
+                    <li>Identified Central Park as having 45 fatalities — nearly double any other neighborhood</li>
+                    <li>Interactive visualizations revealing Colfax Avenue as Denver's most dangerous corridor</li>
+                </ul>
+                <div class="tag-list">
+                    <span class="tag">Python</span>
+                    <span class="tag">Pandas</span>
+                    <span class="tag">Plotly</span>
+                </div>
+                <a href="analysis.html" class="project-link">View full analysis →</a>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section id="about">
+    <div class="wrap">
+        <div class="section-eyebrow">Background</div>
+        <h2>About</h2>
+        <p class="about-text">
+            I build AI-powered automations and tools that solve real operational problems — from natural language database interfaces to self-hosted workflow systems that replace expensive subscription tools. My background is in systems engineering and software development (M.S. Systems Engineering, B.S. Electrical &amp; Computer Engineering), and I bring that engineering rigor to how I diagnose inefficiencies, prototype solutions, and ship them.
+        </p>
+        <p class="about-text">
+            I work across the full stack of modern automation — no-code platforms like Zapier and n8n, database and API integrations, and custom AI agents built with Claude, LangChain, and Python — picking whichever tool actually solves the problem instead of defaulting to one approach.
+        </p>
+        <div class="stack-line">Zapier · n8n · Airtable · Claude API · LangChain · Docker · Python · SQL</div>
+    </div>
+</section>
+
+<footer>© 2026 Jennifer Sweezey</footer>
+
+<script>
+    const cards = document.querySelectorAll('.project-card');
+    const cardObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry, i) => {
+            if (entry.isIntersecting) {
+                setTimeout(() => entry.target.classList.add('visible'), i % 2 === 0 ? 0 : 80);
+                cardObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.15 });
+
+    cards.forEach(card => cardObserver.observe(card));
+</script>
+</body>
+</html>
