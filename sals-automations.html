@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solutions for Sal | Jennifer Sweezey</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f9fa;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 60px 0 40px 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            margin: -40px -20px 60px -20px;
+            border-radius: 0 0 20px 20px;
+        }
+
+        h1 {
+            font-size: 2.1em;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .tagline {
+            font-size: 1.1em;
+            opacity: 0.9;
+            max-width: 560px;
+            margin: 0 auto;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: white;
+            text-decoration: none;
+            opacity: 0.9;
+            font-size: 0.95em;
+        }
+
+        .back-link:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
+
+        .intro {
+            background: white;
+            padding: 30px 35px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            color: #555;
+        }
+
+        .system-card {
+            background: white;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border: 1px solid #e8e8e8;
+            overflow: hidden;
+        }
+
+        .card-image {
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+            display: block;
+            border-bottom: 4px solid transparent;
+            border-image: linear-gradient(90deg, #667eea 0%, #764ba2 100%) 1;
+        }
+
+        .card-image-placeholder {
+            width: 100%;
+            height: 240px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f8f9fc;
+            border-bottom: 4px solid transparent;
+            border-image: linear-gradient(90deg, #667eea 0%, #764ba2 100%) 1;
+            color: #999;
+            font-size: 0.9em;
+        }
+
+        .card-content {
+            padding: 30px 35px;
+        }
+
+        .system-tag {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 0.75em;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 15px;
+        }
+
+        .system-card h2 {
+            color: #333;
+            font-size: 1.4em;
+            margin-bottom: 10px;
+        }
+
+        .system-meta {
+            color: #999;
+            font-size: 0.9em;
+            margin-bottom: 15px;
+        }
+
+        .system-card p {
+            color: #555;
+            margin-bottom: 14px;
+        }
+
+        .system-highlights {
+            margin: 12px 0 16px 20px;
+        }
+
+        .system-highlights li {
+            color: #555;
+            margin-bottom: 8px;
+        }
+
+        .image-caption {
+            text-align: center;
+            color: #999;
+            font-size: 0.85em;
+            margin-bottom: 16px;
+        }
+
+        .system-link {
+            display: inline-block;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.92em;
+            margin-top: 4px;
+        }
+
+        .system-link:hover {
+            text-decoration: underline;
+        }
+
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 10px;
+        }
+
+        .two-col .col-card {
+            background: #f8f9fc;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .two-col .col-card h3 {
+            color: #764ba2;
+            font-size: 1em;
+            margin-bottom: 8px;
+        }
+
+        .two-col .col-card p {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 0;
+        }
+
+        .cta {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 35px 30px;
+            border-radius: 12px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .cta h2 {
+            margin-bottom: 12px;
+            font-size: 1.4em;
+        }
+
+        .cta p {
+            opacity: 0.9;
+            margin-bottom: 18px;
+        }
+
+        .cta a {
+            display: inline-block;
+            background: white;
+            color: #667eea;
+            padding: 10px 24px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 0 20px 0;
+            color: #999;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 1.6em; }
+            .container { padding: 20px 15px; }
+            .system-card { padding: 22px 20px; }
+            .two-col { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Solutions for Sal</h1>
+            <p class="tagline">A practice engagement showing the full range of what automation can do for a small business — from generating estimates to giving the owner a real-time view of the business.</p>
+            <a href="index.html" class="back-link">← Back to portfolio</a>
+        </header>
+
+        <div class="intro">
+            <p>
+                Sal's Home Improvement is a practice case study I built to demonstrate what a small home-services business could actually gain from AI and automation — not a hypothetical, but real, working systems built on real (sample) business data. Below is everything built so far: two automations handling the front-end of the business, and two dashboards giving Sal visibility into how it's all going.
+            </p>
+        </div>
+
+        <div class="system-card">
+            <img src="n8n-workflow.png" alt="Screenshot of the six-node n8n workflow powering the estimate automation" class="card-image">
+            <div class="card-content">
+                <span class="system-tag">Automation</span>
+                <h2>Estimate Automation System</h2>
+                <p class="system-meta">Zapier • n8n • Claude API • Airtable • Google Docs API • Docker</p>
+                <p>
+                    Turns raw job details into a finished, professionally formatted estimate document automatically — built twice, in two different stacks, to explore the tradeoffs between a fast no-code build (Zapier) and a free, self-hosted alternative (n8n).
+                </p>
+                <ul class="system-highlights">
+                    <li>Cut estimate turnaround from about a week to under a day</li>
+                    <li>Eliminated a $30/month subscription cost by rebuilding self-hosted</li>
+                    <li>Full end-to-end pipeline: Airtable → Claude → Google Docs → write-back to Airtable</li>
+                </ul>
+                <a href="automation-with-ai.html" class="system-link">View the full case study →</a>
+            </div>
+        </div>
+
+        <div class="system-card">
+            <div class="card-image-placeholder">Screenshot coming soon</div>
+            <div class="card-content">
+                <span class="system-tag">Automation</span>
+                <h2>Lead-Capture Chatbot</h2>
+                <p class="system-meta">Zapier • Chatbot Integration</p>
+                <p>
+                    A Zapier-native chatbot modeled on Sal's intake process, capturing and qualifying inbound leads automatically the moment they come in — no missed calls, no manual data entry, and nothing sitting untouched overnight.
+                </p>
+                <ul class="system-highlights">
+                    <li>No-code conversational flow using Zapier's native chatbot builder</li>
+                    <li>Automated lead routing and qualification</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="system-card">
+            <img src="sal-money-dashboard.png" alt="Money and Business Mix dashboard showing Pipeline Value ($50,174.50), Revenue Closed ($25,305.75), a Fencing Type pie chart (Vinyl 66.7% / Cedar 33.3%), and a Concrete Type pie chart (Standard 44.4% / Stamped 55.6%)" class="card-image">
+            <div class="card-content">
+                <span class="system-tag">Dashboard</span>
+                <h2>Money &amp; Business Mix Dashboard</h2>
+                <p class="system-meta">Airtable Interfaces</p>
+                <p>
+                    A live view of the money side of the business — how much has actually closed, how much is still sitting in the pipeline, and what kind of jobs are actually coming in. Built directly on top of the same Airtable data the estimate automation writes into, so it updates automatically as new estimates come in.
+                </p>
+                <div class="two-col">
+                    <div class="col-card">
+                        <h3>Answers</h3>
+                        <p>How much money has closed vs. is still open, and what kind of jobs make up the business.</p>
+                    </div>
+                    <div class="col-card">
+                        <h3>Built with</h3>
+                        <p>Two summary numbers (Sum of Total Cost, filtered by status) and two pie charts grouped by job type.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="system-card">
+            <div class="card-image-placeholder">Dashboard screenshot coming soon</div>
+            <div class="card-content">
+                <span class="system-tag">Dashboard</span>
+                <h2>Pipeline &amp; Today's Needs Dashboard</h2>
+                <p class="system-meta">Airtable Interfaces</p>
+                <p>
+                    A working view built to answer one question: what does Sal need to personally chase today? It surfaces the dollar value sitting in unfinished quotes, and a sorted, color-coded list of exactly which jobs have gone stale the longest.
+                </p>
+                <div class="two-col">
+                    <div class="col-card">
+                        <h3>Answers</h3>
+                        <p>What's stuck in draft, what's waiting on a customer response, and which specific jobs need attention first.</p>
+                    </div>
+                    <div class="col-card">
+                        <h3>Built with</h3>
+                        <p>Two summary numbers filtered by status, plus a sorted record list with conditional color-coding by dollar value.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="cta">
+            <h2>This is what automation can do for your business too</h2>
+            <p>Every system here started as a real problem — slow quotes, missed leads, no visibility into the numbers. If any of that sounds familiar, let's talk about what it could look like for you.</p>
+            <a href="mailto:jen@jensweezey.com">Get in touch</a>
+        </div>
+
+        <footer>
+            <p>© 2026 Jennifer Sweezey | Built with curiosity and data</p>
+        </footer>
+    </div>
+</body>
+</html>
