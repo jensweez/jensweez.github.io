@@ -116,56 +116,6 @@
         padding: 100px 0 84px 0;
     }
 
-    .hero .wrap {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 20px;
-    }
-
-    .hero-content {
-        flex: 1;
-    }
-
-    .robot {
-        flex-shrink: 0;
-        width: 130px;
-        cursor: pointer;
-    }
-
-    .robot svg {
-        width: 100%;
-        height: auto;
-        display: block;
-    }
-
-    .robot-arm {
-        transform-origin: 94px 88px;
-        animation: robotWave 2.3s ease-in-out 0.4s 1;
-    }
-
-    .robot:hover .robot-arm {
-        animation: robotWave 2.3s ease-in-out 0s 1;
-    }
-
-    @keyframes robotWave {
-        0%   { transform: rotate(0deg); }
-        12%  { transform: rotate(-165deg); }
-        24%  { transform: rotate(-150deg); }
-        36%  { transform: rotate(-178deg); }
-        48%  { transform: rotate(-150deg); }
-        60%  { transform: rotate(-178deg); }
-        72%  { transform: rotate(-160deg); }
-        88%  { transform: rotate(-160deg); }
-        100% { transform: rotate(0deg); }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-        .robot-arm {
-            animation: none;
-        }
-    }
-
     .eyebrow {
         font-family: var(--mono);
         font-size: 0.78em;
@@ -451,7 +401,6 @@
         .project-grid { grid-template-columns: 1fr; }
         section { padding: 52px 0; }
         .hero { padding: 72px 0 56px 0; }
-        .robot { display: none; }
     }
 </style>
 </head>
@@ -484,24 +433,6 @@
             <div class="hero-links">
                 <a href="#projects" class="btn btn-primary">View Projects</a>
             </div>
-        </div>
-        <div class="robot" aria-hidden="true">
-            <svg viewBox="0 0 140 180" xmlns="http://www.w3.org/2000/svg">
-                <rect x="35" y="20" width="70" height="55" rx="18" fill="#FFFFF2" stroke="#0F172A" stroke-width="3"/>
-                <circle cx="55" cy="46" r="6" fill="#0F172A"/>
-                <circle cx="85" cy="46" r="6" fill="#0F172A"/>
-                <path d="M 56 58 Q 70 68 84 58" stroke="#0F172A" stroke-width="3.5" fill="none" stroke-linecap="round"/>
-                <line x1="70" y1="20" x2="70" y2="6" stroke="#0F172A" stroke-width="3" stroke-linecap="round"/>
-                <circle cx="70" cy="4" r="5" fill="#FFFFF2" stroke="#0F172A" stroke-width="3"/>
-                <rect x="40" y="80" width="60" height="65" rx="14" fill="#FFFFF2" stroke="#0F172A" stroke-width="3"/>
-                <rect x="55" y="98" width="30" height="8" rx="4" fill="#51A0A8"/>
-                <rect x="20" y="95" width="16" height="34" rx="8" fill="#FFFFF2" stroke="#0F172A" stroke-width="3"/>
-                <g class="robot-arm">
-                    <rect x="86" y="86" width="16" height="34" rx="8" fill="#FFFFF2" stroke="#0F172A" stroke-width="3"/>
-                </g>
-                <rect x="50" y="150" width="16" height="22" rx="6" fill="#FFFFF2" stroke="#0F172A" stroke-width="3"/>
-                <rect x="74" y="150" width="16" height="22" rx="6" fill="#FFFFF2" stroke="#0F172A" stroke-width="3"/>
-            </svg>
         </div>
     </div>
 </header>
@@ -552,7 +483,7 @@
                     <span class="tag">Zapier</span>
                     <span class="tag">Chatbot Integration</span>
                 </div>
-                <span class="project-link muted">Write-up coming soon</span>
+                <a href="chatbot-case-study.html" class="project-link">View case study →</a>
                 </div>
             </div>
 
