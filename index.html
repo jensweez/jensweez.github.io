@@ -55,7 +55,33 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        height: 68px;
+        padding-top: 14px;
+        padding-bottom: 14px;
+    }
+
+    .nav-brand {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 6px;
+    }
+
+    .nav-contact-links {
+        display: flex;
+        gap: 16px;
+    }
+
+    .nav-contact-links a {
+        font-family: var(--mono);
+        font-size: 0.76em;
+        color: var(--muted);
+        text-decoration: none;
+        transition: color 0.15s;
+    }
+
+    .nav-contact-links a:hover {
+        color: var(--heading);
     }
 
     .nav-logo {
@@ -239,7 +265,7 @@
         background: var(--card);
         border: 1px solid #51A0A8;
         border-radius: 10px;
-        padding: 28px;
+        overflow: hidden;
         display: flex;
         flex-direction: column;
         opacity: 0;
@@ -277,7 +303,15 @@
         justify-content: space-between;
         align-items: flex-start;
         gap: 10px;
-        margin-bottom: 6px;
+        background: #DEDDD5;
+        padding: 18px 28px 14px 28px;
+    }
+
+    .card-body {
+        padding: 20px 28px 28px 28px;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
     }
 
     .project-card h3 {
@@ -425,7 +459,14 @@
 
 <nav>
     <div class="wrap">
-        <a href="#" class="nav-logo">Jennifer Sweezey</a>
+        <div class="nav-brand">
+            <a href="#" class="nav-logo">Jennifer Sweezey</a>
+            <div class="nav-contact-links">
+                <a href="https://github.com/jensweez" target="_blank">GitHub</a>
+                <a href="https://www.linkedin.com/in/jennifer-sweezey-4104a81" target="_blank">LinkedIn</a>
+                <a href="mailto:jen@jensweezey.com">Contact</a>
+            </div>
+        </div>
         <ul class="nav-links">
             <li><a href="#projects">Projects</a></li>
             <li><a href="#about">About</a></li>
@@ -442,7 +483,6 @@
             <p>AI-powered automations, agents, and tools for business</p>
             <div class="hero-links">
                 <a href="#projects" class="btn btn-primary">View Projects</a>
-                <a href="mailto:jen@jensweezey.com" class="btn btn-outline">Get in Touch</a>
             </div>
         </div>
         <div class="robot" aria-hidden="true">
@@ -478,6 +518,7 @@
                     <h3>Estimate Automation System</h3>
                     <span class="status-pill">Deployed</span>
                 </div>
+                <div class="card-body">
                 <p class="project-meta">Built in two stacks — Zapier &amp; self-hosted n8n</p>
                 <ul class="impact-list">
                     <li>Full ETL-style pipeline: Airtable job data → Claude-generated content → Google Docs output</li>
@@ -494,12 +535,14 @@
                     <span class="tag">Docker</span>
                 </div>
                 <a href="automation-with-ai.html" class="project-link">View case study →</a>
+                </div>
             </div>
 
             <div class="project-card">
                 <div class="card-top">
                     <h3>Lead-Capture Chatbot</h3>
                 </div>
+                <div class="card-body">
                 <p class="project-meta">Automated intake &amp; qualification</p>
                 <ul class="impact-list">
                     <li>No-code conversational flow capturing inbound leads the moment they arrive</li>
@@ -510,6 +553,7 @@
                     <span class="tag">Chatbot Integration</span>
                 </div>
                 <span class="project-link muted">Write-up coming soon</span>
+                </div>
             </div>
 
             <div class="project-card">
@@ -517,6 +561,7 @@
                     <h3>AI-Powered Voter Database Assistant</h3>
                     <span class="status-pill">Featured</span>
                 </div>
+                <div class="card-body">
                 <p class="project-meta">NLP-driven natural language to SQL</p>
                 <ul class="impact-list">
                     <li>NLP agent translating plain-English questions into SQL queries against a 4M+ record database</li>
@@ -531,12 +576,14 @@
                     <span class="tag">SQL Server</span>
                 </div>
                 <span class="project-link muted">Live demo coming soon</span>
+                </div>
             </div>
 
             <div class="project-card">
                 <div class="card-top">
                     <h3>Spelling Tutor</h3>
                 </div>
+                <div class="card-body">
                 <p class="project-meta">Vision API + serverless integration</p>
                 <ul class="impact-list">
                     <li>Scans handwritten homework and identifies misspelled words via Claude's Vision API</li>
@@ -549,12 +596,14 @@
                     <span class="tag">Vercel</span>
                 </div>
                 <a href="https://spelling-app-beta.vercel.app" class="project-link" target="_blank">Try live demo →</a>
+                </div>
             </div>
 
             <div class="project-card">
                 <div class="card-top">
                     <h3>Denver Traffic Safety Analysis</h3>
                 </div>
+                <div class="card-body">
                 <p class="project-meta">Large-scale data pipeline &amp; visualization</p>
                 <ul class="impact-list">
                     <li>12 years of Denver traffic data (266,895 records) processed and analyzed</li>
@@ -567,6 +616,7 @@
                     <span class="tag">Plotly</span>
                 </div>
                 <a href="analysis.html" class="project-link">View full analysis →</a>
+                </div>
             </div>
 
         </div>
