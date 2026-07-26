@@ -1,217 +1,248 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Self-Hosted Estimate Automation with n8n | Jennifer Sweezey</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Self-Hosted Estimate Automation with n8n | Jennifer Sweezey</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+    :root {
+        --bg: #FFFFF2;
+        --bg-hero: #51A0A8;
+        --card: #FFFFFF;
+        --title-strip: #DEDDD5;
+        --border: #E2E8F0;
+        --heading: #0F172A;
+        --body-text: #334155;
+        --muted: #64748B;
+        --tag-bg: #F1F5F9;
+        --display: 'Space Grotesk', sans-serif;
+        --body: 'Inter', sans-serif;
+        --mono: 'JetBrains Mono', monospace;
+    }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background: #f8f9fa;
-        }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
+    body {
+        font-family: var(--body);
+        background: var(--bg);
+        color: var(--body-text);
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+    }
 
-        header {
-            text-align: center;
-            padding: 60px 0 40px 0;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            margin: -40px -20px 60px -20px;
-            border-radius: 0 0 20px 20px;
-        }
+    a { color: inherit; }
 
-        h1 {
-            font-size: 2.2em;
-            margin-bottom: 10px;
-            font-weight: 600;
-        }
+    .wrap {
+        max-width: 820px;
+        margin: 0 auto;
+        padding: 0 28px;
+    }
 
-        .tagline {
-            font-size: 1.1em;
-            opacity: 0.9;
-        }
+    header {
+        background: var(--bg-hero);
+        padding: 56px 0 44px 0;
+    }
 
-        .back-link {
-            display: inline-block;
-            margin-top: 20px;
-            color: white;
-            text-decoration: none;
-            opacity: 0.9;
-            font-size: 0.95em;
-        }
+    .back-link {
+        display: inline-block;
+        font-family: var(--mono);
+        font-size: 0.82em;
+        color: #FFF8E7;
+        text-decoration: none;
+        border-bottom: 1px solid rgba(255, 248, 231, 0.5);
+        padding-bottom: 2px;
+        margin-bottom: 22px;
+    }
 
-        .back-link:hover {
-            opacity: 1;
-            text-decoration: underline;
-        }
+    .back-link:hover {
+        border-color: #FFF8E7;
+    }
 
-        .content-card {
-            background: white;
-            padding: 35px;
-            border-radius: 12px;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            border: 1px solid #e8e8e8;
-            position: relative;
-            overflow: hidden;
-        }
+    h1 {
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: 2em;
+        color: var(--heading);
+        letter-spacing: -0.01em;
+        margin-bottom: 10px;
+    }
 
-        .content-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-        }
+    .tagline {
+        font-size: 1.05em;
+        color: #FFF8E7;
+        max-width: 520px;
+    }
 
-        .content-card h2 {
-            color: #667eea;
-            font-size: 1.4em;
-            margin-bottom: 15px;
-            margin-top: 30px;
-        }
+    main {
+        padding: 48px 0 20px 0;
+    }
 
-        .content-card h2:first-child {
-            margin-top: 0;
-        }
+    .intro-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 26px 28px;
+        margin-bottom: 24px;
+    }
 
-        .content-card p {
-            color: #555;
-            margin-bottom: 12px;
-        }
+    .intro-card p {
+        color: var(--body-text);
+    }
 
-        .content-card ul {
-            margin: 10px 0 20px 20px;
-        }
+    .intro-card strong {
+        color: var(--heading);
+    }
 
-        .content-card li {
-            color: #555;
-            margin-bottom: 8px;
-        }
+    .workflow-image {
+        width: 100%;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+        display: block;
+        margin-top: 20px;
+    }
 
-        .content-card li ul {
-            margin-top: 8px;
-            margin-bottom: 8px;
-        }
+    .image-caption {
+        text-align: center;
+        color: var(--muted);
+        font-family: var(--mono);
+        font-size: 0.8em;
+        margin-top: 10px;
+    }
 
-        code {
-            background: #f0f0f5;
-            color: #764ba2;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 0.9em;
-            font-family: 'SF Mono', Monaco, 'Courier New', monospace;
-        }
+    .step-card {
+        background: var(--card);
+        border: 1px solid #51A0A8;
+        border-radius: 10px;
+        overflow: hidden;
+        margin-bottom: 20px;
+    }
 
-        pre {
-            background: #2d2d3a;
-            color: #f0f0f5;
-            padding: 16px 20px;
-            border-radius: 8px;
-            overflow-x: auto;
-            margin: 15px 0;
-            font-size: 0.85em;
-        }
+    .step-top {
+        background: var(--title-strip);
+        padding: 16px 28px;
+    }
 
-        pre code {
-            background: none;
-            color: inherit;
-            padding: 0;
-        }
+    .step-top h2 {
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: 1.15em;
+        color: var(--heading);
+    }
 
-        .result-banner {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 25px 30px;
-            border-radius: 12px;
-            text-align: center;
-            font-size: 1.05em;
-            font-weight: 500;
-            margin-top: 10px;
-        }
+    .step-body {
+        padding: 20px 28px 26px 28px;
+    }
 
-        .project-tag {
-            display: inline-block;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 4px 12px;
-            border-radius: 4px;
-            font-size: 0.75em;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 15px;
-        }
+    .step-body p {
+        color: var(--body-text);
+        margin-bottom: 12px;
+    }
 
-        .workflow-image {
-            width: 100%;
-            border-radius: 10px;
-            border: 1px solid #e8e8e8;
-            display: block;
-            margin-top: 20px;
-        }
+    .step-body p:last-child {
+        margin-bottom: 0;
+    }
 
-        .image-caption {
-            text-align: center;
-            color: #999;
-            font-size: 0.85em;
-            margin-top: 10px;
-            margin-bottom: 20px;
-        }
+    .step-body ul {
+        margin: 0 0 12px 20px;
+    }
 
-        footer {
-            text-align: center;
-            padding: 40px 0 20px 0;
-            color: #999;
-            font-size: 0.9em;
-        }
+    .step-body li {
+        color: var(--body-text);
+        margin-bottom: 6px;
+    }
 
-        @media (max-width: 600px) {
-            h1 {
-                font-size: 1.7em;
-            }
-            .container {
-                padding: 20px 15px;
-            }
-            .content-card {
-                padding: 25px 20px;
-            }
-        }
-    </style>
+    code {
+        background: var(--tag-bg);
+        color: #1D5FD1;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 0.9em;
+        font-family: var(--mono);
+    }
+
+    pre {
+        background: var(--heading);
+        color: #E9ECF1;
+        padding: 16px 20px;
+        border-radius: 8px;
+        overflow-x: auto;
+        margin: 14px 0 4px 0;
+        font-size: 0.82em;
+    }
+
+    pre code {
+        background: none;
+        color: inherit;
+        padding: 0;
+        font-family: var(--mono);
+    }
+
+    .result-strip {
+        background: var(--title-strip);
+        padding: 16px 28px;
+    }
+
+    .result-strip h2 {
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: 1.15em;
+        color: var(--heading);
+    }
+
+    .result-banner {
+        background: var(--bg-hero);
+        color: #FFF8E7;
+        padding: 20px 24px;
+        border-radius: 8px;
+        text-align: center;
+        font-size: 0.98em;
+        font-weight: 500;
+        margin: 20px 28px 0 28px;
+    }
+
+    footer {
+        text-align: center;
+        padding: 44px 0;
+        font-family: var(--mono);
+        font-size: 0.78em;
+        color: var(--muted);
+        border-top: 1px solid var(--border);
+        margin-top: 20px;
+    }
+
+    @media (max-width: 600px) {
+        h1 { font-size: 1.6em; }
+        .step-top, .step-body { padding-left: 20px; padding-right: 20px; }
+        .result-banner { margin-left: 20px; margin-right: 20px; }
+    }
+</style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Self-Hosted Estimate Automation with n8n</h1>
-            <p class="tagline">Rebuilding a client's Zapier automation on a free, open-source stack</p>
-            <a href="index.html" class="back-link">← Back to portfolio</a>
-        </header>
 
-        <div class="content-card">
-            <span class="project-tag">Case Study</span>
-            <p>
-                Sal's Home Improvement, a practice client for my consulting portfolio, originally had an estimate automation built in Zapier: a customer submits a project inquiry, Airtable stores the lead, GPT-4o drafts a cost estimate, and the result is written to a Google Doc. To explore a cheaper, more flexible alternative for clients who outgrow no-code tooling, I rebuilt the entire pipeline in <strong>n8n</strong> — a self-hosted, open-source automation platform — running locally via Docker at zero recurring cost.
-            </p>
+<header>
+    <div class="wrap">
+        <a href="index.html" class="back-link">← back to portfolio</a>
+        <h1>Self-Hosted Estimate Automation with n8n</h1>
+        <p class="tagline">Rebuilding a client's Zapier automation on a free, open-source stack</p>
+    </div>
+</header>
 
-            <img src="n8n-workflow.png" alt="Screenshot of the six-node n8n workflow: Airtable Trigger, IF filter, Claude message model, Google Docs Create, Google Docs Update, and Airtable Update Record" class="workflow-image">
-            <p class="image-caption">The finished n8n pipeline — Airtable Trigger → IF → Claude → Google Docs Create → Google Docs Update → Airtable Update Record</p>
+<main class="wrap">
 
-            <h2>1. Set Up n8n Locally</h2>
+    <div class="intro-card">
+        <p>
+            Sal's Home Improvement, a practice client for my consulting portfolio, originally had an estimate automation built in Zapier: a customer submits a project inquiry, Airtable stores the lead, GPT-4o drafts a cost estimate, and the result is written to a Google Doc. To explore a cheaper, more flexible alternative for clients who outgrow no-code tooling, I rebuilt the entire pipeline in <strong>n8n</strong> — a self-hosted, open-source automation platform — running locally via Docker at zero recurring cost.
+        </p>
+        <img src="n8n-workflow.png" alt="Screenshot of the six-node n8n workflow: Airtable Trigger, IF filter, Claude message model, Google Docs Create, Google Docs Update, and Airtable Update Record" class="workflow-image">
+        <p class="image-caption">The finished n8n pipeline — Airtable Trigger → IF → Claude → Google Docs Create → Google Docs Update → Airtable Update Record</p>
+    </div>
+
+    <div class="step-card">
+        <div class="step-top"><h2>1. Set Up n8n Locally</h2></div>
+        <div class="step-body">
             <ul>
                 <li>Installed Docker Desktop and resolved a "failed to connect to Docker daemon" error by enabling WSL 2 (required for Docker on Windows) and restarting.</li>
                 <li>Launched n8n with:</li>
@@ -219,48 +250,61 @@
             <pre><code>docker run -it --rm --name n8n -p 5678:5678 \
   -v n8n_data:/home/node/.n8n \
   docker.n8n.io/n8nio/n8n</code></pre>
-            <ul>
+            <ul style="margin-top: 14px;">
                 <li>Confirmed the instance stayed on n8n's free Community tier.</li>
             </ul>
-
-            <h2>2. Built the Lead Intake Form</h2>
-            <p>
-                Rather than hosting the intake form in n8n itself, I used Airtable's native Forms feature, generated directly from the estimate table's columns — simplifying the pipeline by letting Airtable handle both form hosting and initial data capture.
-            </p>
-
-            <h2>3. Connected Airtable as the Trigger</h2>
-            <p>
-                Configured an Airtable Trigger node with a scoped Personal Access Token. The trickiest bug of the whole build showed up here: the trigger kept failing with <code>Field does not exist</code>, even though the field name was correct. The real cause was that Airtable's "Last Modified" field was configured to track only one specific column, so untouched rows had no value in it at all — and Airtable's API omits empty fields from its response entirely. Populating that field across all rows resolved it.
-            </p>
-
-            <h2>4. Generated the Estimate with Claude</h2>
-            <p>
-                Added an Anthropic node running Claude to turn the structured Airtable fields into a client-ready written estimate. Hit a second subtle bug: the prompt referenced field names like "Patio Sq Ft," but the base actually used "Concrete" terminology throughout — resolved by reading the exact field names directly from the trigger node's raw JSON output rather than guessing.
-            </p>
-
-            <h2>5. Recreated the Google Doc Output</h2>
-            <p>
-                To match the original automation's output format, I set up a Google Cloud project, enabled the Docs and Drive APIs, and configured OAuth credentials for n8n. One more non-obvious issue: n8n's Google Docs "Create" operation only sets a document's title — actually writing content requires a separate "Update" step with an "Insert Text" action chained after it.
-            </p>
-
-            <h2>6. Wrote the Result Back to Airtable</h2>
-            <p>
-                A final Airtable node saves the generated Google Doc's link back onto the original record. This step needed a fresh Airtable token with explicit <code>read</code>, <code>write</code>, and <code>schema</code> scopes, and since the Google Docs API only returns a document ID (not a ready-made link), the shareable URL was constructed manually:
-            </p>
-            <pre><code>{{ "https://docs.google.com/document/d/" + $('Create a document').item.json.id + "/edit" }}</code></pre>
-
-            <h2>Result</h2>
-            <div class="result-banner">
-                Airtable Form → Airtable Trigger → Claude generates the estimate → Google Doc created and filled → link written back to Airtable
-            </div>
-            <p style="margin-top: 20px;">
-                The end result is a fully self-hosted, free equivalent of the original Zapier automation — a useful option to offer clients who want more control over their stack, or who are looking to cut recurring automation costs as usage scales.
-            </p>
         </div>
-
-        <footer>
-            <p>© 2026 Jennifer Sweezey | Built with curiosity and data</p>
-        </footer>
     </div>
+
+    <div class="step-card">
+        <div class="step-top"><h2>2. Built the Lead Intake Form</h2></div>
+        <div class="step-body">
+            <p>Rather than hosting the intake form in n8n itself, I used Airtable's native Forms feature, generated directly from the estimate table's columns — simplifying the pipeline by letting Airtable handle both form hosting and initial data capture.</p>
+        </div>
+    </div>
+
+    <div class="step-card">
+        <div class="step-top"><h2>3. Connected Airtable as the Trigger</h2></div>
+        <div class="step-body">
+            <p>Configured an Airtable Trigger node with a scoped Personal Access Token. The trickiest bug of the whole build showed up here: the trigger kept failing with <code>Field does not exist</code>, even though the field name was correct. The real cause was that Airtable's "Last Modified" field was configured to track only one specific column, so untouched rows had no value in it at all — and Airtable's API omits empty fields from its response entirely. Populating that field across all rows resolved it.</p>
+        </div>
+    </div>
+
+    <div class="step-card">
+        <div class="step-top"><h2>4. Generated the Estimate with Claude</h2></div>
+        <div class="step-body">
+            <p>Added an Anthropic node running Claude to turn the structured Airtable fields into a client-ready written estimate. Hit a second subtle bug: the prompt referenced field names like "Patio Sq Ft," but the base actually used "Concrete" terminology throughout — resolved by reading the exact field names directly from the trigger node's raw JSON output rather than guessing.</p>
+        </div>
+    </div>
+
+    <div class="step-card">
+        <div class="step-top"><h2>5. Recreated the Google Doc Output</h2></div>
+        <div class="step-body">
+            <p>To match the original automation's output format, I set up a Google Cloud project, enabled the Docs and Drive APIs, and configured OAuth credentials for n8n. One more non-obvious issue: n8n's Google Docs "Create" operation only sets a document's title — actually writing content requires a separate "Update" step with an "Insert Text" action chained after it.</p>
+        </div>
+    </div>
+
+    <div class="step-card">
+        <div class="step-top"><h2>6. Wrote the Result Back to Airtable</h2></div>
+        <div class="step-body">
+            <p>A final Airtable node saves the generated Google Doc's link back onto the original record. This step needed a fresh Airtable token with explicit <code>read</code>, <code>write</code>, and <code>schema</code> scopes, and since the Google Docs API only returns a document ID (not a ready-made link), the shareable URL was constructed manually:</p>
+            <pre><code>{{ "https://docs.google.com/document/d/" + $('Create a document').item.json.id + "/edit" }}</code></pre>
+        </div>
+    </div>
+
+    <div class="step-card">
+        <div class="result-strip"><h2>Result</h2></div>
+        <div class="result-banner">
+            Airtable Form → Airtable Trigger → Claude generates the estimate → Google Doc created and filled → link written back to Airtable
+        </div>
+        <div class="step-body">
+            <p>The end result is a fully self-hosted, free equivalent of the original Zapier automation — a useful option to offer clients who want more control over their stack, or who are looking to cut recurring automation costs as usage scales.</p>
+        </div>
+    </div>
+
+</main>
+
+<footer>© 2026 Jennifer Sweezey</footer>
+
 </body>
 </html>
