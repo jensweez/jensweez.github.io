@@ -112,6 +112,72 @@
         margin-top: 10px;
     }
 
+    .compare-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        margin-bottom: 20px;
+    }
+
+    .compare-col {
+        background: var(--card);
+        border: 1px solid #51A0A8;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .compare-top {
+        background: var(--title-strip);
+        padding: 14px 22px;
+    }
+
+    .compare-top h3 {
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: 1em;
+        color: var(--heading);
+    }
+
+    .compare-top .compare-sub {
+        font-family: var(--mono);
+        font-size: 0.72em;
+        color: var(--muted);
+        margin-top: 2px;
+    }
+
+    .compare-body {
+        padding: 18px 22px 22px 22px;
+    }
+
+    .compare-body h4 {
+        font-family: var(--mono);
+        font-size: 0.72em;
+        color: #1D5FD1;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        margin: 14px 0 8px 0;
+    }
+
+    .compare-body h4:first-child {
+        margin-top: 0;
+    }
+
+    .compare-body ul {
+        margin: 0 0 4px 18px;
+    }
+
+    .compare-body li {
+        color: var(--body-text);
+        font-size: 0.88em;
+        margin-bottom: 6px;
+    }
+
+    @media (max-width: 700px) {
+        .compare-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
     .step-card {
         background: var(--card);
         border: 1px solid #51A0A8;
@@ -238,6 +304,60 @@
         </p>
         <img src="n8n-workflow.png" alt="Screenshot of the six-node n8n workflow: Airtable Trigger, IF filter, Claude message model, Google Docs Create, Google Docs Update, and Airtable Update Record" class="workflow-image">
         <p class="image-caption">The finished n8n pipeline — Airtable Trigger → IF → Claude → Google Docs Create → Google Docs Update → Airtable Update Record</p>
+    </div>
+
+    <div class="compare-grid">
+        <div class="compare-col">
+            <div class="compare-top">
+                <h3>Version 1: Zapier</h3>
+                <div class="compare-sub">Airtable · Zapier · GPT-4o · Google Docs</div>
+            </div>
+            <div class="compare-body">
+                <h4>The pipeline</h4>
+                <ul>
+                    <li>Airtable holds the job record and does the pricing math via formula fields</li>
+                    <li>A Zapier automation watches for a status change and triggers the rest of the flow</li>
+                    <li>GPT-4o drafts the estimate content from the job notes</li>
+                    <li>Result lands in a formatted Google Doc; a follow-up message is written and saved back to the record</li>
+                </ul>
+                <h4>Bugs debugged</h4>
+                <ul>
+                    <li>Literal bracketed placeholder text (<code>[Insert Notes from Airtable]</code>) showing up instead of a live field value — the prompt wasn't actually using a dynamic field chip</li>
+                    <li>The raw JSON API response getting mapped into the Google Doc instead of just the clean reply text</li>
+                    <li>A hardcoded Record ID in the Update step instead of the dynamic ID from the trigger step</li>
+                    <li>Base and table names appearing to mismatch between Zapier and Airtable after a mid-project rename — same underlying IDs, just confusing to look at</li>
+                    <li>Multi-step Zap publishing gated behind Zapier's paid Pro plan</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="compare-col">
+            <div class="compare-top">
+                <h3>Version 2: n8n</h3>
+                <div class="compare-sub">Airtable · n8n · Claude · Google Docs · Docker</div>
+            </div>
+            <div class="compare-body">
+                <h4>The pipeline</h4>
+                <ul>
+                    <li>Same Airtable base and pricing formulas, self-hosted automation instead of Zapier</li>
+                    <li>An Airtable Trigger node fires on status change, same as the Zapier version</li>
+                    <li>Claude generates the estimate content in place of GPT-4o</li>
+                    <li>A separate Google Docs Create + Update step writes the result; Airtable gets the doc link written back</li>
+                </ul>
+                <h4>Bugs debugged</h4>
+                <ul>
+                    <li>Trigger silently failing with <code>Field does not exist</code> — the Last Modified field had no value on untouched rows, and Airtable's API omits empty fields entirely</li>
+                    <li>A field-naming mismatch: the prompt referenced "Patio," the base actually used "Concrete" terminology</li>
+                    <li>Google Docs' Create step only sets a title — a separate Update/Insert Text step was required to actually write content</li>
+                    <li>The Docs API returning only a document ID, requiring the shareable link to be built manually</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="intro-card">
+        <p>
+            <strong>The real difference wasn't the concept — it was the debugging.</strong> Both versions hit real, non-obvious bugs, but they came from different places: Zapier's issues were mostly about correctly wiring dynamic data between steps in a visual builder, where a small misconfiguration (a hardcoded ID, a missing field chip) fails silently. n8n's issues were lower-level — API response shapes, empty-field edge cases, and needing to understand exactly what each Google API call did and didn't return. Neither platform was "buggy"; each demanded a different kind of attention.</p>
     </div>
 
     <div class="step-card">
