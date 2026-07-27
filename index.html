@@ -205,6 +205,31 @@
     }
 
     /* Project grid */
+    .section-divider {
+        grid-column: 1 / -1;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin: 6px 0;
+    }
+
+    .section-divider::before,
+    .section-divider::after {
+        content: '';
+        flex: 1;
+        height: 2px;
+        background: #51A0A8;
+    }
+
+    .section-divider span {
+        font-family: var(--mono);
+        font-size: 0.75em;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        white-space: nowrap;
+    }
+
     .project-grid {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -482,10 +507,13 @@
                 <div class="tag-list">
                     <span class="tag">Zapier</span>
                     <span class="tag">Chatbot Integration</span>
+                    <span class="tag">RAG</span>
                 </div>
                 <a href="chatbot-case-study.html" class="project-link">View case study →</a>
                 </div>
             </div>
+
+            <div class="section-divider"><span>Code Projects</span></div>
 
             <div class="project-card">
                 <div class="card-top">
@@ -505,6 +533,7 @@
                     <span class="tag">Claude API</span>
                     <span class="tag">LangChain</span>
                     <span class="tag">SQL Server</span>
+                    <span class="tag">RAG</span>
                 </div>
                 <a href="voter-assistant-case-study.html" class="project-link">View case study →</a>
                 </div>
