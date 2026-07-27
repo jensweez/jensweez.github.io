@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spelling Tutor | Jennifer Sweezey</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+    :root {
+        --bg: #FFFFF2;
+        --bg-hero: #51A0A8;
+        --card: #FFFFFF;
+        --title-strip: #DEDDD5;
+        --border: #E2E8F0;
+        --heading: #0F172A;
+        --body-text: #334155;
+        --muted: #64748B;
+        --tag-bg: #F1F5F9;
+        --display: 'Space Grotesk', sans-serif;
+        --body: 'Inter', sans-serif;
+        --mono: 'JetBrains Mono', monospace;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+        font-family: var(--body);
+        background: var(--bg);
+        color: var(--body-text);
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; }
+
+    .wrap {
+        max-width: 820px;
+        margin: 0 auto;
+        padding: 0 28px;
+    }
+
+    header {
+        background: var(--bg-hero);
+        padding: 56px 0 44px 0;
+    }
+
+    .back-link {
+        display: inline-block;
+        font-family: var(--mono);
+        font-size: 0.82em;
+        color: #FFF8E7;
+        text-decoration: none;
+        border-bottom: 1px solid rgba(255, 248, 231, 0.5);
+        padding-bottom: 2px;
+        margin-bottom: 22px;
+    }
+
+    .back-link:hover {
+        border-color: #FFF8E7;
+    }
+
+    h1 {
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: 2em;
+        color: var(--heading);
+        letter-spacing: -0.01em;
+        margin-bottom: 10px;
+    }
+
+    .tagline {
+        font-size: 1.05em;
+        color: #FFF8E7;
+        max-width: 520px;
+    }
+
+    main {
+        padding: 48px 0 20px 0;
+    }
+
+    .intro-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 26px 28px;
+        margin-bottom: 24px;
+    }
+
+    .intro-card p {
+        color: var(--body-text);
+    }
+
+    .intro-card strong {
+        color: var(--heading);
+    }
+
+    .placeholder-image {
+        border: 2px dashed var(--border);
+        border-radius: 8px;
+        background: var(--tag-bg);
+        padding: 32px 20px;
+        text-align: center;
+        color: var(--muted);
+        font-family: var(--mono);
+        font-size: 0.85em;
+        margin-top: 20px;
+    }
+
+    .step-card {
+        background: var(--card);
+        border: 1px solid #51A0A8;
+        border-radius: 10px;
+        overflow: hidden;
+        margin-bottom: 20px;
+    }
+
+    .step-top {
+        background: var(--title-strip);
+        padding: 16px 28px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .step-top h2 {
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: 1.15em;
+        color: var(--heading);
+    }
+
+    .metric-pill {
+        font-family: var(--mono);
+        font-size: 0.7em;
+        background: white;
+        border: 1px solid var(--border);
+        color: var(--muted);
+        padding: 3px 9px;
+        border-radius: 4px;
+        white-space: nowrap;
+    }
+
+    .step-body {
+        padding: 20px 28px 26px 28px;
+    }
+
+    .step-body p {
+        color: var(--body-text);
+        margin-bottom: 12px;
+    }
+
+    .step-body p:last-child {
+        margin-bottom: 0;
+    }
+
+    .step-body ul {
+        margin: 0 0 12px 20px;
+    }
+
+    .step-body li {
+        color: var(--body-text);
+        margin-bottom: 6px;
+    }
+
+    code {
+        background: var(--tag-bg);
+        color: #1D5FD1;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 0.9em;
+        font-family: var(--mono);
+    }
+
+    .result-strip {
+        background: var(--title-strip);
+        padding: 16px 28px;
+    }
+
+    .result-strip h2 {
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: 1.15em;
+        color: var(--heading);
+    }
+
+    .result-banner {
+        background: var(--bg-hero);
+        color: #FFF8E7;
+        padding: 20px 24px;
+        border-radius: 8px;
+        text-align: center;
+        font-size: 0.98em;
+        font-weight: 500;
+        margin: 20px 28px 0 28px;
+    }
+
+    .demo-cta {
+        display: inline-block;
+        margin: 18px 28px 0 28px;
+        font-family: var(--mono);
+        font-size: 0.85em;
+        color: #1D5FD1;
+        text-decoration: none;
+        border-bottom: 1px solid #1D5FD1;
+        padding-bottom: 2px;
+    }
+
+    footer {
+        text-align: center;
+        padding: 44px 0;
+        font-family: var(--mono);
+        font-size: 0.78em;
+        color: var(--muted);
+        border-top: 1px solid var(--border);
+        margin-top: 20px;
+    }
+
+    @media (max-width: 600px) {
+        h1 { font-size: 1.6em; }
+        .step-top, .step-body { padding-left: 20px; padding-right: 20px; }
+        .result-banner, .demo-cta { margin-left: 20px; margin-right: 20px; }
+        .step-top { flex-direction: column; align-items: flex-start; gap: 6px; }
+    }
+</style>
+</head>
+<body>
+
+<header>
+    <div class="wrap">
+        <a href="index.html" class="back-link">← back to portfolio</a>
+        <h1>Spelling Tutor</h1>
+        <p class="tagline">Scans a photo of handwritten homework, finds the spelling mistakes, and turns them into games</p>
+    </div>
+</header>
+
+<main class="wrap">
+
+    <div class="intro-card">
+        <p>
+            A parent-facing tool: take a photo of a kid's handwritten spelling homework, and <strong>Claude's Vision API</strong> reads it, finds the misspelled words, and turns them into interactive practice games — no manual grading required. Built as a full-stack app with <strong>Vercel Edge Functions</strong> handling the API calls securely, so the Anthropic key never touches the browser.
+        </p>
+        <div class="placeholder-image">Screenshot coming soon</div>
+    </div>
+
+    <div class="step-card">
+        <div class="step-top"><h2>1. Built the Vision Pipeline</h2></div>
+        <div class="step-body">
+            <p>A photo gets base64-encoded in the browser and sent to a Vercel Edge Function, which forwards it to Claude along with a prompt asking it to find misspelled words and return them as structured JSON — each one with the word as written, the correct spelling, and the full sentence it appeared in for context.</p>
+            <p>Keeping the Anthropic API key server-side in the Edge Function (rather than calling Claude directly from the browser) means the key is never exposed in the page source — the same pattern later reused for the portfolio's own recruiter chatbot concept.</p>
+        </div>
+    </div>
+
+    <div class="step-card">
+        <div class="step-top">
+            <h2>2. Hit the Real Wall: Kids' Handwriting</h2>
+            <span class="metric-pill">accuracy problem</span>
+        </div>
+        <div class="step-body">
+            <p>The first version used Claude Haiku for speed, but handwriting recognition on messy, inconsistent kid handwriting was rough — a lot of misreads. Fixed it in stages rather than one big swap:</p>
+            <ul>
+                <li>Upgraded from Claude Haiku to <strong>Claude Sonnet</strong> for meaningfully stronger vision performance</li>
+                <li>Added image preprocessing — increasing contrast and sharpening the photo before sending it — to give the model a cleaner image to work from</li>
+                <li>Tightened the prompt to explicitly tell the model to be careful and deliberate reading handwriting, not just fast</li>
+            </ul>
+            <p>Even after those three changes, accuracy still wasn't perfect on genuinely messy handwriting — a real, open tradeoff between a two-pass approach (transcribe the whole page first, then spell-check the clean transcript separately) and bringing in a dedicated OCR tool like Google Cloud Vision's handwriting mode, which trades simplicity (one API) for accuracy (a purpose-built handwriting model).</p>
+        </div>
+    </div>
+
+    <div class="step-card">
+        <div class="step-top"><h2>3. Built Four Game Modes</h2></div>
+        <div class="step-body">
+            <p>Once the misspelled words are identified, they get turned into practice, not just a graded list — type-it-out, multiple choice, unscramble, and fill-in-the-blank, all pulled from the words the app actually found rather than a generic word list.</p>
+        </div>
+    </div>
+
+    <div class="step-card">
+        <div class="step-top"><h2>4. Added Printable Worksheets</h2></div>
+        <div class="step-body">
+            <p>Beyond the on-screen games, a worksheet generator produces a printable page with three sections: write each word three times (with handwriting lines), fill-in-the-blank using the real sentence context from the original homework, and a word search puzzle built from the same word list. A "Save as PDF" option opens the worksheet and triggers the browser's print dialog, where choosing "Save as PDF" as the destination exports it directly.</p>
+        </div>
+    </div>
+
+    <div class="step-card">
+        <div class="result-strip"><h2>Result</h2></div>
+        <div class="result-banner">
+            Photo of homework → Claude Vision finds misspelled words → four practice game modes, plus a printable worksheet
+        </div>
+        <div class="step-body">
+            <p>A parent can go from a photo of messy handwritten homework to a set of ready-to-play spelling games and a printable worksheet in seconds — no manual transcription or grading required.</p>
+        </div>
+        <a href="https://spelling-app-beta.vercel.app" class="demo-cta" target="_blank">Try the live demo →</a>
+    </div>
+
+</main>
+
+<footer>© 2026 Jennifer Sweezey</footer>
+
+</body>
+</html>
