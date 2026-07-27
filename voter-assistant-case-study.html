@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Voter Database Assistant | Jennifer Sweezey</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+    :root {
+        --bg: #FFFFF2;
+        --bg-hero: #51A0A8;
+        --card: #FFFFFF;
+        --title-strip: #DEDDD5;
+        --border: #E2E8F0;
+        --heading: #0F172A;
+        --body-text: #334155;
+        --muted: #64748B;
+        --tag-bg: #F1F5F9;
+        --display: 'Space Grotesk', sans-serif;
+        --body: 'Inter', sans-serif;
+        --mono: 'JetBrains Mono', monospace;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+        font-family: var(--body);
+        background: var(--bg);
+        color: var(--body-text);
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; }
+
+    .wrap {
+        max-width: 820px;
+        margin: 0 auto;
+        padding: 0 28px;
+    }
+
+    header {
+        background: var(--bg-hero);
+        padding: 56px 0 44px 0;
+    }
+
+    .back-link {
+        display: inline-block;
+        font-family: var(--mono);
+        font-size: 0.82em;
+        color: #FFF8E7;
+        text-decoration: none;
+        border-bottom: 1px solid rgba(255, 248, 231, 0.5);
+        padding-bottom: 2px;
+        margin-bottom: 22px;
+    }
+
+    .back-link:hover {
+        border-color: #FFF8E7;
+    }
+
+    h1 {
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: 2em;
+        color: var(--heading);
+        letter-spacing: -0.01em;
+        margin-bottom: 10px;
+    }
+
+    .tagline {
+        font-size: 1.05em;
+        color: #FFF8E7;
+        max-width: 520px;
+    }
+
+    main {
+        padding: 48px 0 20px 0;
+    }
+
+    .intro-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 26px 28px;
+        margin-bottom: 24px;
+    }
+
+    .intro-card p {
+        color: var(--body-text);
+    }
+
+    .intro-card strong {
+        color: var(--heading);
+    }
+
+    .placeholder-image {
+        border: 2px dashed var(--border);
+        border-radius: 8px;
+        background: var(--tag-bg);
+        padding: 32px 20px;
+        text-align: center;
+        color: var(--muted);
+        font-family: var(--mono);
+        font-size: 0.85em;
+        margin-top: 20px;
+    }
+
+    .step-card {
+        background: var(--card);
+        border: 1px solid #51A0A8;
+        border-radius: 10px;
+        overflow: hidden;
+        margin-bottom: 20px;
+    }
+
+    .step-top {
+        background: var(--title-strip);
+        padding: 16px 28px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .step-top h2 {
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: 1.15em;
+        color: var(--heading);
+    }
+
+    .metric-pill {
+        font-family: var(--mono);
+        font-size: 0.7em;
+        background: white;
+        border: 1px solid var(--border);
+        color: var(--muted);
+        padding: 3px 9px;
+        border-radius: 4px;
+        white-space: nowrap;
+    }
+
+    .step-body {
+        padding: 20px 28px 26px 28px;
+    }
+
+    .step-body p {
+        color: var(--body-text);
+        margin-bottom: 12px;
+    }
+
+    .step-body p:last-child {
+        margin-bottom: 0;
+    }
+
+    .step-body ul {
+        margin: 0 0 12px 20px;
+    }
+
+    .step-body li {
+        color: var(--body-text);
+        margin-bottom: 6px;
+    }
+
+    code {
+        background: var(--tag-bg);
+        color: #1D5FD1;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 0.9em;
+        font-family: var(--mono);
+    }
+
+    pre {
+        background: var(--heading);
+        color: #E9ECF1;
+        padding: 16px 20px;
+        border-radius: 8px;
+        overflow-x: auto;
+        margin: 14px 0 4px 0;
+        font-size: 0.82em;
+    }
+
+    pre code {
+        background: none;
+        color: inherit;
+        padding: 0;
+        font-family: var(--mono);
+    }
+
+    .before-after {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin: 16px 0 4px 0;
+        font-family: var(--mono);
+        font-size: 0.9em;
+    }
+
+    .before-after .val {
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-weight: 600;
+    }
+
+    .before-after .before {
+        background: #FDECEC;
+        color: #B42318;
+    }
+
+    .before-after .after {
+        background: #E8F6EE;
+        color: #1F7A50;
+    }
+
+    .before-after .arrow {
+        color: var(--muted);
+    }
+
+    .result-strip {
+        background: var(--title-strip);
+        padding: 16px 28px;
+    }
+
+    .result-strip h2 {
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: 1.15em;
+        color: var(--heading);
+    }
+
+    .result-banner {
+        background: var(--bg-hero);
+        color: #FFF8E7;
+        padding: 20px 24px;
+        border-radius: 8px;
+        text-align: center;
+        font-size: 0.98em;
+        font-weight: 500;
+        margin: 20px 28px 0 28px;
+    }
+
+    footer {
+        text-align: center;
+        padding: 44px 0;
+        font-family: var(--mono);
+        font-size: 0.78em;
+        color: var(--muted);
+        border-top: 1px solid var(--border);
+        margin-top: 20px;
+    }
+
+    @media (max-width: 600px) {
+        h1 { font-size: 1.6em; }
+        .step-top, .step-body { padding-left: 20px; padding-right: 20px; }
+        .result-banner { margin-left: 20px; margin-right: 20px; }
+        .step-top { flex-direction: column; align-items: flex-start; gap: 6px; }
+    }
+</style>
+</head>
+<body>
+
+<header>
+    <div class="wrap">
+        <a href="index.html" class="back-link">← back to portfolio</a>
+        <h1>AI-Powered Voter Database Assistant</h1>
+        <p class="tagline">Turning a 4-million-record SQL Server database into something a non-technical user can just ask questions to</p>
+    </div>
+</header>
+
+<main class="wrap">
+
+    <div class="intro-card">
+        <p>
+            A 4+ million record SQL Server voter database (<code>bocogop</code>, 72 tables) is powerful, but useless to anyone who doesn't write SQL. This project puts a plain-English chat interface in front of it — <strong>Streamlit</strong> for the UI, <strong>LangChain</strong> orchestrating the pipeline, and <strong>Claude</strong> handling both the SQL generation and the result interpretation, so a non-technical user can just ask a question and get a real answer.
+        </p>
+        <div class="placeholder-image">Screenshot coming soon</div>
+    </div>
+
+    <div class="step-card">
+        <div class="step-top"><h2>1. Built a Two-Stage AI Pipeline</h2></div>
+        <div class="step-body">
+            <p>Rather than one model call trying to do everything, the pipeline splits the work into two clear stages: Claude first turns the plain-English question into a SQL query, the query runs against the actual database, and then Claude takes the raw results and turns them back into a natural, readable answer — closing the loop from question to plain English again.</p>
+            <ul>
+                <li>Stage 1: Claude generates the SQL from the user's question</li>
+                <li>Stage 2: SQLAlchemy + pyodbc execute it against SQL Server</li>
+                <li>Stage 3: Claude interprets the raw results into a conversational answer</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="step-card">
+        <div class="step-top"><h2>2. Connected Securely Over SSH</h2></div>
+        <div class="step-body">
+            <p>The database sits on a remote server, not open to the internet. Access goes through a PuTTY SSH tunnel with key-based authentication (no passwords), so the app talks to <code>127.0.0.1</code> locally while the actual traffic is encrypted end to end to the real database server. The connection detail that trips people up most: the SSH tunnel has to be running <em>before</em> the app starts, or the database connection just fails.</p>
+        </div>
+    </div>
+
+    <div class="step-card">
+        <div class="step-top">
+            <h2>3. Fixed a Recurring Schema Bug</h2>
+            <span class="metric-pill">bug fix</span>
+        </div>
+        <div class="step-body">
+            <p>Claude would sometimes generate SQL referencing a table by its bare name, which failed since every table actually lives under the <code>dbo</code> schema. Fixed with a two-part solution: explicitly instructing the model to always use the full <code>dbo.TableName</code> format, plus an automatic fallback that retries with the prefix added if a query fails on a missing table.</p>
+            <pre><code>-- Before: fails
+SELECT COUNT(*) FROM Voter
+
+-- After: works
+SELECT COUNT(*) FROM dbo.Voter</code></pre>
+        </div>
+    </div>
+
+    <div class="step-card">
+        <div class="step-top">
+            <h2>4. Diagnosed and Fixed a Speed Problem</h2>
+            <span class="metric-pill">performance</span>
+        </div>
+        <div class="step-body">
+            <p>Queries were taking around 10 seconds normally, with one spiking to a brutal 66 seconds. The fix wasn't infrastructure — it was model choice. Claude Sonnet was doing both the SQL generation and the result interpretation, and most of that time was pure model latency, not the database itself (the SSH tunnel + query execution was only about 2 seconds of the total).</p>
+            <p>Switching both pipeline stages from Claude Sonnet to <strong>Claude Haiku</strong> cut response time roughly in half, with no meaningful quality loss for SQL generation — the task doesn't need Sonnet's extra reasoning depth, just speed and consistency.</p>
+            <div class="before-after">
+                <span class="val before">~10s (worst case: 66s)</span>
+                <span class="arrow">→</span>
+                <span class="val after">~5s</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="step-card">
+        <div class="step-top"><h2>5. Added Conversation Memory</h2></div>
+        <div class="step-body">
+            <p>The first version treated every question as a fresh start, which meant no natural follow-ups. Adding memory of the last 5 exchanges lets a user ask something like "which zip codes have the most voters," then follow up with "what's the party breakdown" — and the assistant correctly infers that the second question means <em>within those same zip codes</em>, without having to repeat the context.</p>
+        </div>
+    </div>
+
+    <div class="step-card">
+        <div class="result-strip"><h2>Result</h2></div>
+        <div class="result-banner">
+            Plain-English question → Claude generates SQL → query runs securely over SSH → Claude interprets the results → conversational answer, with memory of what was asked before
+        </div>
+        <div class="step-body">
+            <p>A non-technical user can now explore a 4-million-record database the same way they'd ask a colleague a question — no SQL knowledge required, answers in under 5 seconds, and a UI that remembers the conversation instead of resetting with every question.</p>
+        </div>
+    </div>
+
+</main>
+
+<footer>© 2026 Jennifer Sweezey</footer>
+
+</body>
+</html>
