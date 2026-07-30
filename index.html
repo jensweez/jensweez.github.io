@@ -672,12 +672,16 @@
         background: #51A0A8;
         color: #FFFFF2;
         padding: 14px 18px;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .chat-title-block .title {
         font-family: 'Space Grotesk', sans-serif;
         font-weight: 600;
         font-size: 0.95em;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
     }
 
     #chat-header .sub {
@@ -686,7 +690,7 @@
         font-weight: 400;
         opacity: 0.85;
         display: block;
-        margin-top: 2px;
+        margin-top: 4px;
     }
 
     #chat-close {
@@ -696,6 +700,7 @@
         font-size: 1.1em;
         cursor: pointer;
         line-height: 1;
+        margin-top: 1px;
     }
 
     #chat-messages {
@@ -720,6 +725,7 @@
         border: 1px solid #E2E8F0;
         color: #334155;
         align-self: flex-start;
+        white-space: pre-line;
     }
 
     .chat-msg.user {
@@ -788,12 +794,14 @@
 
 <div id="chat-panel">
     <div id="chat-header">
-        Ask about my work
-        <span class="sub">Skills, tools, projects</span>
+        <div class="chat-title-block">
+            <div class="title">Ask about my work</div>
+            <span class="sub">Skills, tools, projects</span>
+        </div>
         <button id="chat-close" aria-label="Close chat">✕</button>
     </div>
     <div id="chat-messages">
-        <div class="chat-msg bot">Welcome to my portfolio site! I'm Jenbot, happy to answer any questions about Jennifer's projects and experience./n For example, you can ask "Do you have Python experience?" or "Show me automation projects" — and I'll point you to the right project.</div>
+        <div class="chat-msg bot">Hi! Ask me about any skill or tool — like "Do you have Python experience?" or "Show me automation projects" — and I'll point you to the right project.</div>
     </div>
     <div id="chat-input-row">
         <textarea id="chat-input" rows="1" placeholder="Ask a question..."></textarea>
