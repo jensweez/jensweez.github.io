@@ -320,9 +320,7 @@
                     <li>GPT-4o drafts the estimate content from the job notes</li>
                     <li>Result lands in a formatted Google Doc; a follow-up message is written and saved back to the record</li>
                 </ul>
-                <h4>Bugs debugged</h4>
-                <ul>
-                    <li>Literal bracketed placeholder text (<code>[Insert Notes from Airtable]</code>) showing up instead of a live field value — the prompt wasn't actually using a dynamic field chip</li>
+                <h4>Gotchas</h4> (<code>[Insert Notes from Airtable]</code>) showing up instead of a live field value — the prompt wasn't actually using a dynamic field chip</li>
                     <li>The raw JSON API response getting mapped into the Google Doc instead of just the clean reply text</li>
                     <li>A hardcoded Record ID in the Update step instead of the dynamic ID from the trigger step</li>
                     <li>Base and table names appearing to mismatch between Zapier and Airtable after a mid-project rename — same underlying IDs, just confusing to look at</li>
@@ -344,7 +342,7 @@
                     <li>Claude generates the estimate content in place of GPT-4o</li>
                     <li>A separate Google Docs Create + Update step writes the result; Airtable gets the doc link written back</li>
                 </ul>
-                <h4>Bugs debugged</h4>
+                <h4>Gotchas</h4>
                 <ul>
                     <li>Trigger silently failing with <code>Field does not exist</code> — the Last Modified field had no value on untouched rows, and Airtable's API omits empty fields entirely</li>
                     <li>A field-naming mismatch: the prompt referenced "Patio," the base actually used "Concrete" terminology</li>
@@ -413,12 +411,60 @@
     </div>
 
     <div class="step-card">
-        <div class="result-strip"><h2>Result</h2></div>
-        <div class="result-banner">
-            Airtable Form → Airtable Trigger → Claude generates the estimate → Google Doc created and filled → link written back to Airtable
+        <div class="step-top">
+            <h2>Power-Up: Reading Handwritten Notes</h2>
+            <span class="metric-pill">new capability</span>
         </div>
         <div class="step-body">
-            <p>The end result is a fully self-hosted, free equivalent of the original Zapier automation — a useful option to offer clients who want more control over their stack, or who are looking to cut recurring automation costs as usage scales.</p>
+            <p>Extended the pipeline to read handwritten customer notes directly from a photo, rather than requiring everything to already be typed into Airtable. An HTTP Request node downloads the photo attachment as binary data, and a second Claude node (using its native image-analysis capability) transcribes the handwriting. That transcription then feeds into the same estimate-generating Claude node as an additional input alongside the structured Airtable fields — so anything mentioned by hand but missed in the form gets captured too.</p>
+        </div>
+    </div>
+
+    <div class="step-card">
+        <div class="step-top">
+            <h2>Gotcha: The Stale Test-Data Mystery</h2>
+            <span class="metric-pill">debugging</span>
+        </div>
+        <div class="step-body">
+            <p>The trickiest issue of this whole extension: no matter which record was actually most recently updated in Airtable, n8n's manual "Fetch Test Event" button on the trigger node kept returning the same old record every time — even after deleting and re-adding the node entirely. After ruling out pinned data, caching, and stale credentials, the real explanation turned out to be simpler: that button isn't designed to simulate "what would fire right now" — it just grabs a fixed sample for mapping fields, and behaves completely independently of the trigger's actual live polling logic. The fix wasn't a fix at all — it was recognizing the manual test button and the live, published trigger are two different code paths, and testing against a manually-entered stand-in record was the correct way to keep building without that button's cooperation.</p>
+        </div>
+    </div>
+
+    <div class="step-card">
+        <div class="step-top">
+            <h2>Gotcha: Signed URLs Expire</h2>
+            <span class="metric-pill">debugging</span>
+        </div>
+        <div class="step-body">
+            <p>Airtable's attachment URLs are short-lived, signed links — testing with one that had gone stale produced a clean <code>410: This URL has expired</code> error. Easy to fix once identified (just re-fetch a current URL), but a good reminder that anything hardcoded for testing purposes needs to be refreshed if too much time passes between fetching it and actually using it. In production, this is a non-issue — the live trigger fetches a fresh URL on every single run.</p>
+        </div>
+    </div>
+
+    <div class="step-card">
+        <div class="step-top">
+            <h2>Gotcha: Claude's Thinking Block</h2>
+            <span class="metric-pill">debugging</span>
+        </div>
+        <div class="step-body">
+            <p>The estimate-generating Claude node has extended thinking enabled, which means its response array doesn't always have the actual answer at a fixed position — a "thinking" block sometimes precedes the real "text" block, and sometimes doesn't. An expression hardcoded to grab <code>content[1]</code> broke whenever a particular run's response shape shifted. Fixed by searching for the right block by type instead of assuming its position:</p>
+            <pre><code>{{ $('Message a model').item.json.content.find(c => c.type === 'text').text }}</code></pre>
+        </div>
+    </div>
+
+    <div class="step-card">
+        <div class="step-top"><h2>Going Live</h2></div>
+        <div class="step-body">
+            <p>Once the extended pipeline worked end to end against manual test data, the workflow was published to actually activate live polling. Verifying it required genuine data changes rather than repeated manual test clicks — toggling a record's status through a different value and back forces Airtable's Last Modified timestamp to update for real, which is what the live trigger actually watches for. Three separate records were run through the completed pipeline this way, confirming it works consistently rather than just once.</p>
+        </div>
+    </div>
+
+    <div class="step-card">
+        <div class="result-strip"><h2>Result</h2></div>
+        <div class="result-banner">
+            Airtable Form → Airtable Trigger → Photo downloaded &amp; transcribed by Claude → Claude generates the estimate (structured data + handwriting) → Google Doc created, titled with the customer's name, and filled → link written back to Airtable
+        </div>
+        <div class="step-body">
+            <p>The end result is a fully self-hosted, free equivalent of the original Zapier automation — now extended to read handwritten notes directly from a photo, not just typed form fields — a useful option to offer clients who want more control over their stack, or who are looking to cut recurring automation costs as usage scales.</p>
         </div>
     </div>
 
