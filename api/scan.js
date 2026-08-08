@@ -20,6 +20,7 @@ export default async function handler(req, res) {
     const { imageBase64, mediaType } = body;
 
     if (!imageBase64 || !mediaType) {
+      console.error('scan.js: missing fields', { hasImage: !!imageBase64, mediaType });
       return res.status(400).json({ error: 'Missing imageBase64 or mediaType' });
     }
 
@@ -63,11 +64,17 @@ Output the transcription only, nothing else.`,
 
     if (!transcribeRes.ok) {
       const err = await transcribeRes.text();
+      console.error('scan.js: transcription pass failed', {
+        status: transcribeRes.status,
+        statusText: transcribeRes.statusText,
+        body: err,
+      });
       return res.status(500).json({ error: 'Transcription failed', detail: err });
     }
 
     const transcribeData = await transcribeRes.json();
     const transcript = transcribeData.content?.[0]?.text ?? '';
+    console.log('scan.js: transcription succeeded, length', transcript.length);
 
     if (!transcript.trim()) {
       return res.status(200).json({ words: [], transcript: '' });
@@ -108,6 +115,11 @@ Example: [{"wrong":"becaus","correct":"because","context":"I stayed home becaus 
 
     if (!spellRes.ok) {
       const err = await spellRes.text();
+      console.error('scan.js: spell check pass failed', {
+        status: spellRes.status,
+        statusText: spellRes.statusText,
+        body: err,
+      });
       return res.status(500).json({ error: 'Spell check failed', detail: err });
     }
 
@@ -117,14 +129,17 @@ Example: [{"wrong":"becaus","correct":"because","context":"I stayed home becaus 
     let words;
     try {
       words = JSON.parse(raw);
-    } catch {
+    } catch (parseErr) {
+      console.error('scan.js: could not parse spell check JSON', { raw, parseErr: parseErr.message });
       const match = raw.match(/\[[\s\S]*\]/);
       words = match ? JSON.parse(match[0]) : [];
     }
 
+    console.log('scan.js: spell check succeeded, words found', words.length);
     return res.status(200).json({ words, transcript });
 
   } catch (err) {
+    console.error('scan.js: unhandled exception', { message: err.message, stack: err.stack });
     return res.status(500).json({ error: err.message });
   }
 }
