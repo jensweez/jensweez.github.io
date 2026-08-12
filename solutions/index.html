@@ -5,22 +5,25 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>What Can I Do For Your Business? — Jen Sweeney, Automation Consulting</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
 
   :root{
-    --ink:#16212C;
-    --panel:#1E2E3D;
-    --panel-line:#33475C;
-    --paper:#F3EFE6;
-    --paper-line:#DCD5C4;
+    --ink:#1D3A5F;
+    --panel:#22456F;
+    --panel-line:#3A5A80;
+    --paper:#FFFFF2;
+    --paper-line:#E2E8F0;
     --brass:#C69749;
     --brass-bright:#E0B672;
     --green:#5FA777;
     --amber:#D68A3C;
-    --text-light:#E9E4D8;
-    --text-dim:#8FA0AE;
-    --text-dark:#232323;
-    --text-dark-dim:#6B6459;
+    --text-light:#FFF8E7;
+    --text-dim:#B9C7D6;
+    --text-dark:#0F172A;
+    --text-dark-dim:#64748B;
+    --display:'Space Grotesk',sans-serif;
+    --body:'Inter',sans-serif;
+    --mono-font:'JetBrains Mono',monospace;
   }
 
   *{box-sizing:border-box;}
@@ -29,30 +32,58 @@
     margin:0;
     background:var(--paper);
     color:var(--text-dark);
-    font-family:'IBM Plex Sans',sans-serif;
+    font-family:var(--body);
     -webkit-font-smoothing:antialiased;
   }
 
   h1,h2,h3{
-    font-family:'Space Grotesk',sans-serif;
+    font-family:var(--display);
     margin:0;
     letter-spacing:-0.01em;
   }
 
   .mono{
-    font-family:'IBM Plex Mono',monospace;
+    font-family:var(--mono-font);
     letter-spacing:0.04em;
   }
 
   a{color:inherit;}
 
+  /* ---------- NAV ---------- */
+  nav{
+    border-bottom:1px solid var(--paper-line);
+    background:var(--paper);
+  }
+  nav .wrap{
+    max-width:1040px;
+    margin:0 auto;
+    padding:14px 24px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+  }
+  .nav-logo{
+    font-family:var(--display);
+    font-weight:700;
+    font-size:1.05em;
+    color:var(--text-dark);
+    text-decoration:none;
+  }
+  .nav-back{
+    font-family:var(--mono-font);
+    font-size:0.85em;
+    color:var(--text-dark-dim);
+    text-decoration:none;
+    transition:color .15s;
+  }
+  .nav-back:hover{color:var(--text-dark);}
+
   /* ---------- CONSOLE HERO ---------- */
   .console{
     background:
-      radial-gradient(1200px 600px at 15% -10%, rgba(198,151,73,0.08), transparent 60%),
+      radial-gradient(1200px 600px at 15% -10%, rgba(198,151,73,0.10), transparent 60%),
       var(--ink);
-    padding:64px 24px 56px;
-    border-bottom:6px solid var(--brass);
+    padding:56px 24px 56px;
   }
   .console-inner{
     max-width:1040px;
@@ -107,7 +138,7 @@
   }
 
   .switch-row{
-    background:#182430;
+    background:#193150;
     border:1px solid var(--panel-line);
     border-radius:4px;
     padding:16px 16px 14px;
@@ -119,7 +150,7 @@
   }
   .switch-row:hover{border-color:var(--brass);}
   .switch-row.active{
-    background:#1C2B3A;
+    background:#20406A;
     border-color:var(--brass);
   }
 
@@ -202,6 +233,7 @@
     display:grid;
     grid-template-columns:1fr 1.6fr;
     gap:56px;
+    border-top:1px solid var(--paper-line);
   }
   @media (max-width:760px){
     .intro{grid-template-columns:1fr;gap:28px;padding:56px 24px;}
@@ -220,7 +252,7 @@
   .intro-body p{
     font-size:16px;
     line-height:1.65;
-    color:#3D3A34;
+    color:#334155;
     margin:0 0 16px;
   }
   .intro-body p:last-child{margin-bottom:0;}
@@ -260,6 +292,13 @@
 </style>
 </head>
 <body>
+
+<nav>
+  <div class="wrap">
+    <a href="/" class="nav-logo">Jennifer Sweezey</a>
+    <a href="/" class="nav-back mono">← Back to portfolio</a>
+  </div>
+</nav>
 
 <section class="console">
   <div class="console-inner">
