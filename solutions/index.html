@@ -179,6 +179,12 @@
     border-bottom:1px solid rgba(224,182,114,0.4);
   }
   .switch-desc a:hover{border-color:var(--brass-bright);}
+  .link-pending{
+    display:inline-block;
+    margin-top:8px;
+    color:rgba(224,182,114,0.5);
+    font-size:12px;
+  }
 
   .console-hint{
     margin-top:16px;
@@ -305,7 +311,7 @@ const pains = [
     status: "on",
     statusText: "Live",
     desc: "Estimates, invoices, and paperwork generated automatically instead of retyped by hand.",
-    href: "/solutions/document-automation.html",
+    href: "/automation-with-ai.html",
     linkText: "View the build →"
   },
   {
@@ -313,23 +319,23 @@ const pains = [
     status: "dev",
     statusText: "In development",
     desc: "Catching inbound leads the moment they arrive and responding before a competitor does.",
-    href: "/solutions/lead-capture",
-    linkText: "See what's coming →"
+    href: null,
+    linkText: "Case study coming soon"
   },
   {
     name: "Scheduling & Communication",
     status: "dev",
     statusText: "In development",
     desc: "Fewer missed calls and no-shows, with reminders and booking handled automatically.",
-    href: "/solutions/scheduling",
-    linkText: "See what's coming →"
+    href: null,
+    linkText: "Case study coming soon"
   },
   {
     name: "Customer Support",
     status: "on",
     statusText: "Live",
     desc: "A trained chatbot that answers the repetitive questions so your team handles the rest.",
-    href: "/solutions/customer-support",
+    href: "/chatbot-case-study.html",
     linkText: "View the build →"
   },
   {
@@ -337,31 +343,31 @@ const pains = [
     status: "dev",
     statusText: "In development",
     desc: "Receipts and expenses sorted into a ledger without a Sunday-night spreadsheet session.",
-    href: "/solutions/bookkeeping",
-    linkText: "See what's coming →"
+    href: null,
+    linkText: "Case study coming soon"
   },
   {
     name: "Marketing Content",
     status: "dev",
     statusText: "In development",
     desc: "Consistent social posts and newsletters drafted for you, reviewed instead of written.",
-    href: "/solutions/marketing-content",
-    linkText: "See what's coming →"
+    href: null,
+    linkText: "Case study coming soon"
   },
   {
     name: "Hiring & Onboarding",
     status: "dev",
     statusText: "In development",
     desc: "Job posts, resume screening, and onboarding checklists that don't eat your whole week.",
-    href: "/solutions/hiring",
-    linkText: "See what's coming →"
+    href: null,
+    linkText: "Case study coming soon"
   },
   {
     name: "Reporting & Data Visibility",
     status: "on",
     statusText: "Live",
     desc: "Ask a plain-English question and get an answer pulled straight from your own data.",
-    href: "/solutions/reporting",
+    href: "/voter-assistant-case-study.html",
     linkText: "View the build →"
   }
 ];
@@ -371,6 +377,9 @@ const panel = document.getElementById('panel');
 pains.forEach((p, i) => {
   const row = document.createElement('div');
   row.className = 'switch-row';
+  const linkHtml = p.href
+    ? `<a href="${p.href}">${p.linkText}</a>`
+    : `<span class="link-pending mono">${p.linkText}</span>`;
   row.innerHTML = `
     <div class="switch-top">
       <div class="switch-name">${p.name}</div>
@@ -381,7 +390,7 @@ pains.forEach((p, i) => {
     </div>
     <div class="switch-desc">
       ${p.desc}
-      <br><a href="${p.href}">${p.linkText}</a>
+      <br>${linkHtml}
     </div>
   `;
   row.addEventListener('click', (e) => {
