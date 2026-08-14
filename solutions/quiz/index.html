@@ -8,12 +8,14 @@
   @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
   :root{
-    /* navy hero (start + quiz screens) */
+    /* navy hero (start + quiz screens) — exact values confirmed from jensweez.github.io */
     --navy:#1D3A5F;
-    --navy-card:#16283F;
-    --navy-border:rgba(255,248,231,0.18);
+    --navy-card:#22456F;
+    --navy-border:#3A5A80;
     --cream-text:#FFF8E7;
+    --text-dim:#B9C7D6;
     --gold:#E0B672;
+    --brass:#C69749;
 
     /* cream content (results screen), matches jensweez.github.io case studies */
     --bg:#FFFFF2;
@@ -25,8 +27,8 @@
     --muted:#64748B;
     --tag-bg:#F1F5F9;
     --link-blue:#1D5FD1;
-    --live-green:#3FAE5C;
-    --dev-orange:#E08A3C;
+    --live-green:#5FA777;
+    --dev-orange:#D68A3C;
 
     --display:'Space Grotesk',sans-serif;
     --body:'Inter',sans-serif;
@@ -36,10 +38,13 @@
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
   body{
-    background:var(--bg);
+    background:#0B0F0D;
     color:var(--body-text);
     font-family:var(--body);
     min-height:100dvh;
+    display:flex;
+    align-items:flex-start;
+    justify-content:center;
   }
 
   .app{
@@ -47,8 +52,22 @@
     max-width:460px;
     margin:0 auto;
     min-height:100dvh;
+    background:var(--bg);
     display:flex;
     flex-direction:column;
+  }
+
+  @media (min-width:761px){
+    body{padding:40px 20px;}
+    .app{
+      min-height:0;
+      max-height:800px;
+      border-radius:20px;
+      overflow-y:auto;
+      overflow-x:hidden;
+      box-shadow:0 30px 80px rgba(0,0,0,0.45);
+    }
+    .start-screen, .quiz-shell{min-height:0 !important;}
   }
 
   h1.title{
@@ -156,11 +175,14 @@
     opacity:0.75;
   }
 
-  .q-content{
+  .q-center{
     flex:1;
     display:flex;
     flex-direction:column;
-    justify-content:flex-end;
+    justify-content:center;
+    min-height:0;
+  }
+  .q-content{
     padding:20px 24px 22px;
   }
   .q-text{
@@ -561,10 +583,12 @@ function renderQuiz(){
         <button class="back-mini" data-action="back" ${state.step === 0 ? 'disabled' : ''}>\u2190 back</button>
         <span class="q-count-mini">${state.step + 1} / ${QUESTIONS.length}</span>
       </div>
-      <div class="q-content ${enterClass}">
-        <p class="q-text">${q.text}</p>
+      <div class="q-center">
+        <div class="q-content ${enterClass}">
+          <p class="q-text">${q.text}</p>
+        </div>
+        <div class="q-options ${enterClass}">${opts}</div>
       </div>
-      <div class="q-options ${enterClass}">${opts}</div>
     </div>
   `;
 }
