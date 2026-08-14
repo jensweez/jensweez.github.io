@@ -1,714 +1,142 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>How Can AI Help Your Business?</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+Skip to content
+jensweez
+jensweez.github.io
+Repository navigation
+Code
+Issues
+Pull requests
+Actions
+Projects
+Wiki
+Security and quality
+Insights
+Settings
+Commit eb96421
+jensweez
+jensweez
+committed
+24 minutes ago
+·
+Add quiz CTA box to solutions hero section
+Gold-bordered navy card next to the headline pointing visitors to the
+new 2-minute quiz at solutions/quiz/. Stacks above the headline on
+mobile instead of squeezing into a sidebar.
+main
+1 parent 
+98b6a41
+ commit 
+eb96421
+1 file changed
 
-  :root{
-    /* navy hero (start + quiz screens) */
-    --navy:#1D3A5F;
-    --navy-card:#16283F;
-    --navy-border:rgba(255,248,231,0.18);
-    --cream-text:#FFF8E7;
-    --gold:#E0B672;
-
-    /* cream content (results screen), matches jensweez.github.io case studies */
-    --bg:#FFFFF2;
-    --card:#FFFFFF;
-    --title-strip:#DEDDD5;
-    --border:#E2E8F0;
-    --heading:#0F172A;
-    --body-text:#334155;
-    --muted:#64748B;
-    --tag-bg:#F1F5F9;
-    --link-blue:#1D5FD1;
-    --live-green:#3FAE5C;
-    --dev-orange:#E08A3C;
-
-    --display:'Space Grotesk',sans-serif;
-    --body:'Inter',sans-serif;
-    --mono:'JetBrains Mono',monospace;
++73
+-6
+Lines changed: 73 additions & 6 deletions
+File tree
+Filter files…
+solutions
+index.html
+Search within code
+ 
+‎solutions/index.html‎
++73
+-6
+Lines changed: 73 additions & 6 deletions
+Original file line number	Diff line number	Diff line change
+@@ -122,6 +122,63 @@
   }
+  .console p.sub strong{color:var(--text-light);font-weight:500;}
 
-  *{box-sizing:border-box;}
-  html,body{margin:0;padding:0;}
-  body{
-    background:var(--bg);
-    color:var(--body-text);
-    font-family:var(--body);
-    min-height:100dvh;
-  }
-
-  .app{
-    width:100%;
-    max-width:460px;
-    margin:0 auto;
-    min-height:100dvh;
+  /* Hero grid: headline column + quiz CTA column */
+  .hero-grid{
     display:flex;
-    flex-direction:column;
+    align-items:flex-start;
+    gap:32px;
   }
-
-  h1.title{
-    font-family:var(--display);
-    font-weight:700;
-    font-size:clamp(26px,7vw,34px);
-    line-height:1.1;
-    margin:0 0 10px;
-    letter-spacing:-0.01em;
-  }
-
-  /* ===== START SCREEN (navy hero) ===== */
-  .start-screen{
-    flex:1;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    padding:32px 24px;
-    min-height:100dvh;
-    background:var(--navy);
-    color:var(--cream-text);
-  }
-  .start-screen .title{color:#fff;}
-  .start-screen .title em{
-    font-style:normal;
-    color:var(--gold);
-  }
-  .brand-kicker{
-    font-family:var(--mono);
-    font-size:11px;
-    letter-spacing:0.14em;
-    text-transform:uppercase;
-    color:var(--gold);
-    margin-bottom:14px;
-    display:block;
-  }
-  .start-screen p.sub{
-    font-size:16px;
-    line-height:1.55;
-    color:var(--cream-text);
-    opacity:0.9;
-    margin:0 0 32px;
-  }
-
-  .cta-btn{
-    display:block;
-    width:100%;
-    text-align:center;
-    background:var(--gold);
-    color:#16283F;
-    font-family:var(--body);
-    font-weight:700;
-    font-size:16.5px;
-    border:none;
-    border-radius:12px;
-    padding:18px 20px;
-    cursor:pointer;
-    text-decoration:none;
-    transition:transform .1s ease, opacity .15s ease;
-  }
-  .cta-btn:hover{opacity:0.92;}
-  .cta-btn:active{transform:scale(0.98);}
-
-  /* ===== QUIZ SCREEN (navy hero) ===== */
-  .quiz-shell{
-    flex:1;
-    display:flex;
-    flex-direction:column;
-    min-height:100dvh;
-    background:var(--navy);
-    color:var(--cream-text);
-  }
-  .progress-track{
-    height:4px;
-    background:var(--navy-border);
-    flex-shrink:0;
-  }
-  .progress-fill{
-    height:100%;
-    background:var(--live-green);
-    transition:width .4s cubic-bezier(.4,0,.2,1);
-  }
-  .quiz-top-row{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:14px 20px 0;
-    flex-shrink:0;
-  }
-  .back-mini{
-    background:none;
-    border:none;
-    font-family:var(--mono);
-    font-size:13px;
-    color:var(--cream-text);
-    opacity:0.75;
-    cursor:pointer;
-    padding:8px 0;
-  }
-  .back-mini:disabled{opacity:0; pointer-events:none;}
-  .q-count-mini{
-    font-family:var(--mono);
-    font-size:12px;
-    color:var(--cream-text);
-    opacity:0.75;
-  }
-
-  .q-center{
-    flex:1;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    min-height:0;
-  }
-  .q-content{
-    padding:20px 24px 22px;
-  }
-  .q-text{
-    font-family:var(--display);
-    font-weight:600;
-    font-size:clamp(21px,5.5vw,26px);
-    line-height:1.3;
-    margin:0;
-    color:#fff;
-  }
-
-  @keyframes slideInRight{
-    from{opacity:0; transform:translateX(28px);}
-    to{opacity:1; transform:translateX(0);}
-  }
-  @keyframes slideInLeft{
-    from{opacity:0; transform:translateX(-28px);}
-    to{opacity:1; transform:translateX(0);}
-  }
-  .enter-right{animation:slideInRight .32s cubic-bezier(.4,0,.2,1);}
-  .enter-left{animation:slideInLeft .32s cubic-bezier(.4,0,.2,1);}
-
-  .q-options{
-    flex-shrink:0;
-    display:flex;
-    flex-direction:column;
-    gap:10px;
-    padding:16px 20px calc(24px + env(safe-area-inset-bottom));
-  }
-  .opt{
-    text-align:left;
-    background:var(--navy-card);
-    border:1.5px solid var(--navy-border);
-    border-radius:12px;
-    padding:17px 18px;
-    font-family:var(--body);
-    font-size:15.5px;
-    font-weight:500;
-    color:var(--cream-text);
-    cursor:pointer;
-    transition:border-color .15s ease, background .15s ease, transform .1s ease;
-  }
-  .opt:hover{border-color:var(--gold);}
-  .opt:active{transform:scale(0.985);}
-  .opt:focus-visible{outline:2px solid var(--gold); outline-offset:2px;}
-
-  /* ===== RESULTS (cream content, matches case-study pages) ===== */
-  .results-wrap{
-    padding:28px 22px 40px;
-  }
-  .results-head{margin-bottom:22px;}
-  .q-eyebrow{
-    font-family:var(--mono);
-    font-size:11px;
-    letter-spacing:0.1em;
-    text-transform:uppercase;
-    color:var(--link-blue);
-    margin-bottom:10px;
-    display:block;
-  }
-  .results-head .title{color:var(--heading);}
-  .results-head p.sub{
-    font-size:15px;
-    line-height:1.55;
-    color:var(--muted);
-    margin:0;
-  }
-
-  .matches{
-    display:flex;
-    flex-direction:column;
-    gap:16px;
-    margin-bottom:28px;
-  }
-  .match{
-    border:1.5px solid var(--navy);
-    border-radius:10px;
-    background:var(--card);
-    position:relative;
-    overflow:hidden;
-  }
-  .match.rank1{border-width:2px;}
-  .match-strip{
-    background:var(--title-strip);
-    display:grid;
-    grid-template-columns:1fr 1fr;
-  }
-  .match-strip span{
-    font-family:var(--mono);
-    font-size:11px;
-    font-weight:600;
-    letter-spacing:0.08em;
-    text-transform:uppercase;
-    color:var(--heading);
-    padding:10px 18px;
-  }
-  .match-strip span.sol-label{
-    border-left:1.5px solid var(--navy);
-    display:flex;
-    align-items:center;
-    gap:6px;
-  }
-  .status-dot{
-    width:7px;
-    height:7px;
-    border-radius:50%;
-    display:inline-block;
-    flex-shrink:0;
-  }
-  .match-body{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-  }
-  .match-col{padding:16px 18px 18px;}
-  .match-col.solution-col{border-left:1.5px solid var(--border);}
-  .match h3{
-    font-family:var(--display);
-    font-weight:700;
-    font-size:17px;
-    line-height:1.25;
-    margin:0 0 8px;
-    color:var(--heading);
-  }
-  .match h4{
-    font-family:var(--display);
-    font-weight:700;
-    font-size:15px;
-    line-height:1.28;
-    margin:0 0 8px;
-    color:var(--heading);
-  }
-  .match .problem-title{
-    font-family:var(--mono);
-    font-style:italic;
-    font-size:11.5px;
-    color:var(--muted);
-    line-height:1.5;
-    margin:0;
-  }
-  .match p.desc{
-    font-size:13px;
-    line-height:1.6;
-    color:var(--body-text);
-    margin:0 0 10px;
-  }
-  .case-link{
-    display:inline-block;
-    font-family:var(--mono);
-    font-size:11.5px;
-    font-weight:500;
-    color:var(--link-blue);
-    text-decoration:none;
-    border-bottom:1px solid rgba(29,95,209,0.35);
-    padding-bottom:1px;
-  }
-  .case-link:hover{border-color:var(--link-blue);}
-
-  @media (max-width:400px){
-    .match-strip, .match-body{grid-template-columns:1fr;}
-    .match-strip span.sol-label{border-left:none; border-top:1px solid var(--navy);}
-    .match-col.solution-col{border-left:none; border-top:1.5px solid var(--border);}
-  }
-
-  /* ---- CTA block (mirrors the real site's navy result-banner) ---- */
-  .cta-block{
-    background:var(--navy);
-    border-radius:14px;
-    padding:26px 22px;
-    margin-bottom:16px;
-    text-align:center;
-  }
-  .cta-block h2{
-    font-family:var(--display);
-    font-weight:700;
-    font-size:17px;
-    color:#fff;
-    margin:0 0 8px;
-  }
-  .cta-block .cta-lede{
-    font-family:var(--body);
-    font-size:13.5px;
-    color:var(--cream-text);
-    opacity:0.85;
-    margin:0 0 18px;
-    line-height:1.5;
-  }
-  .cta-block .cta-btn{margin-bottom:16px;}
-  .cta-note{
-    font-family:var(--mono);
-    font-size:11.5px;
-    color:var(--cream-text);
-    opacity:0.7;
-    text-align:center;
-    margin:0 0 12px;
-  }
-  .email-capture{
-    display:flex;
-    gap:8px;
-  }
-  .email-input{
-    flex:1;
+  .hero-main{
+    flex:1 1 auto;
     min-width:0;
-    border:1.5px solid var(--navy-border);
-    border-radius:10px;
-    padding:13px 14px;
-    font-family:var(--body);
-    font-size:14.5px;
-    background:rgba(255,248,231,0.06);
-    color:var(--cream-text);
   }
-  .email-input::placeholder{color:rgba(255,248,231,0.45);}
-  .email-input:focus{outline:2px solid var(--gold); outline-offset:1px; border-color:var(--gold);}
-  .email-submit{
-    flex-shrink:0;
-    background:var(--gold);
-    color:#16283F;
-    border:none;
-    border-radius:10px;
-    padding:13px 18px;
-    font-family:var(--body);
-    font-weight:700;
-    font-size:14px;
-    cursor:pointer;
+  .quiz-cta{
+    flex:0 0 280px;
+    background:var(--panel);
+    border:1px solid var(--brass-bright);
+    border-radius:6px;
+    padding:20px;
   }
-  .email-submit:hover{opacity:0.92;}
-  .email-confirm{
-    font-family:var(--mono);
-    font-size:13px;
-    color:var(--gold);
-    text-align:center;
-    margin:4px 0 0;
-  }
-
-  .restart-row{text-align:center;}
-  .restart-btn{
-    font-family:var(--mono);
-    font-size:12px;
-    letter-spacing:0.08em;
+  .quiz-cta-eyebrow{
+    color:var(--brass-bright);
+    font-size:11px;
     text-transform:uppercase;
-    background:none;
-    border:none;
-    cursor:pointer;
-    color:var(--muted);
-    text-decoration:underline;
-    text-underline-offset:3px;
-    padding:8px;
+    margin-bottom:10px;
   }
-  .restart-btn:hover{color:var(--heading);}
-
-  @media (prefers-reduced-motion: reduce){
-    *{animation:none !important; transition:none !important;}
+  .quiz-cta h3{
+    color:var(--text-light);
+    font-family:var(--display);
+    font-size:19px;
+    line-height:1.25;
+    margin:0 0 10px;
   }
-</style>
-</head>
-<body>
-
-<div class="app" id="app"></div>
-
-<script>
-const QUESTIONS = [
-  {
-    text: "How often do you have to hop between different places just to see how your business is doing?",
-    key: "dashboard",
-    options: [
-      { label: "Rarely — I've got one clear view", weight: 0 },
-      { label: "Sometimes, a few times a week", weight: 1 },
-      { label: "Constantly — it's a scavenger hunt", weight: 3 },
-    ]
-  },
-  {
-    text: "How often do customers ask you the same questions already answered on your website?",
-    key: "chatbot",
-    options: [
-      { label: "Rarely, they self-serve fine", weight: 0 },
-      { label: "Sometimes, a few times a week", weight: 1 },
-      { label: "Constantly — same five questions on repeat", weight: 3 },
-    ]
-  },
-  {
-    text: "How often does your own team come to you with the same internal questions, again and again?",
-    key: "csa",
-    options: [
-      { label: "Rarely — everyone knows the process", weight: 0 },
-      { label: "Sometimes, now and then", weight: 1 },
-      { label: "Constantly — I'm the human FAQ page", weight: 3 },
-    ]
-  },
-  {
-    text: "When you land a new customer, how much copy-and-paste goes into onboarding them?",
-    key: "email",
-    options: [
-      { label: "Rarely — it's already automated", weight: 0 },
-      { label: "Sometimes, a little manual sending", weight: 1 },
-      { label: "Constantly — I retype the same emails every time", weight: 3 },
-    ]
-  },
-  {
-    text: "How much of your week goes to editing video, audio, or content for the business?",
-    key: "content",
-    options: [
-      { label: "Rarely — little to none", weight: 0 },
-      { label: "Sometimes, an hour or two", weight: 1 },
-      { label: "Constantly — it eats a whole day", weight: 3 },
-    ]
-  },
-  {
-    text: "How often do you fill out the same type of document — forms, proposals, intake sheets — by hand?",
-    key: "docs",
-    options: [
-      { label: "Rarely — most of it's templated", weight: 0 },
-      { label: "Sometimes, a few times a month", weight: 1 },
-      { label: "Constantly — every time, from scratch", weight: 3 },
-    ]
-  },
-];
-
-const SOLUTIONS = {
-  dashboard: {
-    name: "A Dashboard",
-    title: "Death By a Thousand Tabs",
-    heard: "\u201cMy information is stored in a bunch of different places.\u201d",
-    desc: "A single view pulled from the systems you already use, so you can see how the business is doing at a glance instead of stitching it together yourself.",
-    caseMatch: { label: "Money & Business Mix Dashboard", status: "live", url: "https://jensweez.github.io/sals-automations.html" }
-  },
-  chatbot: {
-    name: "A Customer-Facing Chatbot",
-    title: "Same Question, Different Day",
-    heard: "\u201cI'm dealing with a ton of customer questions about the same things.\u201d",
-    desc: "Handles the repeat questions that already have straightforward answers, so customers get instant help and your inbox gets quieter.",
-    caseMatch: { label: "Zapier Lead-Capture Chatbot", status: "live", url: "https://jensweez.github.io/chatbot-case-study.html" }
-  },
-  csa: {
-    name: "An Internal Support Assistant",
-    title: "You're the Human FAQ",
-    heard: "\u201cMy team keeps asking me the same questions.\u201d",
-    desc: "An internal FAQ tool your staff can check before they check with you, built from your own processes and documentation.",
-    caseMatch: null
-  },
-  email: {
-    name: "Automated Email Sequences",
-    title: "Copy, Paste, Repeat",
-    heard: "\u201cOnboarding a new customer is a ton of copy and paste.\u201d",
-    desc: "The right message goes out at the right step automatically, so onboarding feels personal without you retyping it every time.",
-    caseMatch: null
-  },
-  content: {
-    name: "AI-Assisted Content Editing",
-    title: "The Editing Time Drain",
-    heard: "\u201cI spend a ton of time editing video and audio.\u201d",
-    desc: "The right AI tools for your workflow, matched to how you actually create — cutting hours out of editing without cutting quality.",
-    caseMatch: null
-  },
-  docs: {
-    name: "A Document Writing Solution",
-    title: "Filling the Same Form, Again",
-    heard: "\u201cI keep filling out the same form, over and over.\u201d",
-    desc: "Turns your recurring forms and documents into something that fills itself in, freeing up the hours you spend retyping the same fields.",
-    caseMatch: { label: "Self-Hosted Estimate Automation", status: "live", url: "https://jensweez.github.io/automation-with-ai.html" }
-  },
-};
-
-let state = { screen: "start", step: 0, answers: {}, dir: "right" };
-
-function render(){
-  const app = document.getElementById('app');
-  if(state.screen === 'start') app.innerHTML = renderStart();
-  else if(state.screen === 'quiz') app.innerHTML = renderQuiz();
-  else app.innerHTML = renderResults();
-  attachHandlers();
-}
-
-function renderStart(){
-  return `
-    <div class="start-screen">
-      <span class="brand-kicker">System Status \u2014 AI Time-Saver Quiz</span>
-      <h1 class="title">How can AI help your business <em>function better?</em></h1>
-      <p class="sub">Take the quiz to see where it can save you the most time.</p>
-      <button class="cta-btn" data-action="start">Start the quiz \u2192</button>
+  .quiz-cta p{
+    color:var(--text-dim);
+    font-size:13.5px;
+    line-height:1.5;
+    margin:0 0 16px;
+  }
+  .quiz-cta-btn{
+    display:inline-block;
+    background:var(--brass);
+    color:var(--ink);
+    font-family:var(--mono-font);
+    font-size:12.5px;
+    text-transform:uppercase;
+    letter-spacing:0.04em;
+    padding:11px 20px;
+    border-radius:3px;
+    text-decoration:none;
+    font-weight:600;
+    transition:background .15s ease;
+  }
+  .quiz-cta-btn:hover{background:var(--brass-bright);}
+  @media (max-width:768px){
+    .hero-grid{flex-direction:column;}
+    .quiz-cta{flex:1 1 auto; order:-1;}
+  }
+  /* Panel grid of switches */
+  .panel{
+    margin-top:48px;
+@@ -306,12 +363,22 @@
+      SYSTEM STATUS — SMALL BUSINESS AUTOMATION
+      <span class="rule"></span>
     </div>
-  `;
-}
-
-function renderQuiz(){
-  const q = QUESTIONS[state.step];
-  const pct = ((state.step) / QUESTIONS.length) * 100;
-  const enterClass = state.dir === 'left' ? 'enter-left' : 'enter-right';
-
-  const opts = q.options.map((o) => `
-    <button class="opt" data-action="answer" data-key="${q.key}" data-weight="${o.weight}">
-      <span>${o.label}</span>
-    </button>
-  `).join('');
-
-  return `
-    <div class="quiz-shell">
-      <div class="progress-track"><div class="progress-fill" style="width:${pct}%;"></div></div>
-      <div class="quiz-top-row">
-        <button class="back-mini" data-action="back" ${state.step === 0 ? 'disabled' : ''}>\u2190 back</button>
-        <span class="q-count-mini">${state.step + 1} / ${QUESTIONS.length}</span>
+    <h1>What can I do <em>for your business?</em></h1>
+    <p class="sub">
+      I'm a systems engineer who builds working automation, not slide decks.
+      Every switch below is a real pain point — flip one to see what I've built
+      and what it could look like for you. <strong>Green means it's already running.</strong>
+    </p>
+    <div class="hero-grid">
+      <div class="hero-main">
+        <h1>What can I do <em>for your business?</em></h1>
+        <p class="sub">
+          I'm a systems engineer who builds working automation, not slide decks.
+          Every switch below is a real pain point — flip one to see what I've built
+          and what it could look like for you. <strong>Green means it's already running.</strong>
+        </p>
       </div>
-      <div class="q-center">
-        <div class="q-content ${enterClass}">
-          <p class="q-text">${q.text}</p>
-        </div>
-        <div class="q-options ${enterClass}">${opts}</div>
-      </div>
+      <aside class="quiz-cta">
+        <div class="quiz-cta-eyebrow mono">Not sure where to start?</div>
+        <h3>Take the 2-minute quiz</h3>
+        <p>Answer a few quick questions about your day-to-day and see which of these are actually worth solving first.</p>
+        <a href="quiz/" class="quiz-cta-btn">Start the quiz →</a>
+      </aside>
     </div>
-  `;
-}
 
-function renderResults(){
-  const entries = Object.keys(SOLUTIONS).map(key => ({
-    key,
-    score: state.answers[key] ?? 0,
-    ...SOLUTIONS[key]
-  })).sort((a,b) => b.score - a.score);
+    <div class="panel" id="panel">
+      <!-- Switches injected by JS -->
+0 commit comments
+Comments
+0
+ (0)
+Comment
+You're not receiving notifications from this thread.
 
-  const top = entries.filter(e => e.score >= 2).slice(0, 3);
-  const shown = top.length ? top : entries.slice(0, 2);
-
-  const matchCards = shown.map((e, i) => {
-    const cm = e.caseMatch;
-    const caseLinkHtml = cm
-      ? `<a class="case-link" href="${cm.url}" target="_blank" rel="noopener">See it live: ${cm.label} \u2192</a>`
-      : '';
-    return `
-    <div class="match ${i === 0 ? 'rank1' : ''}">
-      <div class="match-strip">
-        <span>Problem</span>
-        <span class="sol-label">
-          ${cm ? `<span class="status-dot" style="background:${cm.status === 'live' ? 'var(--live-green)' : 'var(--dev-orange)'};"></span>` : ''}
-          Solution
-        </span>
-      </div>
-      <div class="match-body">
-        <div class="match-col problem-col">
-          <h3>${e.title}</h3>
-          <p class="problem-title">${e.heard}</p>
-        </div>
-        <div class="match-col solution-col">
-          <h4>${e.name}</h4>
-          <p class="desc">${e.desc}</p>
-          ${caseLinkHtml}
-        </div>
-      </div>
-    </div>
-  `;
-  }).join('');
-
-  return `
-    <div class="results-wrap">
-      <div class="results-head">
-        <span class="q-eyebrow">Your results</span>
-        <h1 class="title">Here's what's showing up for you.</h1>
-        <p class="sub">Based on your answers, these are the spots where AI could give you back the most time.</p>
-      </div>
-
-      <div class="matches">${matchCards}</div>
-
-      <div class="cta-block">
-        <h2>Have a bottleneck that isn't on this list?</h2>
-        <p class="cta-lede">That's usually where the interesting work is.</p>
-        <a class="cta-btn" href="#" data-action="book-call">Book a free 15-min call \u2192</a>
-        <p class="cta-note">Or get this sent to your inbox with next steps:</p>
-        <div class="email-capture">
-          <input type="email" class="email-input" id="email-input" placeholder="you@business.com">
-          <button class="email-submit" data-action="email-submit">Send</button>
-        </div>
-        <p class="email-confirm" id="email-confirm" style="display:none;">Sent! Check your inbox in a few minutes.</p>
-      </div>
-
-      <div class="restart-row">
-        <button class="restart-btn" data-action="restart">Retake the quiz</button>
-      </div>
-    </div>
-  `;
-}
-
-function attachHandlers(){
-  document.querySelectorAll('[data-action="start"]').forEach(el => {
-    el.addEventListener('click', () => {
-      state = { screen: 'quiz', step: 0, answers: {}, dir: 'right' };
-      render();
-    });
-  });
-
-  document.querySelectorAll('[data-action="answer"]').forEach(el => {
-    el.addEventListener('click', () => {
-      const key = el.getAttribute('data-key');
-      const weight = parseInt(el.getAttribute('data-weight'), 10);
-      state.answers[key] = weight;
-      state.dir = 'right';
-      if(state.step < QUESTIONS.length - 1){
-        state.step += 1;
-        render();
-      } else {
-        state.screen = 'results';
-        render();
-      }
-    });
-  });
-
-  document.querySelectorAll('[data-action="back"]').forEach(el => {
-    el.addEventListener('click', () => {
-      if(state.step > 0){
-        state.dir = 'left';
-        state.step -= 1;
-        render();
-      }
-    });
-  });
-
-  document.querySelectorAll('[data-action="restart"]').forEach(el => {
-    el.addEventListener('click', () => {
-      state = { screen: 'start', step: 0, answers: {}, dir: 'right' };
-      render();
-    });
-  });
-
-  document.querySelectorAll('[data-action="book-call"]').forEach(el => {
-    el.addEventListener('click', (e) => {
-      e.preventDefault();
-    });
-  });
-
-  document.querySelectorAll('[data-action="email-submit"]').forEach(el => {
-    el.addEventListener('click', () => {
-      const input = document.getElementById('email-input');
-      const confirm = document.getElementById('email-confirm');
-      const val = input.value.trim();
-      const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
-      if(valid){
-        input.style.display = 'none';
-        el.style.display = 'none';
-        confirm.style.display = 'block';
-      } else {
-        input.style.borderColor = 'var(--dev-orange)';
-        input.focus();
-      }
-    });
-  });
-}
-
-render();
-</script>
-
-</body>
-</html>
