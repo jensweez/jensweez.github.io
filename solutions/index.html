@@ -2,509 +2,712 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>What Can I Do For Your Business? — Jen Sweeney, Automation Consulting</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>How Can AI Help Your Business?</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
   :root{
-    --ink:#1D3A5F;
-    --panel:#22456F;
-    --panel-line:#3A5A80;
-    --paper:#FFFFF2;
-    --paper-line:#E2E8F0;
-    --brass:#C69749;
-    --brass-bright:#E0B672;
-    --green:#5FA777;
-    --amber:#D68A3C;
-    --text-light:#FFF8E7;
-    --text-dim:#B9C7D6;
-    --text-dark:#0F172A;
-    --text-dark-dim:#64748B;
+    /* navy hero (start + quiz screens) */
+    --navy:#1D3A5F;
+    --navy-card:#16283F;
+    --navy-border:rgba(255,248,231,0.18);
+    --cream-text:#FFF8E7;
+    --gold:#E0B672;
+
+    /* cream content (results screen), matches jensweez.github.io case studies */
+    --bg:#FFFFF2;
+    --card:#FFFFFF;
+    --title-strip:#DEDDD5;
+    --border:#E2E8F0;
+    --heading:#0F172A;
+    --body-text:#334155;
+    --muted:#64748B;
+    --tag-bg:#F1F5F9;
+    --link-blue:#1D5FD1;
+    --live-green:#3FAE5C;
+    --dev-orange:#E08A3C;
+
     --display:'Space Grotesk',sans-serif;
     --body:'Inter',sans-serif;
-    --mono-font:'JetBrains Mono',monospace;
+    --mono:'JetBrains Mono',monospace;
   }
 
   *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
+  html,body{margin:0;padding:0;}
   body{
-    margin:0;
-    background:var(--paper);
-    color:var(--text-dark);
+    background:var(--bg);
+    color:var(--body-text);
     font-family:var(--body);
-    -webkit-font-smoothing:antialiased;
+    min-height:100dvh;
   }
 
-  h1,h2,h3{
+  .app{
+    width:100%;
+    max-width:460px;
+    margin:0 auto;
+    min-height:100dvh;
+    display:flex;
+    flex-direction:column;
+  }
+
+  h1.title{
     font-family:var(--display);
-    margin:0;
+    font-weight:700;
+    font-size:clamp(26px,7vw,34px);
+    line-height:1.1;
+    margin:0 0 10px;
     letter-spacing:-0.01em;
   }
 
-  .mono{
-    font-family:var(--mono-font);
-    letter-spacing:0.04em;
+  /* ===== START SCREEN (navy hero) ===== */
+  .start-screen{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    padding:32px 24px;
+    min-height:100dvh;
+    background:var(--navy);
+    color:var(--cream-text);
+  }
+  .start-screen .title{color:#fff;}
+  .start-screen .title em{
+    font-style:normal;
+    color:var(--gold);
+  }
+  .brand-kicker{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--gold);
+    margin-bottom:14px;
+    display:block;
+  }
+  .start-screen p.sub{
+    font-size:16px;
+    line-height:1.55;
+    color:var(--cream-text);
+    opacity:0.9;
+    margin:0 0 32px;
   }
 
-  a{color:inherit;}
-
-  /* ---------- NAV ---------- */
-  nav{
-    border-bottom:1px solid var(--paper-line);
-    background:var(--paper);
+  .cta-btn{
+    display:block;
+    width:100%;
+    text-align:center;
+    background:var(--gold);
+    color:#16283F;
+    font-family:var(--body);
+    font-weight:700;
+    font-size:16.5px;
+    border:none;
+    border-radius:12px;
+    padding:18px 20px;
+    cursor:pointer;
+    text-decoration:none;
+    transition:transform .1s ease, opacity .15s ease;
   }
-  nav .wrap{
-    max-width:1040px;
-    margin:0 auto;
-    padding:14px 24px;
+  .cta-btn:hover{opacity:0.92;}
+  .cta-btn:active{transform:scale(0.98);}
+
+  /* ===== QUIZ SCREEN (navy hero) ===== */
+  .quiz-shell{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    min-height:100dvh;
+    background:var(--navy);
+    color:var(--cream-text);
+  }
+  .progress-track{
+    height:4px;
+    background:var(--navy-border);
+    flex-shrink:0;
+  }
+  .progress-fill{
+    height:100%;
+    background:var(--live-green);
+    transition:width .4s cubic-bezier(.4,0,.2,1);
+  }
+  .quiz-top-row{
     display:flex;
     align-items:center;
     justify-content:space-between;
+    padding:14px 20px 0;
+    flex-shrink:0;
   }
-  .nav-logo{
-    font-family:var(--display);
-    font-weight:700;
-    font-size:1.05em;
-    color:var(--text-dark);
-    text-decoration:none;
-  }
-  .nav-back{
-    font-family:var(--mono-font);
-    font-size:0.85em;
-    color:var(--text-dark-dim);
-    text-decoration:none;
-    transition:color .15s;
-  }
-  .nav-back:hover{color:var(--text-dark);}
-
-  /* ---------- CONSOLE HERO ---------- */
-  .console{
-    background:
-      radial-gradient(1200px 600px at 15% -10%, rgba(198,151,73,0.10), transparent 60%),
-      var(--ink);
-    padding:56px 24px 56px;
-  }
-  .console-inner{
-    max-width:1040px;
-    margin:0 auto;
-  }
-  .console-label{
-    color:var(--brass-bright);
-    font-size:12px;
-    text-transform:uppercase;
-    display:flex;
-    align-items:center;
-    gap:10px;
-    margin-bottom:18px;
-  }
-  .console-label .rule{
-    height:1px;
-    flex:1;
-    background:var(--panel-line);
-  }
-  .console h1{
-    color:var(--text-light);
-    font-size:clamp(32px,5vw,52px);
-    line-height:1.08;
-    max-width:14ch;
-  }
-  .console h1 em{
-    font-style:normal;
-    color:var(--brass-bright);
-  }
-  .console p.sub{
-    color:var(--text-dim);
-    font-size:17px;
-    max-width:52ch;
-    margin-top:18px;
-    line-height:1.55;
-  }
-  .console p.sub strong{color:var(--text-light);font-weight:500;}
-
-  /* Hero grid: headline column + quiz CTA column */
-  .hero-grid{
-    display:flex;
-    align-items:flex-start;
-    gap:32px;
-  }
-  .hero-main{
-    flex:1 1 auto;
-    min-width:0;
-  }
-  .quiz-cta{
-    flex:0 0 280px;
-    background:var(--panel);
-    border:1px solid var(--brass-bright);
-    border-radius:6px;
-    padding:20px;
-  }
-  .quiz-cta-eyebrow{
-    color:var(--brass-bright);
-    font-size:11px;
-    text-transform:uppercase;
-    margin-bottom:10px;
-  }
-  .quiz-cta h3{
-    color:var(--text-light);
-    font-family:var(--display);
-    font-size:19px;
-    line-height:1.25;
-    margin:0 0 10px;
-  }
-  .quiz-cta p{
-    color:var(--text-dim);
-    font-size:13.5px;
-    line-height:1.5;
-    margin:0 0 16px;
-  }
-  .quiz-cta-btn{
-    display:inline-block;
-    background:var(--brass);
-    color:var(--ink);
-    font-family:var(--mono-font);
-    font-size:12.5px;
-    text-transform:uppercase;
-    letter-spacing:0.04em;
-    padding:11px 20px;
-    border-radius:3px;
-    text-decoration:none;
-    font-weight:600;
-    transition:background .15s ease;
-  }
-  .quiz-cta-btn:hover{background:var(--brass-bright);}
-
-  @media (max-width:768px){
-    .hero-grid{flex-direction:column;}
-    .quiz-cta{flex:1 1 auto; order:-1;}
-  }
-
-  /* Panel grid of switches */
-  .panel{
-    margin-top:48px;
-    background:var(--panel);
-    border:1px solid var(--panel-line);
-    border-radius:6px;
-    padding:6px;
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:6px;
-  }
-  @media (max-width:640px){
-    .panel{grid-template-columns:1fr;}
-  }
-
-  .switch-row{
-    background:#193150;
-    border:1px solid var(--panel-line);
-    border-radius:4px;
-    padding:16px 16px 14px;
+  .back-mini{
+    background:none;
+    border:none;
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--cream-text);
+    opacity:0.75;
     cursor:pointer;
-    transition:border-color .15s ease, background .15s ease;
+    padding:8px 0;
+  }
+  .back-mini:disabled{opacity:0; pointer-events:none;}
+  .q-count-mini{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--cream-text);
+    opacity:0.75;
+  }
+
+  .q-center{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    min-height:0;
+  }
+  .q-content{
+    padding:20px 24px 22px;
+  }
+  .q-text{
+    font-family:var(--display);
+    font-weight:600;
+    font-size:clamp(21px,5.5vw,26px);
+    line-height:1.3;
+    margin:0;
+    color:#fff;
+  }
+
+  @keyframes slideInRight{
+    from{opacity:0; transform:translateX(28px);}
+    to{opacity:1; transform:translateX(0);}
+  }
+  @keyframes slideInLeft{
+    from{opacity:0; transform:translateX(-28px);}
+    to{opacity:1; transform:translateX(0);}
+  }
+  .enter-right{animation:slideInRight .32s cubic-bezier(.4,0,.2,1);}
+  .enter-left{animation:slideInLeft .32s cubic-bezier(.4,0,.2,1);}
+
+  .q-options{
+    flex-shrink:0;
     display:flex;
     flex-direction:column;
     gap:10px;
+    padding:16px 20px calc(24px + env(safe-area-inset-bottom));
   }
-  .switch-row:hover{border-color:var(--brass);}
-  .switch-row.active{
-    background:#20406A;
-    border-color:var(--brass);
-  }
-
-  .switch-top{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:12px;
-  }
-
-  .switch-name{
-    color:var(--text-light);
-    font-size:13.5px;
+  .opt{
+    text-align:left;
+    background:var(--navy-card);
+    border:1.5px solid var(--navy-border);
+    border-radius:12px;
+    padding:17px 18px;
+    font-family:var(--body);
+    font-size:15.5px;
     font-weight:500;
+    color:var(--cream-text);
+    cursor:pointer;
+    transition:border-color .15s ease, background .15s ease, transform .1s ease;
+  }
+  .opt:hover{border-color:var(--gold);}
+  .opt:active{transform:scale(0.985);}
+  .opt:focus-visible{outline:2px solid var(--gold); outline-offset:2px;}
+
+  /* ===== RESULTS (cream content, matches case-study pages) ===== */
+  .results-wrap{
+    padding:28px 22px 40px;
+  }
+  .results-head{margin-bottom:22px;}
+  .q-eyebrow{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:0.1em;
     text-transform:uppercase;
-    letter-spacing:0.03em;
+    color:var(--link-blue);
+    margin-bottom:10px;
+    display:block;
+  }
+  .results-head .title{color:var(--heading);}
+  .results-head p.sub{
+    font-size:15px;
+    line-height:1.55;
+    color:var(--muted);
+    margin:0;
   }
 
-  .led-group{
+  .matches{
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+    margin-bottom:28px;
+  }
+  .match{
+    border:1.5px solid var(--navy);
+    border-radius:10px;
+    background:var(--card);
+    position:relative;
+    overflow:hidden;
+  }
+  .match.rank1{border-width:2px;}
+  .match-strip{
+    background:var(--title-strip);
+    display:grid;
+    grid-template-columns:1fr 1fr;
+  }
+  .match-strip span{
+    font-family:var(--mono);
+    font-size:11px;
+    font-weight:600;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--heading);
+    padding:10px 18px;
+  }
+  .match-strip span.sol-label{
+    border-left:1.5px solid var(--navy);
     display:flex;
     align-items:center;
-    gap:7px;
+    gap:6px;
+  }
+  .status-dot{
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    display:inline-block;
     flex-shrink:0;
   }
-  .led{
-    width:8px;height:8px;border-radius:50%;
-    box-shadow:0 0 0 2px rgba(0,0,0,0.25) inset;
-  }
-  .led.on{background:var(--green);box-shadow:0 0 6px 1px rgba(95,167,119,0.7);}
-  .led.dev{background:var(--amber);box-shadow:0 0 6px 1px rgba(214,138,60,0.6);}
-  .led-text{
-    font-size:10px;
-    color:var(--text-dim);
-    text-transform:uppercase;
-  }
-
-  .switch-desc{
-    color:var(--text-dim);
-    font-size:13px;
-    line-height:1.5;
-    max-height:0;
-    overflow:hidden;
-    opacity:0;
-    transition:max-height .25s ease, opacity .2s ease, margin-top .25s ease;
-  }
-  .switch-row.active .switch-desc{
-    max-height:120px;
-    opacity:1;
-    margin-top:2px;
-  }
-  .switch-desc a{
-    display:inline-block;
-    margin-top:8px;
-    color:var(--brass-bright);
-    font-size:12px;
-    text-decoration:none;
-    border-bottom:1px solid rgba(224,182,114,0.4);
-  }
-  .switch-desc a:hover{border-color:var(--brass-bright);}
-  .link-pending{
-    display:inline-block;
-    margin-top:8px;
-    color:rgba(224,182,114,0.5);
-    font-size:12px;
-  }
-
-  .console-hint{
-    margin-top:16px;
-    color:var(--text-dim);
-    font-size:11.5px;
-    text-align:center;
-    letter-spacing:0.03em;
-  }
-
-  /* ---------- BELOW-FOLD ---------- */
-  .intro{
-    max-width:1040px;
-    margin:0 auto;
-    padding:72px 24px;
+  .match-body{
     display:grid;
-    grid-template-columns:1fr 1.6fr;
-    gap:56px;
-    border-top:1px solid var(--paper-line);
+    grid-template-columns:1fr 1fr;
   }
-  @media (max-width:760px){
-    .intro{grid-template-columns:1fr;gap:28px;padding:56px 24px;}
-  }
-  .intro-label{
-    color:var(--text-dark-dim);
-    font-size:12px;
-    text-transform:uppercase;
-  }
-  .intro h2{
-    font-size:26px;
-    margin-top:10px;
-    color:var(--text-dark);
+  .match-col{padding:16px 18px 18px;}
+  .match-col.solution-col{border-left:1.5px solid var(--border);}
+  .match h3{
+    font-family:var(--display);
+    font-weight:700;
+    font-size:17px;
     line-height:1.25;
+    margin:0 0 8px;
+    color:var(--heading);
   }
-  .intro-body p{
-    font-size:16px;
-    line-height:1.65;
-    color:#334155;
-    margin:0 0 16px;
+  .match h4{
+    font-family:var(--display);
+    font-weight:700;
+    font-size:15px;
+    line-height:1.28;
+    margin:0 0 8px;
+    color:var(--heading);
   }
-  .intro-body p:last-child{margin-bottom:0;}
+  .match .problem-title{
+    font-family:var(--mono);
+    font-style:italic;
+    font-size:11.5px;
+    color:var(--muted);
+    line-height:1.5;
+    margin:0;
+  }
+  .match p.desc{
+    font-size:13px;
+    line-height:1.6;
+    color:var(--body-text);
+    margin:0 0 10px;
+  }
+  .case-link{
+    display:inline-block;
+    font-family:var(--mono);
+    font-size:11.5px;
+    font-weight:500;
+    color:var(--link-blue);
+    text-decoration:none;
+    border-bottom:1px solid rgba(29,95,209,0.35);
+    padding-bottom:1px;
+  }
+  .case-link:hover{border-color:var(--link-blue);}
 
-  .footer-cta{
-    background:var(--panel);
-    border-top:1px solid var(--panel-line);
-    padding:56px 24px;
+  @media (max-width:400px){
+    .match-strip, .match-body{grid-template-columns:1fr;}
+    .match-strip span.sol-label{border-left:none; border-top:1px solid var(--navy);}
+    .match-col.solution-col{border-left:none; border-top:1.5px solid var(--border);}
+  }
+
+  /* ---- CTA block (mirrors the real site's navy result-banner) ---- */
+  .cta-block{
+    background:var(--navy);
+    border-radius:14px;
+    padding:26px 22px;
+    margin-bottom:16px;
     text-align:center;
   }
-  .footer-cta h2{
-    color:var(--text-light);
-    font-size:24px;
-    max-width:26ch;
-    margin:0 auto 14px;
+  .cta-block h2{
+    font-family:var(--display);
+    font-weight:700;
+    font-size:17px;
+    color:#fff;
+    margin:0 0 8px;
   }
-  .footer-cta p{
-    color:var(--text-dim);
+  .cta-block .cta-lede{
+    font-family:var(--body);
+    font-size:13.5px;
+    color:var(--cream-text);
+    opacity:0.85;
+    margin:0 0 18px;
+    line-height:1.5;
+  }
+  .cta-block .cta-btn{margin-bottom:16px;}
+  .cta-note{
+    font-family:var(--mono);
+    font-size:11.5px;
+    color:var(--cream-text);
+    opacity:0.7;
+    text-align:center;
+    margin:0 0 12px;
+  }
+  .email-capture{
+    display:flex;
+    gap:8px;
+  }
+  .email-input{
+    flex:1;
+    min-width:0;
+    border:1.5px solid var(--navy-border);
+    border-radius:10px;
+    padding:13px 14px;
+    font-family:var(--body);
+    font-size:14.5px;
+    background:rgba(255,248,231,0.06);
+    color:var(--cream-text);
+  }
+  .email-input::placeholder{color:rgba(255,248,231,0.45);}
+  .email-input:focus{outline:2px solid var(--gold); outline-offset:1px; border-color:var(--gold);}
+  .email-submit{
+    flex-shrink:0;
+    background:var(--gold);
+    color:#16283F;
+    border:none;
+    border-radius:10px;
+    padding:13px 18px;
+    font-family:var(--body);
+    font-weight:700;
     font-size:14px;
-    margin-bottom:26px;
+    cursor:pointer;
   }
-  .cta-btn{
-    display:inline-block;
-    background:var(--brass);
-    color:var(--ink);
-    font-family:'IBM Plex Mono',monospace;
+  .email-submit:hover{opacity:0.92;}
+  .email-confirm{
+    font-family:var(--mono);
     font-size:13px;
-    text-transform:uppercase;
-    letter-spacing:0.05em;
-    padding:13px 26px;
-    border-radius:3px;
-    text-decoration:none;
-    font-weight:600;
-    transition:background .15s ease;
+    color:var(--gold);
+    text-align:center;
+    margin:4px 0 0;
   }
-  .cta-btn:hover{background:var(--brass-bright);}
+
+  .restart-row{text-align:center;}
+  .restart-btn{
+    font-family:var(--mono);
+    font-size:12px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    background:none;
+    border:none;
+    cursor:pointer;
+    color:var(--muted);
+    text-decoration:underline;
+    text-underline-offset:3px;
+    padding:8px;
+  }
+  .restart-btn:hover{color:var(--heading);}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important; transition:none !important;}
+  }
 </style>
 </head>
 <body>
 
-<nav>
-  <div class="wrap">
-    <a href="/" class="nav-logo">Jennifer Sweezey</a>
-    <a href="/" class="nav-back mono">← Back to portfolio</a>
-  </div>
-</nav>
-
-<section class="console">
-  <div class="console-inner">
-    <div class="console-label mono">
-      SYSTEM STATUS — SMALL BUSINESS AUTOMATION
-      <span class="rule"></span>
-    </div>
-    <div class="hero-grid">
-      <div class="hero-main">
-        <h1>What can I do <em>for your business?</em></h1>
-        <p class="sub">
-          I'm a systems engineer who builds working automation, not slide decks.
-          Every switch below is a real pain point — flip one to see what I've built
-          and what it could look like for you. <strong>Green means it's already running.</strong>
-        </p>
-      </div>
-      <aside class="quiz-cta">
-        <div class="quiz-cta-eyebrow mono">Not sure where to start?</div>
-        <h3>Take the 2-minute quiz</h3>
-        <p>Answer a few quick questions about your day-to-day and see which of these are actually worth solving first.</p>
-        <a href="quiz/" class="quiz-cta-btn">Start the quiz →</a>
-      </aside>
-    </div>
-
-    <div class="panel" id="panel">
-      <!-- Switches injected by JS -->
-    </div>
-    <div class="console-hint mono">tap a switch to expand →</div>
-  </div>
-</section>
-
-<section class="intro">
-  <div class="intro-label mono">WHY THIS APPROACH</div>
-  <div class="intro-body">
-    <h2>Small businesses don't need another SaaS subscription.<br>They need the busywork gone.</h2>
-    <p>
-      Most AI consulting pitches sell a vision. I'd rather show you a working system.
-      Each pain point above ties to something I've actually built end-to-end — the
-      workflow, the logic, and the interface a real employee or customer would touch.
-    </p>
-    <p>
-      Some panels are already wired and live. Others are in development, built the
-      same way I'd build yours: scoped to one specific bottleneck, tested against
-      real scenarios, and handed off in a form your team can actually run.
-    </p>
-  </div>
-</section>
-
-<div class="footer-cta">
-  <h2>Have a bottleneck that isn't on the panel?</h2>
-  <p>That's usually where the interesting work is.</p>
-  <a href="#" class="cta-btn">Get in touch</a>
-</div>
+<div class="app" id="app"></div>
 
 <script>
-const pains = [
+const QUESTIONS = [
   {
-    name: "Document Automation",
-    status: "on",
-    statusText: "Live",
-    desc: "Estimates, invoices, and paperwork generated automatically instead of retyped by hand.",
-    href: "/automation-with-ai.html",
-    linkText: "View the build →"
+    text: "How often do you have to hop between different places just to see how your business is doing?",
+    key: "dashboard",
+    options: [
+      { label: "Rarely — I've got one clear view", weight: 0 },
+      { label: "Sometimes, a few times a week", weight: 1 },
+      { label: "Constantly — it's a scavenger hunt", weight: 3 },
+    ]
   },
   {
-    name: "Lead Capture & Follow-Up",
-    status: "dev",
-    statusText: "In development",
-    desc: "Catching inbound leads the moment they arrive and responding before a competitor does.",
-    href: null,
-    linkText: "Case study coming soon"
+    text: "How often do customers ask you the same questions already answered on your website?",
+    key: "chatbot",
+    options: [
+      { label: "Rarely, they self-serve fine", weight: 0 },
+      { label: "Sometimes, a few times a week", weight: 1 },
+      { label: "Constantly — same five questions on repeat", weight: 3 },
+    ]
   },
   {
-    name: "Scheduling & Communication",
-    status: "dev",
-    statusText: "In development",
-    desc: "Fewer missed calls and no-shows, with reminders and booking handled automatically.",
-    href: null,
-    linkText: "Case study coming soon"
+    text: "How often does your own team come to you with the same internal questions, again and again?",
+    key: "csa",
+    options: [
+      { label: "Rarely — everyone knows the process", weight: 0 },
+      { label: "Sometimes, now and then", weight: 1 },
+      { label: "Constantly — I'm the human FAQ page", weight: 3 },
+    ]
   },
   {
-    name: "Customer Support",
-    status: "on",
-    statusText: "Live",
-    desc: "A trained chatbot that answers the repetitive questions so your team handles the rest.",
-    href: "/chatbot-case-study.html",
-    linkText: "View the build →"
+    text: "When you land a new customer, how much copy-and-paste goes into onboarding them?",
+    key: "email",
+    options: [
+      { label: "Rarely — it's already automated", weight: 0 },
+      { label: "Sometimes, a little manual sending", weight: 1 },
+      { label: "Constantly — I retype the same emails every time", weight: 3 },
+    ]
   },
   {
-    name: "Bookkeeping & Financial Admin",
-    status: "dev",
-    statusText: "In development",
-    desc: "Receipts and expenses sorted into a ledger without a Sunday-night spreadsheet session.",
-    href: null,
-    linkText: "Case study coming soon"
+    text: "How much of your week goes to editing video, audio, or content for the business?",
+    key: "content",
+    options: [
+      { label: "Rarely — little to none", weight: 0 },
+      { label: "Sometimes, an hour or two", weight: 1 },
+      { label: "Constantly — it eats a whole day", weight: 3 },
+    ]
   },
   {
-    name: "Marketing Content",
-    status: "dev",
-    statusText: "In development",
-    desc: "Consistent social posts and newsletters drafted for you, reviewed instead of written.",
-    href: null,
-    linkText: "Case study coming soon"
+    text: "How often do you fill out the same type of document — forms, proposals, intake sheets — by hand?",
+    key: "docs",
+    options: [
+      { label: "Rarely — most of it's templated", weight: 0 },
+      { label: "Sometimes, a few times a month", weight: 1 },
+      { label: "Constantly — every time, from scratch", weight: 3 },
+    ]
   },
-  {
-    name: "Hiring & Onboarding",
-    status: "dev",
-    statusText: "In development",
-    desc: "Job posts, resume screening, and onboarding checklists that don't eat your whole week.",
-    href: null,
-    linkText: "Case study coming soon"
-  },
-  {
-    name: "Reporting & Data Visibility",
-    status: "on",
-    statusText: "Live",
-    desc: "Ask a plain-English question and get an answer pulled straight from your own data.",
-    href: "/voter-assistant-case-study.html",
-    linkText: "View the build →"
-  }
 ];
 
-const panel = document.getElementById('panel');
+const SOLUTIONS = {
+  dashboard: {
+    name: "A Dashboard",
+    title: "Death By a Thousand Tabs",
+    heard: "\u201cMy information is stored in a bunch of different places.\u201d",
+    desc: "A single view pulled from the systems you already use, so you can see how the business is doing at a glance instead of stitching it together yourself.",
+    caseMatch: { label: "Money & Business Mix Dashboard", status: "live", url: "https://jensweez.github.io/sals-automations.html" }
+  },
+  chatbot: {
+    name: "A Customer-Facing Chatbot",
+    title: "Same Question, Different Day",
+    heard: "\u201cI'm dealing with a ton of customer questions about the same things.\u201d",
+    desc: "Handles the repeat questions that already have straightforward answers, so customers get instant help and your inbox gets quieter.",
+    caseMatch: { label: "Zapier Lead-Capture Chatbot", status: "live", url: "https://jensweez.github.io/chatbot-case-study.html" }
+  },
+  csa: {
+    name: "An Internal Support Assistant",
+    title: "You're the Human FAQ",
+    heard: "\u201cMy team keeps asking me the same questions.\u201d",
+    desc: "An internal FAQ tool your staff can check before they check with you, built from your own processes and documentation.",
+    caseMatch: null
+  },
+  email: {
+    name: "Automated Email Sequences",
+    title: "Copy, Paste, Repeat",
+    heard: "\u201cOnboarding a new customer is a ton of copy and paste.\u201d",
+    desc: "The right message goes out at the right step automatically, so onboarding feels personal without you retyping it every time.",
+    caseMatch: null
+  },
+  content: {
+    name: "AI-Assisted Content Editing",
+    title: "The Editing Time Drain",
+    heard: "\u201cI spend a ton of time editing video and audio.\u201d",
+    desc: "The right AI tools for your workflow, matched to how you actually create — cutting hours out of editing without cutting quality.",
+    caseMatch: null
+  },
+  docs: {
+    name: "A Document Writing Solution",
+    title: "Filling the Same Form, Again",
+    heard: "\u201cI keep filling out the same form, over and over.\u201d",
+    desc: "Turns your recurring forms and documents into something that fills itself in, freeing up the hours you spend retyping the same fields.",
+    caseMatch: { label: "Self-Hosted Estimate Automation", status: "live", url: "https://jensweez.github.io/automation-with-ai.html" }
+  },
+};
 
-pains.forEach((p, i) => {
-  const row = document.createElement('div');
-  row.className = 'switch-row';
-  const linkHtml = p.href
-    ? `<a href="${p.href}">${p.linkText}</a>`
-    : `<span class="link-pending mono">${p.linkText}</span>`;
-  row.innerHTML = `
-    <div class="switch-top">
-      <div class="switch-name">${p.name}</div>
-      <div class="led-group">
-        <span class="led-text mono">${p.statusText}</span>
-        <span class="led ${p.status}"></span>
-      </div>
-    </div>
-    <div class="switch-desc">
-      ${p.desc}
-      <br>${linkHtml}
+let state = { screen: "start", step: 0, answers: {}, dir: "right" };
+
+function render(){
+  const app = document.getElementById('app');
+  if(state.screen === 'start') app.innerHTML = renderStart();
+  else if(state.screen === 'quiz') app.innerHTML = renderQuiz();
+  else app.innerHTML = renderResults();
+  attachHandlers();
+}
+
+function renderStart(){
+  return `
+    <div class="start-screen">
+      <span class="brand-kicker">System Status \u2014 AI Time-Saver Quiz</span>
+      <h1 class="title">How can AI help your business <em>function better?</em></h1>
+      <p class="sub">Take the quiz to see where it can save you the most time.</p>
+      <button class="cta-btn" data-action="start">Start the quiz \u2192</button>
     </div>
   `;
-  row.addEventListener('click', (e) => {
-    if (e.target.tagName === 'A') return;
-    row.classList.toggle('active');
+}
+
+function renderQuiz(){
+  const q = QUESTIONS[state.step];
+  const pct = ((state.step) / QUESTIONS.length) * 100;
+  const enterClass = state.dir === 'left' ? 'enter-left' : 'enter-right';
+
+  const opts = q.options.map((o) => `
+    <button class="opt" data-action="answer" data-key="${q.key}" data-weight="${o.weight}">
+      <span>${o.label}</span>
+    </button>
+  `).join('');
+
+  return `
+    <div class="quiz-shell">
+      <div class="progress-track"><div class="progress-fill" style="width:${pct}%;"></div></div>
+      <div class="quiz-top-row">
+        <button class="back-mini" data-action="back" ${state.step === 0 ? 'disabled' : ''}>\u2190 back</button>
+        <span class="q-count-mini">${state.step + 1} / ${QUESTIONS.length}</span>
+      </div>
+      <div class="q-center">
+        <div class="q-content ${enterClass}">
+          <p class="q-text">${q.text}</p>
+        </div>
+        <div class="q-options ${enterClass}">${opts}</div>
+      </div>
+    </div>
+  `;
+}
+
+function renderResults(){
+  const entries = Object.keys(SOLUTIONS).map(key => ({
+    key,
+    score: state.answers[key] ?? 0,
+    ...SOLUTIONS[key]
+  })).sort((a,b) => b.score - a.score);
+
+  const top = entries.filter(e => e.score >= 2).slice(0, 3);
+  const shown = top.length ? top : entries.slice(0, 2);
+
+  const matchCards = shown.map((e, i) => {
+    const cm = e.caseMatch;
+    const caseLinkHtml = cm
+      ? `<a class="case-link" href="${cm.url}" target="_blank" rel="noopener">See it live: ${cm.label} \u2192</a>`
+      : '';
+    return `
+    <div class="match ${i === 0 ? 'rank1' : ''}">
+      <div class="match-strip">
+        <span>Problem</span>
+        <span class="sol-label">
+          ${cm ? `<span class="status-dot" style="background:${cm.status === 'live' ? 'var(--live-green)' : 'var(--dev-orange)'};"></span>` : ''}
+          Solution
+        </span>
+      </div>
+      <div class="match-body">
+        <div class="match-col problem-col">
+          <h3>${e.title}</h3>
+          <p class="problem-title">${e.heard}</p>
+        </div>
+        <div class="match-col solution-col">
+          <h4>${e.name}</h4>
+          <p class="desc">${e.desc}</p>
+          ${caseLinkHtml}
+        </div>
+      </div>
+    </div>
+  `;
+  }).join('');
+
+  return `
+    <div class="results-wrap">
+      <div class="results-head">
+        <span class="q-eyebrow">Your results</span>
+        <h1 class="title">Here's what's showing up for you.</h1>
+        <p class="sub">Based on your answers, these are the spots where AI could give you back the most time.</p>
+      </div>
+
+      <div class="matches">${matchCards}</div>
+
+      <div class="cta-block">
+        <h2>Have a bottleneck that isn't on this list?</h2>
+        <p class="cta-lede">That's usually where the interesting work is.</p>
+        <a class="cta-btn" href="#" data-action="book-call">Book a free 15-min call \u2192</a>
+        <p class="cta-note">Or get this sent to your inbox with next steps:</p>
+        <div class="email-capture">
+          <input type="email" class="email-input" id="email-input" placeholder="you@business.com">
+          <button class="email-submit" data-action="email-submit">Send</button>
+        </div>
+        <p class="email-confirm" id="email-confirm" style="display:none;">Sent! Check your inbox in a few minutes.</p>
+      </div>
+
+      <div class="restart-row">
+        <button class="restart-btn" data-action="restart">Retake the quiz</button>
+      </div>
+    </div>
+  `;
+}
+
+function attachHandlers(){
+  document.querySelectorAll('[data-action="start"]').forEach(el => {
+    el.addEventListener('click', () => {
+      state = { screen: 'quiz', step: 0, answers: {}, dir: 'right' };
+      render();
+    });
   });
-  panel.appendChild(row);
-});
+
+  document.querySelectorAll('[data-action="answer"]').forEach(el => {
+    el.addEventListener('click', () => {
+      const key = el.getAttribute('data-key');
+      const weight = parseInt(el.getAttribute('data-weight'), 10);
+      state.answers[key] = weight;
+      state.dir = 'right';
+      if(state.step < QUESTIONS.length - 1){
+        state.step += 1;
+        render();
+      } else {
+        state.screen = 'results';
+        render();
+      }
+    });
+  });
+
+  document.querySelectorAll('[data-action="back"]').forEach(el => {
+    el.addEventListener('click', () => {
+      if(state.step > 0){
+        state.dir = 'left';
+        state.step -= 1;
+        render();
+      }
+    });
+  });
+
+  document.querySelectorAll('[data-action="restart"]').forEach(el => {
+    el.addEventListener('click', () => {
+      state = { screen: 'start', step: 0, answers: {}, dir: 'right' };
+      render();
+    });
+  });
+
+  document.querySelectorAll('[data-action="book-call"]').forEach(el => {
+    el.addEventListener('click', (e) => {
+      e.preventDefault();
+    });
+  });
+
+  document.querySelectorAll('[data-action="email-submit"]').forEach(el => {
+    el.addEventListener('click', () => {
+      const input = document.getElementById('email-input');
+      const confirm = document.getElementById('email-confirm');
+      const val = input.value.trim();
+      const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
+      if(valid){
+        input.style.display = 'none';
+        el.style.display = 'none';
+        confirm.style.display = 'block';
+      } else {
+        input.style.borderColor = 'var(--dev-orange)';
+        input.focus();
+      }
+    });
+  });
+}
+
+render();
 </script>
 
 </body>
